@@ -1,7 +1,13 @@
-import React from "react";
+import Logo from "./Logo";
 
 const Navbar = () => {
-  return <header>Navbar</header>;
+  return (
+    <header className="flex py-4 px-10 fixed z-[999]">
+      <div>
+        <Logo />
+      </div>
+    </header>
+  );
 };
 
 export default Navbar;

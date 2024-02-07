@@ -7,7 +7,7 @@ const apiClient = new APIClient<Movies>("/discover");
 const useMovies = () =>
   useQuery({
     queryKey: ["Movies", "movie"],
-    queryFn: () => apiClient.getAll("movie"),
+    queryFn: () => apiClient.get("movie"),
   });
 
 export default useMovies;
