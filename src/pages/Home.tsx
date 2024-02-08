@@ -1,19 +1,18 @@
-import { useEffect, useState } from "react";
 import Hero from "../components/home/Hero";
+import { Movie } from "../entities/Movies";
 import useMovies from "../hooks/useMovies";
 
 const Home = () => {
-  const [movieChosen, setMovieChosen] = useState(null);
   const { data, isLoading, error } = useMovies();
 
   if (error) throw new Error("an error in movies has been occured");
   if (isLoading) return console.log("isLoading...");
   console.log(data);
-  const { results } = data;
-  console.log(results);
-  const randomNumber = Math.floor(Math.random() * results.length);
-  const randomMovie = results[randomNumber];
-  console.log(randomMovie);
+  let randomMovie;
+  if (data) {
+    const randomNumber = Math.floor(Math.random() * data.results.length);
+    randomMovie = data.results[randomNumber];
+  }
 
   return (
     <div>

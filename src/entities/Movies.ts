@@ -1,4 +1,4 @@
-export interface Movies {
+export interface Movie {
   title: string;
   backdrop_path: string;
   media_type?: string;

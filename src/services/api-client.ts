@@ -1,8 +1,9 @@
 import axios, { AxiosRequestConfig } from "axios";
 
 export interface DataResponse<T> {
-  count: number;
-  next: string | null;
+  page: number;
+  total_page: number;
+  total_results: number;
   results: T[];
 }
 

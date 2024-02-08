@@ -1,31 +1,41 @@
-import React from "react";
-import useMovies from "../../hooks/useMovies";
-import { Movies } from "../../entities/Movies";
+import { IoInformationCircleOutline, IoPlayOutline } from "react-icons/io5";
+import { Movie } from "../../entities/Movies";
 import { imagePage } from "../../utils/imagePath";
 
 type Props = {
-  movie: Movies;
+  movie: Movie | undefined;
 };
 
 const Hero = ({ movie }: Props) => {
-  const image = imagePage + (movie.backdrop_path || movie.poster_path);
-  const sectionClasses = `bg-[url('${image}')] min-h-svh`;
+  const image = imagePage + (movie?.backdrop_path || movie?.poster_path);
   return (
     <section className="min-h-svh w-full absolute top-0 left-0">
       <div className="w-full ">
-        <img src={image} className="w-full h-svh object-cover" />
+        <video autoPlay className="w-full h-svh object-cover">
+          {/* <source
+            src="/resources/video/product-hero.mp4.mp4"
+            type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
+          />
+          <source
+            src="/resources/video/product-hero.webmhd.webm"
+            type='video/webm; codecs="vp8, vorbis"'
+          /> */}
+          <img src={image} className="w-full h-svh object-cover" />
+        </video>
       </div>
-      <div className="absolute top-0 left-0 flex flex-col justify-center items-start gap-3 px-10 bg-gradient-to-t from-[#0f0f0f] to-transparent  w-full h-full z-20">
-        <div>
-          <h2 className="text-4xl font-bold">{movie.title}</h2>
-          <p className="max-w-[50%] text-lg">{movie.overview}</p>
+      <div className="absolute top-0 left-0 flex flex-col gap-14 justify-center items-start px-10 bg-gradient-to-t from-[#0f0f0f] to-transparent  w-full h-full z-20">
+        <div className="flex flex-col gap-5">
+          <h2 className="text-7xl font-bold">{movie?.title}</h2>
+          <p className="max-w-[50%] text-lg">{movie?.overview}</p>
         </div>
-        <div className="flex">
-          <button>
-            svg + <span>Play</span>
+        <div className="flex gap-5">
+          <button className="flex items-center justify-center gap-2 bg-red-600 px-10 py-4 rounded-full">
+            <IoPlayOutline className="text-slate-50" size="20" />
+            <span className="text-xl">Play</span>
           </button>
-          <button>
-            <span>More info</span> + svg
+          <button className="flex items-center justify-center gap-2 border-2 px-10 py-4 rounded-full">
+            <span className="text-xl">More info</span>
+            <IoInformationCircleOutline size="20" className="text-slate-50" />
           </button>
         </div>
       </div>
