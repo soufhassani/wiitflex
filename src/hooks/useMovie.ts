@@ -10,7 +10,7 @@ type MovieRequest = {
 const apiClient = new APIClient<MovieRequest>("/discover");
 const useMovie = (id: number) =>
   useQuery({
-    queryKey: ["Movies", "movie"],
+    queryKey: ["Movie", "/movie"],
     queryFn: () => apiClient.get(`movie/${id}`),
   });
 

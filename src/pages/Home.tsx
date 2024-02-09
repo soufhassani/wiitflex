@@ -1,12 +1,14 @@
+import { Navigate } from "react-router-dom";
 import Hero from "../components/home/Hero";
-import { Movie } from "../entities/Movies";
+import TrendingMovies from "../components/home/TrendingMovies";
 import useMovies from "../hooks/useMovies";
+import Spinner from "../components/global/Spinner";
 
 const Home = () => {
   const { data, isLoading, error } = useMovies();
 
-  if (error) throw new Error("an error in movies has been occured");
-  if (isLoading) return console.log("isLoading...");
+  if (error) Navigate({ to: "/error" });
+  if (isLoading) return <Spinner />;
   console.log(data);
   let randomMovie;
   if (data) {
@@ -15,9 +17,10 @@ const Home = () => {
   }
 
   return (
-    <div>
+    <>
       <Hero movie={randomMovie} />
-    </div>
+      <TrendingMovies />
+    </>
   );
 };
 

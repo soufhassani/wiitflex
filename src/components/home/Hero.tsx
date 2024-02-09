@@ -9,19 +9,9 @@ type Props = {
 const Hero = ({ movie }: Props) => {
   const image = imagePage + (movie?.backdrop_path || movie?.poster_path);
   return (
-    <section className="min-h-svh w-full absolute top-0 left-0">
+    <section className="min-h-svh w-full">
       <div className="w-full ">
-        <video autoPlay className="w-full h-svh object-cover">
-          {/* <source
-            src="/resources/video/product-hero.mp4.mp4"
-            type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
-          />
-          <source
-            src="/resources/video/product-hero.webmhd.webm"
-            type='video/webm; codecs="vp8, vorbis"'
-          /> */}
-          <img src={image} className="w-full h-svh object-cover" />
-        </video>
+        <img src={image} className="w-full h-svh object-cover" />
       </div>
       <div className="absolute top-0 left-0 flex flex-col gap-14 justify-center items-start px-10 bg-gradient-to-t from-[#0f0f0f] to-transparent  w-full h-full z-20">
         <div className="flex flex-col gap-5">
