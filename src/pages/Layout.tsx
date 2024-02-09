@@ -6,7 +6,7 @@ const Layout = () => {
   return (
     <>
       <Navbar />
-      <main>
+      <main className="overflow-hidden">
         <Outlet />
       </main>
     </>

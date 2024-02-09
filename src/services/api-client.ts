@@ -29,7 +29,7 @@ class APIClient<T> {
   };
   get = async (id: number | string) => {
     return axiosInstance
-      .get<T>(this.endpoint + "/" + id)
+      .get<DataResponse<T>>(this.endpoint + "/" + id)
       .then((res) => res.data);
   };
 }

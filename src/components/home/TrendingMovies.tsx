@@ -10,11 +10,11 @@ const TrendingMovies = () => {
   console.log("Trending Movies", data);
 
   return (
-    <section>
+    <section className="px-10">
       <div>
         <h2>Trending now</h2>
       </div>
-      <Carousel />
+      <Carousel movies={data?.results} />
     </section>
   );
 };
