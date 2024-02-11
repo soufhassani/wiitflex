@@ -10,9 +10,9 @@ const TrendingMovies = () => {
   console.log("Trending Movies", data);
 
   return (
-    <section className="px-10">
-      <div>
-        <h2>Trending now</h2>
+    <section className="px-10 pb-8">
+      <div className="py-3">
+        <h2 className="font-main text-xl font-medium">Trending now</h2>
       </div>
       <Carousel movies={data?.results} />
     </section>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { Movie } from "../../entities/Movies";
 import { imagePage } from "../../utils/imagePath";
 import { A11y, Navigation, Pagination, Scrollbar } from "swiper/modules";
@@ -9,78 +9,55 @@ import "swiper/css/pagination";
 import "swiper/css/controller";
 import "swiper/css/scrollbar";
 import { Swiper as SwiperType } from "swiper/types";
+import { FaAngleRight, FaChevronLeft } from "react-icons/fa";
+import SwiperBtn from "./SwiperBtn";
 
 type Props = {
   movies: Movie[] | undefined;
 };
 export const Carousel = ({ movies }: Props) => {
-  const [prevSlide, setPrevSlide] = useState<Element | null | undefined>(null);
-  const [fifthSlide, setFifthSlide] = useState<Element | null>(null);
-
-  const handleOnSlide = (s: SwiperType) => {
-    const fifthSlide = s.el.querySelector(
-      `[aria-label="${s.activeIndex + 6} / 20"]`
-    );
-    setFifthSlide(fifthSlide);
-    setOpacityFifthSlide(s);
-    const newPrevSlid = s.el.querySelector(
-      `[aria-label="${s.activeIndex} / 20"]`
-    );
-    setPrevSlide(newPrevSlid);
+  const [isFirstSlide, setIsFirstSlide] = useState(true);
+  const [isLastSlide, setIsLastSlide] = useState(true);
+  const handleOnSwiper = (s: SwiperType) => {
+    checkFirstSlide(s.activeIndex);
+    checkLastSlide(s.activeIndex);
   };
-  const handleSlideChange = (s: SwiperType) => {
-    setOpacityFifthSlide(s);
-    setOpacityPrevSlide(s);
+  const handleOnSlideChange = (s: SwiperType) => {
+    checkFirstSlide(s.activeIndex);
+    checkLastSlide(s.activeIndex);
   };
-
-  const setOpacityFifthSlide = (s: SwiperType) => {
-    const newFifthSlide = s.el.querySelector(
-      `[aria-label="${s.activeIndex + 6} / 20"]`
-    );
-
-    if (fifthSlide !== newFifthSlide) {
-      fifthSlide?.classList.remove("opacity-20");
-      newFifthSlide?.classList.add("opacity-20");
-      setFifthSlide(newFifthSlide);
-    }
+  const checkFirstSlide = (idx: number) => {
+    if (idx === 0) setIsFirstSlide(true);
+    else setIsFirstSlide(false);
+  };
+  const checkLastSlide = (idx: number) => {
+    const lastSlideIdx = movies?.length ? movies?.length - 1 : 0;
+    if (idx + 4 === lastSlideIdx) setIsLastSlide(true);
+    else setIsLastSlide(false);
   };
 
-  const setOpacityPrevSlide = (s: SwiperType) => {
-    const newPrevSlid = s.el.querySelector(
-      `[aria-label="${s.activeIndex} / 20"]`
-    );
-    console.log(prevSlide);
-    console.log(newPrevSlid);
-    if (prevSlide !== newPrevSlid) {
-      prevSlide?.classList.remove("opacity-20");
-      newPrevSlid?.classList.add("opacity-20");
-    } else {
-      prevSlide?.classList.add("opacity-20");
-    }
-    setPrevSlide(newPrevSlid);
-  };
-  // const opacityClass = prevSlide
-  //   ? "opacity-60"
-  //   : fifthSlide
-  //   ? "opacity-60"
-  //   : "opacity-100";
   return (
     <Swiper
-      className="!overflow-visible"
+      className="!overflow-visible relative"
       modules={[A11y]}
       spaceBetween={10}
       slidesPerView={5}
-      onSlideChange={handleSlideChange}
-      onSwiper={handleOnSlide}
+      onSlideChange={handleOnSlideChange}
+      onSwiper={handleOnSwiper}
     >
       {movies?.map((m) => (
         <SwiperSlide
           key={m.id}
-          className="!transition-[transform,opacity] !duration[250ms] "
+          className="!transition-[transform,opacity] !duration[250ms]"
         >
           <img src={imagePage + (m?.backdrop_path || m?.poster_path)} />
         </SwiperSlide>
       ))}
+      <SwiperBtn
+        isFirstSlide={isFirstSlide}
+        isLastSlide={isLastSlide}
+        dataLength={movies?.length}
+      />
     </Swiper>
   );
 };
