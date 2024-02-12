@@ -16,7 +16,9 @@ const Hero = ({ movie }: Props) => {
       <div className="absolute top-0 left-0 flex flex-col gap-14 justify-center items-start px-10 bg-gradient-to-t from-[#0f0f0f] to-transparent  w-full h-full z-20">
         <div className="flex flex-col gap-5">
           <h2 className="text-7xl font-main font-bold">{movie?.title}</h2>
-          <p className="max-w-[50%] font-main text-lg">{movie?.overview}</p>
+          <p className="max-w-[35%] font-main text-lg text-justify">
+            {movie?.overview}
+          </p>
         </div>
         <div className="flex gap-5">
           <button className="flex items-center justify-center gap-2 bg-red-600 px-10 py-4 rounded-full">

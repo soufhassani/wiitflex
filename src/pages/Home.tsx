@@ -3,6 +3,8 @@ import Hero from "../components/home/Hero";
 import TrendingMovies from "../components/home/TrendingMovies";
 import useMovies from "../hooks/useMovies";
 import Spinner from "../components/global/Spinner";
+import Modal from "../components/global/Modal";
+import { useModalActive } from "../store/Store";
 
 const Home = () => {
   const { data, isLoading, error } = useMovies();
