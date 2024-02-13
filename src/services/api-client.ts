@@ -1,12 +1,15 @@
 import axios, { AxiosRequestConfig } from "axios";
+import { Movie } from "../entities/Movies";
 
-export interface DataResponse<T> {
+interface DataResponse<T> {
   page: number;
   total_page: number;
   total_results: number;
   results: T[];
 }
-
+type SingleMovie = {
+  data: Movie;
+};
 const axiosInstance = axios.create({
   baseURL: "https://api.themoviedb.org/3",
   headers: {
@@ -25,6 +28,11 @@ class APIClient<T> {
   getAll = async (config: AxiosRequestConfig) => {
     return axiosInstance
       .get<DataResponse<T>>(this.endpoint, config)
+      .then((res) => res.data);
+  };
+  getMovie = async (config: AxiosRequestConfig) => {
+    return axiosInstance
+      .get<Movie>(this.endpoint, config)
       .then((res) => res.data);
   };
   get = async (id: number | string) => {

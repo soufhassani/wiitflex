@@ -1,22 +1,22 @@
 import { IoInformationCircleOutline, IoPlayOutline } from "react-icons/io5";
 import { Movie } from "../../entities/Movies";
-import { imagePage } from "../../utils/imagePath";
+import { imagePath } from "../../utils/imagePath";
 
 type Props = {
   movie: Movie | undefined;
 };
 
 const Hero = ({ movie }: Props) => {
-  const image = imagePage + (movie?.backdrop_path || movie?.poster_path);
+  const image = imagePath + (movie?.backdrop_path || movie?.poster_path);
   return (
     <section className="min-h-svh w-full">
       <div className="w-full ">
         <img src={image} className="w-full h-svh object-cover" />
       </div>
       <div className="absolute top-0 left-0 flex flex-col gap-14 justify-center items-start px-10 bg-gradient-to-t from-[#0f0f0f] to-transparent  w-full h-full z-20">
-        <div className="flex flex-col gap-5">
+        <div className="max-w-[60%] flex flex-col gap-5">
           <h2 className="text-7xl font-main font-bold">{movie?.title}</h2>
-          <p className="max-w-[35%] font-main text-lg text-justify">
+          <p className="max-w-[80%] font-main text-lg text-justify">
             {movie?.overview}
           </p>
         </div>

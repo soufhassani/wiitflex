@@ -3,6 +3,7 @@ export interface Movie {
   title: string;
   overview: string;
   backdrop_path: string;
+  videos?: { results: VideosType[] };
   name?: string;
   media_type?: string;
   release_date?: string;
@@ -15,4 +16,18 @@ export interface Movie {
   poster_path?: string;
   vote_average?: number;
   vote_count?: number;
+}
+
+export type SingleMovie = {
+  data: Movie;
+};
+type VideosType = {
+  key: string;
+  type:
+    | "Bloopers"
+    | "Featurette"
+    | "Behind the Scenes"
+    | "Clip"
+    | "Trailer"
+    | "Teaser";
 };

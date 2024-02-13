@@ -1,8 +1,8 @@
-import useTrendingMovies from "../../hooks/useTrendingMovies";
 import { Navigate } from "react-router-dom";
+import useTrendingMovies from "../../hooks/useTrendingMovies";
 import Spinner from "../global/Spinner";
 import { Carousel } from "../global/Carousel";
-import { useModalActive, useMovieQuery } from "../../store/Store";
+import { useModalActive } from "../../store/Store";
 import Modal from "../global/Modal";
 
 const TrendingMovies = () => {
@@ -10,7 +10,7 @@ const TrendingMovies = () => {
   const { data, isLoading, error } = useTrendingMovies();
   if (error) Navigate({ to: "/error" });
   if (isLoading) return <Spinner />;
-  console.log("Trending Movies", data);
+  // console.log("Trending Movies", data);
 
   return (
     <section className="px-10 pb-8">

@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Movie } from "../../entities/Movies";
-import { imagePage } from "../../utils/imagePath";
+import { Swiper as SwiperType } from "swiper/types";
 import { A11y } from "swiper/modules";
-import "swiper/css";
+import { useModalActive, useMovieQuery } from "../../store/Store";
+import { imagePath } from "../../utils/imagePath";
+import { Movie } from "../../entities/Movies";
+import SwiperBtn from "./SwiperBtn";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/controller";
 import "swiper/css/scrollbar";
-import { Swiper as SwiperType } from "swiper/types";
-import SwiperBtn from "./SwiperBtn";
-import { useModalActive, useMovieQuery } from "../../store/Store";
+import "swiper/css";
 
 type Props = {
   movies: Movie[] | undefined;
@@ -58,7 +58,7 @@ export const Carousel = ({ movies }: Props) => {
           className="!transition-[transform,opacity] !duration[250ms]"
         >
           <img
-            src={imagePage + (m?.backdrop_path || m?.poster_path)}
+            src={imagePath + (m?.backdrop_path || m?.poster_path)}
             onClick={() => handleImageClick(m)}
           />
         </SwiperSlide>
