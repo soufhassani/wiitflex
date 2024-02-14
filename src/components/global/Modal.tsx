@@ -32,22 +32,37 @@ const Modal = () => {
       className="fixed top-0 left-0 w-full h-full bg-transparent flex items-center justify-center backdrop-blur z-[999999]"
       onClick={handleCloseModal}
     >
-      <div className="max-w-[900px] w-full max-h-[90vh] h-full fle bg-zinc-900 flex flex-col px-10 py-5">
-        <div className="aspect-square ">
-          <ReactPlayer
-            url={`https://www.youtube.com/watch?v=${videoTrailer}`}
-            fallback={
-              <img
-                src={imagePath + (movie?.backdrop_path || movie?.poster_path)}
-              />
-            }
-            width="100%"
-            height="100%"
-            playing
-          />
-          {/* </video> */}
+      <div className="max-w-[70vw] w-full max-h-[90vh] h-full fle bg-zinc-900 flex flex-col px-10 py-5">
+        <div className="flex">
+          <div className="aspect-video flex-1">
+            <ReactPlayer
+              url={`https://www.youtube.com/embed/${videoTrailer}`}
+              fallback={
+                <img
+                  src={imagePath + (movie?.backdrop_path || movie?.poster_path)}
+                />
+              }
+              width="100%"
+              height="100%"
+              playing
+            />
+          </div>
+          <div className="flex-1">
+            <div className="pl-5 flex flex-col">
+              <h2 className="text-slate-50 text-4xl font-main font-semibold">
+                {data?.title || data?.name}
+              </h2>
+              <ul className="flex gap-2">
+                {data?.genres?.map((g) => (
+                  <li key={g.id} className="text-gray-600 ">
+                    {g.name}
+                  </li>
+                ))}
+              </ul>
+              <p>{data?.overview}</p>
+            </div>
+          </div>
         </div>
-        <h2 className="text-slate-50 text-9xl">{movie.title || movie.name}</h2>
       </div>
     </div>
   );
