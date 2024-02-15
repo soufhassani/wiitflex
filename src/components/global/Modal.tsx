@@ -48,17 +48,38 @@ const Modal = () => {
             />
           </div>
           <div className="flex-1">
-            <div className="pl-5 flex flex-col">
+            <div className="pl-5 flex flex-col gap-32">
               <h2 className="text-slate-50 text-4xl font-main font-semibold">
                 {data?.title || data?.name}
               </h2>
-              <ul className="flex gap-2">
-                {data?.genres?.map((g) => (
-                  <li key={g.id} className="text-gray-600 ">
-                    {g.name}
-                  </li>
-                ))}
+              <ul className="flex flex-col gap-2">
+                <li className="text-gray-400">
+                  <h6>
+                    Genres:{" "}
+                    {data?.genres?.map((g, index) => (
+                      <span key={g.id} className="text-gray-400">
+                        {g.name}
+                        {index !== data?.genres?.length! - 1 && ", "}
+                      </span>
+                    ))}
+                  </h6>
+                </li>
+                <li className="text-gray-400">
+                  <h6>
+                    Original language:{" "}
+                    <span className="text-gray-400">
+                      {data?.original_language}
+                    </span>
+                  </h6>
+                </li>
+                <li className="text-gray-400">
+                  <h6>
+                    Original language:{" "}
+                    <span className="text-gray-400">{data?.vote_count}</span>
+                  </h6>
+                </li>
               </ul>
+              {/* <p> {data?.vote_average! * 10}% Match</p> */}
               <p>{data?.overview}</p>
             </div>
           </div>
