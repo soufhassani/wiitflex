@@ -3,7 +3,7 @@ import useTrendingMovies from "../../hooks/useTrendingMovies";
 import Spinner from "../global/Spinner";
 import { Carousel } from "../global/Carousel";
 import { useModalActive } from "../../store/Store";
-import Modal from "../global/Modal";
+import Modal from "../modal/Modal";
 
 const TrendingMovies = () => {
   const isModalActive = useModalActive((isActive) => isActive.modalActive);
