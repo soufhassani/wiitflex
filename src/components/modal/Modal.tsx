@@ -1,9 +1,6 @@
 import React from "react";
-import ReactPlayer from "react-player/youtube";
 import { useModalActive, useMovieQuery } from "../../store/Store";
 import useMovie from "../../hooks/useMovie";
-
-import { Navigate } from "react-router-dom";
 import Spinner from "../global/Spinner";
 import Video from "./Video";
 
@@ -12,12 +9,9 @@ const Modal = () => {
   const closeModal = useModalActive((m) => m.setModalActive);
   const { data, isLoading, error } = useMovie(movie);
 
-  if (error) Navigate({ to: "/error" });
+  if (error) throw error;
 
   if (isLoading) return <Spinner />;
-
-  // console.log(videoTrailer);
-  console.log("data", data);
 
   const handleCloseModal = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>

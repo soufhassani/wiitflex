@@ -7,9 +7,9 @@ import Spinner from "../components/global/Spinner";
 const Home = () => {
   const { data, isLoading, error } = useMovies();
 
-  if (error) Navigate({ to: "/error" });
+  if (error) throw error;
   if (isLoading) return <Spinner />;
-  // console.log(data);
+
   let randomMovie;
   if (data) {
     const randomNumber = Math.floor(Math.random() * data.results.length);
