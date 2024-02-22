@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { FaVolumeOff } from "react-icons/fa6";
 import { FaVolumeMute } from "react-icons/fa";
 import VolumeRange from "./VolumeRange";

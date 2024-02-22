@@ -1,12 +1,6 @@
-import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
-import { useLocation } from "react-router-dom";
-import { FaPlay, FaVolumeOff } from "react-icons/fa6";
-import { FaVolumeMute } from "react-icons/fa";
 import { imagePath } from "../../utils/imagePath";
 import { Movie } from "../../entities/Movies";
-import VolumeRange from "./VolumeRange";
-import Volume from "./Volume";
 import { useVideoPlayerQuery } from "../../store/videoPlayerStore";
 import VideoControllers from "./VideoControllers";
 

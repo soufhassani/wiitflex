@@ -1,4 +1,3 @@
-import { Navigate } from "react-router-dom";
 import Hero from "../components/home/Hero";
 import TrendingMovies from "../components/home/TrendingMovies";
 import useMovies from "../hooks/useMovies";
