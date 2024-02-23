@@ -11,14 +11,22 @@ type Props = {
 const Video = ({ movie }: Props) => {
   const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
   const mute = useVideoPlayerQuery((s) => s.videoPlayer.mute);
+  const setShowVolumRange = useVideoPlayerQuery((s) => s.setShowVolumRange);
 
   const videoIdx =
     movie?.videos?.results.findIndex((element) => element.type === "Trailer") ||
     0;
   const videoTrailer = movie?.videos?.results[videoIdx].key;
 
+  const handleMouseLeave = () => {
+    setShowVolumRange(false);
+  };
+
   return (
-    <div className="aspect-video flex-1 relative overflow-hidden ">
+    <div
+      className="aspect-video flex-1 relative overflow-hidden"
+      onMouseLeave={handleMouseLeave}
+    >
       <ReactPlayer
         url={`https://www.youtube.com/watch?v=${videoTrailer}&showinfo=0&controls=0&modestbranding=1&rel=0`}
         fallback={
