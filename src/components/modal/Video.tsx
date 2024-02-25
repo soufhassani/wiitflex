@@ -12,6 +12,9 @@ const Video = ({ movie }: Props) => {
   const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
   const mute = useVideoPlayerQuery((s) => s.videoPlayer.mute);
   const setShowVolumRange = useVideoPlayerQuery((s) => s.setShowVolumRange);
+  const setPlayerIsHidden = useVideoPlayerQuery(
+    (s) => s.setControllersAreHidden
+  );
 
   const videoIdx =
     movie?.videos?.results.findIndex((element) => element.type === "Trailer") ||
@@ -19,6 +22,7 @@ const Video = ({ movie }: Props) => {
   const videoTrailer = movie?.videos?.results[videoIdx].key;
 
   const handleMouseLeave = () => {
+    setPlayerIsHidden(true);
     setShowVolumRange(false);
   };
 
@@ -36,7 +40,7 @@ const Video = ({ movie }: Props) => {
         height="100%"
         playing={play}
         muted={mute}
-        onProgress={(state) => console.log("State: ", state)}
+        // onProgress={(state) => console.log("State: ", state)}
       />
       <VideoControllers />
     </div>

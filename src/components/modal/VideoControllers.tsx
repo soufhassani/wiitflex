@@ -1,37 +1,79 @@
 import { FaPause, FaPlay } from "react-icons/fa6";
 import { useVideoPlayerQuery } from "../../store/videoPlayerStore";
 import Volume from "./Volume";
-import { useState } from "react";
+import { useRef } from "react";
 
 const VideoControllers = () => {
-  const [hide, setHide] = useState(false);
+  const playMain = useRef<HTMLDivElement>(null);
   const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
   const setPlay = useVideoPlayerQuery((s) => s.setPlay);
-  const handleVideoPlay = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const controllersAreHidden = useVideoPlayerQuery(
+    (s) => s.videoPlayer.controllersAreHidden
+  );
+  const setControllersAreHidden = useVideoPlayerQuery(
+    (s) => s.setControllersAreHidden
+  );
+  const handleVideoPlay = () => {
+    setPlay(!play);
+
+    playMain.current?.classList.add("animate-fadeOut");
+    setTimeout(
+      () => playMain.current?.classList.remove("animate-fadeOut"),
+      500
+    );
+  };
+  const handleContainerClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
     if (e.target === e.currentTarget) {
-      setHide(!hide);
-      setPlay(!play);
+      handleVideoPlay();
     }
   };
+  const handleMouseEnterAndLeave = () => {
+    console.log("controllersAreHidden: ", controllersAreHidden);
+  };
+
   return (
     <div
-      className="flex items-end absolute top-0 left-0 h-full w-full z-10"
-      onClick={(e) => handleVideoPlay}
+      className={`flex items-end justify-between absolute top-0 left-0 h-full w-full z-10 transition-opacity ${
+        controllersAreHidden ? "opacity-0" : "opacity-100"
+      }`}
+      onClick={handleContainerClick}
+      onMouseEnter={(e) => {
+        console.log("e.target: ", e.target);
+        handleMouseEnterAndLeave();
+        setControllersAreHidden(true);
+      }}
+      // onMouseOut={(e) => {
+      //   console.log("Mouse out e.target: ", e.target);
+      //   handleMouseEnterAndLeave();
+      //   setControllersAreHidden(false);
+      // }}
+      onMouseLeave={(e) => {
+        console.log("Mouse Leave e.target: ", e.target);
+        handleMouseEnterAndLeave();
+        setControllersAreHidden(false);
+      }}
     >
       <div
-        className={`absolute top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 transition-opacity ${
-          hide ? "opacity-0" : "opacity-100"
-        }`}
+        ref={playMain}
+        className="absolute top-0 left-0 w-full h-full flex justify-center items-center opacity-0 pointer-events-none"
       >
-        {play ? (
-          <FaPlay className="text-slate-50" size="50" />
-        ) : (
-          <FaPause className="text-slate-50" size="50" />
-        )}
+        <div className="w-full h-full flex justify-center items-center ">
+          {play ? (
+            <FaPause className="text-slate-50" size="50" />
+          ) : (
+            <FaPlay className="text-slate-50" size="50" />
+          )}
+        </div>
       </div>
       <div className="flex items-center gap-3 h-[60px] w-full px-5">
-        <button onClick={() => setPlay(!play)}>
-          <FaPlay className="text-slate-50" />
+        <button onClick={handleVideoPlay}>
+          {play ? (
+            <FaPause className="text-slate-50" />
+          ) : (
+            <FaPlay className="text-slate-50" />
+          )}
         </button>
         <Volume />
       </div>

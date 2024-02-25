@@ -3,7 +3,7 @@ import { create } from "zustand";
 interface VideoPlayer {
   play: boolean;
   mute: boolean;
-  playerState: boolean;
+  controllersAreHidden: boolean;
   showVolumRange: boolean;
 }
 
@@ -12,14 +12,14 @@ interface VideoPlayerQuery {
   setPlay: (playState: boolean) => void;
   setMute: (muteState: boolean) => void;
   setShowVolumRange: (showVolumRangeState: boolean) => void;
-  setPlayerState: (playerState: boolean) => void;
+  setControllersAreHidden: (isHidden: boolean) => void;
 }
 
 export const useVideoPlayerQuery = create<VideoPlayerQuery>((set) => ({
   videoPlayer: {
     play: true,
     mute: false,
-    playerState: false,
+    controllersAreHidden: true,
     showVolumRange: false,
   },
   setPlay: (playState) =>
@@ -30,8 +30,8 @@ export const useVideoPlayerQuery = create<VideoPlayerQuery>((set) => ({
     set((s) => ({
       videoPlayer: { ...s.videoPlayer, showVolumRange: showVolumRangeState },
     })),
-  setPlayerState: (playerState) =>
+  setControllersAreHidden: (isHidden) =>
     set((s) => ({
-      videoPlayer: { ...s.videoPlayer, playerState: playerState },
+      videoPlayer: { ...s.videoPlayer, controllersAreHidden: isHidden },
     })),
 }));
