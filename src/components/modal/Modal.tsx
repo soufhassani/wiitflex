@@ -3,6 +3,8 @@ import { useModalActive, useMovieQuery } from "../../store/Store";
 import useMovie from "../../hooks/useMovie";
 import Spinner from "../global/Spinner";
 import Video from "./Video";
+import MovieTitle from "../movie/MovieTitle";
+import MovieDetails from "../movie/MovieDetails";
 
 const Modal = () => {
   const movie = useMovieQuery((m) => m.movieQuery);
@@ -25,49 +27,21 @@ const Modal = () => {
     >
       <div className="max-w-[70vw] w-full max-h-[90vh] h-full fle bg-zinc-900 flex flex-col">
         <Video movie={data} />
-        <div className="flex">
-          <div className="flex-1">
-            <div className="pl-5 flex flex-col gap-4">
-              <div>
-                <h2 className="text-slate-50 text-4xl font-main font-semibold">
-                  {data?.title || data?.name}
-                </h2>
-              </div>
-              <div>
-                <ul className="flex flex-col gap-2">
-                  <li className="text-gray-400">
-                    <h6>
-                      Genres:{" "}
-                      {data?.genres?.map((g, index) => (
-                        <span key={g.id} className="text-gray-400">
-                          {g.name}
-                          {index !== data?.genres?.length! - 1 && ", "}
-                        </span>
-                      ))}
-                    </h6>
-                  </li>
-                  <li className="text-gray-400">
-                    <h6>
-                      Original language:{" "}
-                      <span className="text-gray-400">
-                        {data?.original_language}
-                      </span>
-                    </h6>
-                  </li>
-                  <li className="text-gray-400">
-                    <h6>
-                      Original language:{" "}
-                      <span className="text-gray-400">{data?.vote_count}</span>
-                    </h6>
-                  </li>
-                </ul>
-              </div>
-              <div className="flex flex-col gap-1">
-                <h3 className="text-slate-50 text-2xl font-main font-semibold">
-                  Overview
-                </h3>
-                <p>{data?.overview}</p>
-              </div>
+        <div className="flex w-full h-1/3">
+          <div className="p-5 flex gap-5">
+            <div className="flex flex-col gap-4 w-full">
+              <MovieTitle title={data?.title} name={data?.name} />
+              <MovieDetails
+                genres={data?.genres}
+                original_language={data?.original_language}
+                vote_count={data?.vote_count}
+              />
+            </div>
+            <div className="flex flex-col gap-4 ">
+              <h3 className="text-slate-50 text-2xl font-main font-semibold">
+                Overview
+              </h3>
+              <p>{data?.overview}</p>
             </div>
           </div>
         </div>

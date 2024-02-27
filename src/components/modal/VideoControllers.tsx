@@ -1,9 +1,10 @@
 import { FaPause, FaPlay } from "react-icons/fa6";
 import { useVideoPlayerQuery } from "../../store/videoPlayerStore";
 import Volume from "./Volume";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const VideoControllers = () => {
+  const playerControls = useRef<HTMLDivElement>(null);
   const playMain = useRef<HTMLDivElement>(null);
   const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
   const setPlay = useVideoPlayerQuery((s) => s.setPlay);
@@ -29,31 +30,41 @@ const VideoControllers = () => {
       handleVideoPlay();
     }
   };
-  const handleMouseEnterAndLeave = () => {
-    console.log("controllersAreHidden: ", controllersAreHidden);
-  };
+
+  useEffect(() => {
+    const descendent = (e: MouseEvent) => {
+      const isElem = e.target instanceof Element;
+      let node;
+      if (isElem) node = e.target.parentNode;
+      while (node != null) {
+        if (node == playerControls.current) {
+          return true;
+        }
+        node = node.parentNode;
+      }
+      return false;
+    };
+    const handleControllersShow = (e: MouseEvent) => {
+      if (e.target === playerControls.current) {
+        setControllersAreHidden(false);
+      } else {
+        const isDescendent = descendent(e);
+        if (isDescendent) setControllersAreHidden(false);
+        else setControllersAreHidden(true);
+      }
+    };
+    window.addEventListener("mousemove", handleControllersShow);
+
+    return () => window.removeEventListener("mousemove", handleControllersShow);
+  }, []);
 
   return (
     <div
+      ref={playerControls}
       className={`flex items-end justify-between absolute top-0 left-0 h-full w-full z-10 transition-opacity ${
         controllersAreHidden ? "opacity-0" : "opacity-100"
       }`}
       onClick={handleContainerClick}
-      onMouseEnter={(e) => {
-        console.log("e.target: ", e.target);
-        handleMouseEnterAndLeave();
-        setControllersAreHidden(true);
-      }}
-      // onMouseOut={(e) => {
-      //   console.log("Mouse out e.target: ", e.target);
-      //   handleMouseEnterAndLeave();
-      //   setControllersAreHidden(false);
-      // }}
-      onMouseLeave={(e) => {
-        console.log("Mouse Leave e.target: ", e.target);
-        handleMouseEnterAndLeave();
-        setControllersAreHidden(false);
-      }}
     >
       <div
         ref={playMain}
