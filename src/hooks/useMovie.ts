@@ -1,10 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import APIClient from "../services/api-client";
-import { Movie, SingleMovie } from "../entities/Movies";
+import { SingleMovie } from "../entities/Movies";
 
-const useMovie = (movie: Movie) => {
+type Props={
+  mediaType: string | undefined;
+  id: number
+}
+const useMovie = ({mediaType, id}: Props) => {
   const apiClient = new APIClient<SingleMovie>(
-    `/${movie.media_type === "tv" ? "tv" : "movie"}/${movie.id}`
+    `/${mediaType === "tv" ? "tv" : "movie"}/${id}`
   );
 
   return useQuery({

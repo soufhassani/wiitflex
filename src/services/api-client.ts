@@ -7,9 +7,9 @@ interface DataResponse<T> {
   total_results: number;
   results: T[];
 }
-type SingleMovie = {
-  data: Movie;
-};
+// type SingleMovie = {
+//   data: Movie;
+// };
 const axiosInstance = axios.create({
   baseURL: "https://api.themoviedb.org/3",
   headers: {
