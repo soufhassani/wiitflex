@@ -21,10 +21,14 @@ const MovieDetails = ({ movie }: Props) => {
           />
         </div>
         <div className="flex flex-col gap-4 ">
-          <h3 className="text-slate-50 text-2xl font-main font-semibold">
-            Overview
-          </h3>
-          <p>{movie?.overview}</p>
+          <div className=" flex items-end min-h-[40px]">
+            <h3 className="text-slate-50 text-2xl font-main font-semibold">
+              Overview
+            </h3>
+          </div>
+          <div className="flex-1">
+            <p>{movie?.overview}</p>
+          </div>
         </div>
       </div>
       {movie && <MovieBtn id={movie.id} />}

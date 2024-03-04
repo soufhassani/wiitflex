@@ -9,7 +9,7 @@ type Props = {
 const MovieMeta = ({ genres, original_language, vote_count }: Props) => {
   const dataLength = genres?.length || 0;
   return (
-    <ul className=" flex flex-col gap-2">
+    <ul className="flex-1 flex flex-col  gap-2">
       <li className="text-gray-400">
         <h6>
           Genres:{" "}
