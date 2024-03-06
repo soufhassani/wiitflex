@@ -10,6 +10,7 @@ export const VolumeRange = () => {
   const showVolumeRange = useVideoPlayerQuery(
     (s) => s.videoPlayer.showVolumeRange
   );
+  const mute = useVideoPlayerQuery((s) => s.videoPlayer.mute);
   const volumeRange = useVideoPlayerQuery((s) => s.videoPlayer.volumeRange);
   console.log("volumeRange: ", volumeRange);
   const setVolumeRange = useVideoPlayerQuery((s) => s.setVolumeRange);
@@ -103,7 +104,7 @@ export const VolumeRange = () => {
     // if()
     setVolumeRange(position);
     console.log(volumeRange);
-  }, [dx, volumeRange, setVolumeRange]);
+  }, [dx, volumeRange, setVolumeRange, mute]);
 
   return (
     <div
