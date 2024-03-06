@@ -1,5 +1,5 @@
 import { useRef, useState, useCallback, useEffect, RefObject } from "react";
-import { useVideoPlayerQuery } from "../../store/videoPlayerStore";
+import useVideoPlayerQuery from "../../store/videoPlayerStore";
 
 export const VolumeRange = () => {
   const containerRef = useRef() as RefObject<HTMLDivElement>;
@@ -15,7 +15,7 @@ export const VolumeRange = () => {
   const setVolumeRange = useVideoPlayerQuery((s) => s.setVolumeRange);
 
   const [{ dx, dy }, setOffset] = useState({
-    dx: 0,
+    dx: volumeRange,
     dy: 0,
   });
 
@@ -82,23 +82,28 @@ export const VolumeRange = () => {
 
     const containerWidth = container.getBoundingClientRect().width;
     const knobEleWidth = knobEle.getBoundingClientRect().width;
-    let delta = Math.min(Math.max(0, dx), containerWidth);
+    console.log("dx dx dx: ", dx);
+    console.log("containerWidth: ", containerWidth);
+    const delta = Math.min(Math.max(0, dx), containerWidth);
     // if (volumeRange !== dx) {
     //   delta = (volumeRange * containerWidth) / 100;
     //   setOffset((s) => ({ ...s, dx: delta }));
+    console.log("delta: ", delta);
     // }
     const knobRadius = knobEleWidth / 2;
     const knobPosition = delta - knobRadius;
 
     knobEle.style.transform = `translate3d(${knobPosition}px, 0, 0)`;
-    const position = (delta * 100) / containerWidth;
+    const _position = (delta * 100) / containerWidth;
+    const position = isNaN(_position) ? 0 : _position;
     console.log("type of containerWidth: ", delta * 100);
     console.log("position: ", position);
     firstHalfEle.style.width = `${position}%`;
     console.log(volumeRange);
+    // if()
     setVolumeRange(position);
     console.log(volumeRange);
-  }, [dx, volumeRange]);
+  }, [dx, volumeRange, setVolumeRange]);
 
   return (
     <div

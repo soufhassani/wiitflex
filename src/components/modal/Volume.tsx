@@ -1,18 +1,16 @@
 import { FaVolumeOff } from "react-icons/fa6";
 import { FaVolumeMute } from "react-icons/fa";
 import VolumeRange from "./VolumeRange";
-import { useVideoPlayerQuery } from "../../store/videoPlayerStore";
+import useVideoPlayerQuery from "../../store/videoPlayerStore";
 
 const Volume = () => {
   const mute = useVideoPlayerQuery((s) => s.videoPlayer.mute);
   const setMute = useVideoPlayerQuery((s) => s.setMute);
-  const showVolumRange = useVideoPlayerQuery(
-    (s) => s.videoPlayer.showVolumeRange
-  );
-  const setShowVolumRange = useVideoPlayerQuery((s) => s.setShowVolumeRange);
+
+  const setShowVolumeRange = useVideoPlayerQuery((s) => s.setShowVolumeRange);
 
   const handleVolumeMouseOver = () => {
-    setShowVolumRange(true);
+    setShowVolumeRange(true);
   };
   return (
     <div className="flex gap-2" onMouseOver={handleVolumeMouseOver}>
@@ -24,11 +22,11 @@ const Volume = () => {
         )}
       </button>
       <div
-        className={
-          showVolumRange
-            ? "w-20 visible pointer-events-auto	"
-            : "w-0 invisible pointer-events-none"
-        }
+        className={`w-20 {
+          showVolumeRange
+            ? "visible pointer-events-auto	"
+            : "invisible pointer-events-none"
+        }`}
       >
         <VolumeRange />
       </div>

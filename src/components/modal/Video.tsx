@@ -1,7 +1,7 @@
 import ReactPlayer from "react-player";
 import { imagePath } from "../../utils/imagePath";
 import { Movie } from "../../entities/Movies";
-import { useVideoPlayerQuery } from "../../store/videoPlayerStore";
+import useVideoPlayerQuery from "../../store/videoPlayerStore";
 import VideoControllers from "./VideoControllers";
 
 type Props = {
@@ -12,7 +12,8 @@ const Video = ({ movie }: Props) => {
   const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
   const mute = useVideoPlayerQuery((s) => s.videoPlayer.mute);
   const volume = useVideoPlayerQuery((s) => s.videoPlayer.volumeRange);
-  const setShowVolumRange = useVideoPlayerQuery((s) => s.setShowVolumeRange);
+  console.log("volume in video : ", volume);
+  const setShowVolumeRange = useVideoPlayerQuery((s) => s.setShowVolumeRange);
   const setPlayerIsHidden = useVideoPlayerQuery(
     (s) => s.setControllersAreHidden
   );
@@ -24,7 +25,7 @@ const Video = ({ movie }: Props) => {
 
   const handleMouseLeave = () => {
     setPlayerIsHidden(true);
-    setShowVolumRange(false);
+    setShowVolumeRange(false);
   };
 
   return (
@@ -41,7 +42,7 @@ const Video = ({ movie }: Props) => {
         height="100%"
         playing={play}
         muted={mute}
-        volume={volume}
+        volume={volume / 100}
         // onProgress={(state) => console.log("State: ", state)}
       />
       <VideoControllers />
