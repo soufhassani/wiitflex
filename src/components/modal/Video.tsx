@@ -11,7 +11,8 @@ type Props = {
 const Video = ({ movie }: Props) => {
   const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
   const mute = useVideoPlayerQuery((s) => s.videoPlayer.mute);
-  const setShowVolumRange = useVideoPlayerQuery((s) => s.setShowVolumRange);
+  const volume = useVideoPlayerQuery((s) => s.videoPlayer.volumeRange);
+  const setShowVolumRange = useVideoPlayerQuery((s) => s.setShowVolumeRange);
   const setPlayerIsHidden = useVideoPlayerQuery(
     (s) => s.setControllersAreHidden
   );
@@ -40,6 +41,7 @@ const Video = ({ movie }: Props) => {
         height="100%"
         playing={play}
         muted={mute}
+        volume={volume}
         // onProgress={(state) => console.log("State: ", state)}
       />
       <VideoControllers />

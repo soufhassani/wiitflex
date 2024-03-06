@@ -7,9 +7,9 @@ const Volume = () => {
   const mute = useVideoPlayerQuery((s) => s.videoPlayer.mute);
   const setMute = useVideoPlayerQuery((s) => s.setMute);
   const showVolumRange = useVideoPlayerQuery(
-    (s) => s.videoPlayer.showVolumRange
+    (s) => s.videoPlayer.showVolumeRange
   );
-  const setShowVolumRange = useVideoPlayerQuery((s) => s.setShowVolumRange);
+  const setShowVolumRange = useVideoPlayerQuery((s) => s.setShowVolumeRange);
 
   const handleVolumeMouseOver = () => {
     setShowVolumRange(true);

@@ -7,9 +7,12 @@ export const VolumeRange = () => {
   const secondHalfRef = useRef() as RefObject<HTMLDivElement>;
   const knobRef = useRef() as RefObject<HTMLDivElement>;
 
-  const showVolumRange = useVideoPlayerQuery(
-    (s) => s.videoPlayer.showVolumRange
+  const showVolumeRange = useVideoPlayerQuery(
+    (s) => s.videoPlayer.showVolumeRange
   );
+  const volumeRange = useVideoPlayerQuery((s) => s.videoPlayer.volumeRange);
+  console.log("volumeRange: ", volumeRange);
+  const setVolumeRange = useVideoPlayerQuery((s) => s.setVolumeRange);
 
   const [{ dx, dy }, setOffset] = useState({
     dx: 0,
@@ -26,6 +29,7 @@ export const VolumeRange = () => {
       const handleMouseMove = (e: MouseEvent) => {
         const dx = e.clientX - startPos.x;
         const dy = e.clientY - startPos.y;
+
         setOffset({ dx, dy });
       };
 
@@ -77,11 +81,24 @@ export const VolumeRange = () => {
     }
 
     const containerWidth = container.getBoundingClientRect().width;
-    const delta = Math.min(Math.max(0, dx), containerWidth);
+    const knobEleWidth = knobEle.getBoundingClientRect().width;
+    let delta = Math.min(Math.max(0, dx), containerWidth);
+    // if (volumeRange !== dx) {
+    //   delta = (volumeRange * containerWidth) / 100;
+    //   setOffset((s) => ({ ...s, dx: delta }));
+    // }
+    const knobRadius = knobEleWidth / 2;
+    const knobPosition = delta - knobRadius;
 
-    knobEle.style.transform = `translate3d(${delta}px, 0, 0)`;
-    firstHalfEle.style.width = `${(delta * 100) / containerWidth}%`;
-  }, [dx, showVolumRange]);
+    knobEle.style.transform = `translate3d(${knobPosition}px, 0, 0)`;
+    const position = (delta * 100) / containerWidth;
+    console.log("type of containerWidth: ", delta * 100);
+    console.log("position: ", position);
+    firstHalfEle.style.width = `${position}%`;
+    console.log(volumeRange);
+    setVolumeRange(position);
+    console.log(volumeRange);
+  }, [dx, volumeRange]);
 
   return (
     <div
@@ -93,7 +110,7 @@ export const VolumeRange = () => {
         ref={firstHalfRef}
       />
       <div
-        className="size-[1rem] rounded-full bg-[rgb(99,102,241)] cursor-move	select-none	touch-none absolute top-0 left-0 translate-x-[-50%]"
+        className="size-[1rem] rounded-full bg-[rgb(99,102,241)] cursor-move	select-none	touch-none absolute top-0 left-0 "
         ref={knobRef}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
