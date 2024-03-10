@@ -8,9 +8,7 @@ const VideoControllers = () => {
   const playMain = useRef<HTMLDivElement>(null);
   const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
   const setPlay = useVideoPlayerQuery((s) => s.setPlay);
-  const controllersAreHidden = useVideoPlayerQuery(
-    (s) => s.videoPlayer.controllersAreHidden
-  );
+
   const setControllersAreHidden = useVideoPlayerQuery(
     (s) => s.setControllersAreHidden
   );
@@ -78,9 +76,7 @@ const VideoControllers = () => {
   return (
     <div
       ref={playerControls}
-      className={`flex items-end justify-between absolute top-0 left-0 h-full w-full z-10 transition-opacity ${
-        controllersAreHidden ? "opacity-0" : "opacity-100"
-      }`}
+      className="flex items-end justify-between absolute top-0 left-0 h-full w-full z-10 transition-opacity"
       onMouseMove={fullScreenHidingControllers}
       onClick={handleContainerClick}
     >
