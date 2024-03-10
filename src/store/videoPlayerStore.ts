@@ -6,6 +6,7 @@ interface VideoPlayer {
   volumeRange: number;
   showVolumeRange: boolean;
   controllersAreHidden: boolean;
+  
 }
 
 interface VideoPlayerQuery {
@@ -15,6 +16,7 @@ interface VideoPlayerQuery {
   setVolumeRange: (range: number) => void;
   setShowVolumeRange: (showVolumeRangeState: boolean) => void;
   setControllersAreHidden: (isHidden: boolean) => void;
+  
 }
 
 const useVideoPlayerQuery = create<VideoPlayerQuery>((set) => ({
@@ -24,6 +26,7 @@ const useVideoPlayerQuery = create<VideoPlayerQuery>((set) => ({
     volumeRange: 50,
     controllersAreHidden: true,
     showVolumeRange: false,
+    
   },
   setPlay: (playState) =>
     set((s) => ({ videoPlayer: { ...s.videoPlayer, play: playState } })),
@@ -41,6 +44,7 @@ const useVideoPlayerQuery = create<VideoPlayerQuery>((set) => ({
     set((s) => ({
       videoPlayer: { ...s.videoPlayer, controllersAreHidden: isHidden },
     })),
+  
 }));
 
 export default useVideoPlayerQuery

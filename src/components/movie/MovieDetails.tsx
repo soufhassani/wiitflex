@@ -1,4 +1,3 @@
-import React from "react";
 import MovieTitle from "./MovieTitle";
 import MovieMeta from "./MovieMeta";
 import { Movie } from "../../entities/Movies";

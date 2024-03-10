@@ -1,7 +1,7 @@
 import { FaPause, FaPlay } from "react-icons/fa6";
 import useVideoPlayerQuery from "../../store/videoPlayerStore";
-import Volume from "./Volume";
-import { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
+import Controllers from "./Controllers";
 
 const VideoControllers = () => {
   const playerControls = useRef<HTMLDivElement>(null);
@@ -14,7 +14,8 @@ const VideoControllers = () => {
   const setControllersAreHidden = useVideoPlayerQuery(
     (s) => s.setControllersAreHidden
   );
-  const handleVideoPlay = () => {
+  const handleVideoPlay = (e: React.MouseEvent) => {
+    fullScreenHidingControllers(e);
     setPlay(!play);
 
     playMain.current?.classList.add("animate-fadeOut");
@@ -27,9 +28,24 @@ const VideoControllers = () => {
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     if (e.target === e.currentTarget) {
-      handleVideoPlay();
+      handleVideoPlay(e);
     }
   };
+
+  const timeoutId = useRef(0);
+  const fullScreenHidingControllers = useCallback(
+    (e: React.MouseEvent) => {
+      setControllersAreHidden(false);
+      clearTimeout(timeoutId.current);
+      if (e.target === playerControls.current) {
+        timeoutId.current = setTimeout(
+          () => setControllersAreHidden(true),
+          4000
+        );
+      }
+    },
+    [setControllersAreHidden]
+  );
 
   useEffect(() => {
     const descendent = (e: MouseEvent) => {
@@ -44,6 +60,7 @@ const VideoControllers = () => {
       }
       return false;
     };
+
     const handleControllersShow = (e: MouseEvent) => {
       if (e.target === playerControls.current) {
         setControllersAreHidden(false);
@@ -64,6 +81,7 @@ const VideoControllers = () => {
       className={`flex items-end justify-between absolute top-0 left-0 h-full w-full z-10 transition-opacity ${
         controllersAreHidden ? "opacity-0" : "opacity-100"
       }`}
+      onMouseMove={fullScreenHidingControllers}
       onClick={handleContainerClick}
     >
       <div
@@ -78,16 +96,7 @@ const VideoControllers = () => {
           )}
         </div>
       </div>
-      <div className="flex items-center gap-3 h-[60px] w-full px-5">
-        <button onClick={handleVideoPlay}>
-          {play ? (
-            <FaPause className="text-slate-50" />
-          ) : (
-            <FaPlay className="text-slate-50" />
-          )}
-        </button>
-        <Volume />
-      </div>
+      <Controllers handleVideoPlay={handleVideoPlay} />
     </div>
   );
 };

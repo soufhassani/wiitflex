@@ -12,7 +12,6 @@ const Video = ({ movie }: Props) => {
   const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
   const mute = useVideoPlayerQuery((s) => s.videoPlayer.mute);
   const volume = useVideoPlayerQuery((s) => s.videoPlayer.volumeRange);
-  console.log("volume in video : ", volume);
   const setShowVolumeRange = useVideoPlayerQuery((s) => s.setShowVolumeRange);
   const setPlayerIsHidden = useVideoPlayerQuery(
     (s) => s.setControllersAreHidden
@@ -30,7 +29,7 @@ const Video = ({ movie }: Props) => {
 
   return (
     <div
-      className="aspect-video flex-1 relative overflow-hidden"
+      className="aspect-video flex-1 relative overflow-hidden video-container"
       onMouseLeave={handleMouseLeave}
     >
       <ReactPlayer
@@ -43,7 +42,6 @@ const Video = ({ movie }: Props) => {
         playing={play}
         muted={mute}
         volume={volume / 100}
-        // onProgress={(state) => console.log("State: ", state)}
       />
       <VideoControllers />
     </div>

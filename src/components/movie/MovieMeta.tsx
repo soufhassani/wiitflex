@@ -1,5 +1,3 @@
-import React from "react";
-
 type Props = {
   genres?: { id: number; name: string }[];
   original_language?: string;

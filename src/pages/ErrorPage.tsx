@@ -12,7 +12,7 @@ const ErrorPage = () => {
     errorMessage = error;
   } else {
     console.error(error);
-    errorMessage = "Unknown error has been occured";
+    errorMessage = "Unknown error has been occurred";
   }
 
   console.clear();
