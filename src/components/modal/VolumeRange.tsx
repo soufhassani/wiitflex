@@ -64,6 +64,7 @@ export const VolumeRange = () => {
 
       document.addEventListener("touchmove", handleTouchMove);
       document.addEventListener("touchend", handleTouchEnd);
+      console.log("asdasdasdsd");
     },
     [dx, dy]
   );
