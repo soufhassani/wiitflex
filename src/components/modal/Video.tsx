@@ -11,7 +11,7 @@ type Props = {
 
 const Video = ({ movie }: Props) => {
   const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
-  const mute = useVideoPlayerQuery((s) => s.videoPlayer.mute);
+  // const mute = useVideoPlayerQuery((s) => s.videoPlayer.mute);
   const volume = useVideoPlayerQuery((s) => s.videoPlayer.volumeRange);
   const setPlay = useVideoPlayerQuery((s) => s.setPlay);
   const setShowVolumeRange = useVideoPlayerQuery((s) => s.setShowVolumeRange);
