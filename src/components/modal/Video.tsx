@@ -11,7 +11,7 @@ type Props = {
 
 const Video = ({ movie }: Props) => {
   const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
-  // const mute = useVideoPlayerQuery((s) => s.videoPlayer.mute);
+  const mute = useVideoPlayerQuery((s) => s.videoPlayer.mute);
   const volume = useVideoPlayerQuery((s) => s.videoPlayer.volumeRange);
   const setPlay = useVideoPlayerQuery((s) => s.setPlay);
   const setShowVolumeRange = useVideoPlayerQuery((s) => s.setShowVolumeRange);
@@ -42,14 +42,13 @@ const Video = ({ movie }: Props) => {
       playedSeconds: progress.playedSeconds,
     });
   };
+
   const handleOnDuration = (duration: number) => {
-    console.log("duration:", duration);
     setVideoDuration(duration);
   };
+
   const handleOnReady = (player: ReactPlayer) => {
-    console.log("player:", player);
     setSeekTo(player.seekTo);
-    // player.seekTo(30, "seconds");
   };
   return (
     <div
@@ -64,12 +63,11 @@ const Video = ({ movie }: Props) => {
         width="100%"
         height="100%"
         playing={play}
-        // muted={mute}
-        muted={true}
+        muted={mute}
         volume={volume / 100}
         onReady={handleOnReady}
-        onEnded={handleVideoEnd}
         onProgress={handleProgress}
+        onEnded={handleVideoEnd}
         onDuration={handleOnDuration}
       />
       <VideoControllers />

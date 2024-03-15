@@ -8,6 +8,7 @@ const VideoControllers = () => {
   const playMain = useRef<HTMLDivElement>(null);
   const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
   const setPlay = useVideoPlayerQuery((s) => s.setPlay);
+  const isScrubbing = useVideoPlayerQuery((s) => s.videoPlayer.isScrubbing);
 
   const setControllersAreHidden = useVideoPlayerQuery(
     (s) => s.setControllersAreHidden
@@ -35,6 +36,7 @@ const VideoControllers = () => {
     (e: React.MouseEvent) => {
       setControllersAreHidden(false);
       clearTimeout(timeoutId.current);
+      if (isScrubbing) return;
       if (e.target === playerControls.current) {
         timeoutId.current = setTimeout(
           () => setControllersAreHidden(true),
@@ -42,7 +44,7 @@ const VideoControllers = () => {
         );
       }
     },
-    [setControllersAreHidden]
+    [setControllersAreHidden, isScrubbing]
   );
 
   useEffect(() => {
@@ -65,13 +67,14 @@ const VideoControllers = () => {
       } else {
         const isDescendent = descendent(e);
         if (isDescendent) setControllersAreHidden(false);
+        else if (isScrubbing) setControllersAreHidden(false);
         else setControllersAreHidden(true);
       }
     };
     window.addEventListener("mousemove", handleControllersShow);
 
     return () => window.removeEventListener("mousemove", handleControllersShow);
-  }, []);
+  }, [setControllersAreHidden, isScrubbing]);
 
   return (
     <div

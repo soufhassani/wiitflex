@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 interface VideoProgress{
   loadedSeconds: number;
-  playedSeconds: number
+  playedSeconds: number;
 }
 interface VideoPlayer {
   play: boolean;
@@ -11,7 +11,8 @@ interface VideoPlayer {
   showVolumeRange: boolean;
   controllersAreHidden: boolean;
   videoDuration: number;
-  videoProgress: VideoProgress
+  videoProgress: VideoProgress;
+  isScrubbing: boolean;
   seekTo: ((to:number, type?: "seconds"|"fraction") => void) | null
   
 }
@@ -26,6 +27,8 @@ interface VideoPlayerQuery {
   setVideoDuration: (duration: number) => void;
   setSeekTo: (seekTo: (to:number, type?: "seconds"|"fraction") => void) => void;
   setVideoProgress: (progress:VideoProgress) => void
+  setIsScrubbing: (scrubbingState: boolean) => void;
+
   
 }
 
@@ -38,6 +41,7 @@ const useVideoPlayerQuery = create<VideoPlayerQuery>((set) => ({
     showVolumeRange: false,
     videoDuration: 0,
     seekTo:null,
+    isScrubbing:false,
     videoProgress: { loadedSeconds: 0, playedSeconds: 0}
   },
   setPlay: (playState) =>
@@ -67,6 +71,10 @@ const useVideoPlayerQuery = create<VideoPlayerQuery>((set) => ({
     setVideoProgress: (progress) =>
     set((s) => ({
       videoPlayer: { ...s.videoPlayer, videoProgress: progress },
+    })),
+    setIsScrubbing: (scrubbingState) =>
+    set((s) => ({
+      videoPlayer: { ...s.videoPlayer, isScrubbing: scrubbingState },
     })),
   
 }));
