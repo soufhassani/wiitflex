@@ -1,5 +1,6 @@
 import React from "react";
-import { useModalActive, useMovieQuery } from "../../store/Store";
+import useModalActive from "../../store/modalStore";
+import useMovieQuery from "../../store/movieStore";
 import MovieDetails from "../movie/MovieDetails";
 import useMovie from "../../hooks/useMovie";
 import Spinner from "../global/Spinner";

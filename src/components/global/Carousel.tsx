@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper/types";
 import { A11y } from "swiper/modules";
-import { useModalActive, useMovieQuery } from "../../store/Store";
+import useModalActive from "../../store/modalStore";
 import { imagePath } from "../../utils/imagePath";
 import { Movie } from "../../entities/Movies";
 import SwiperBtn from "./SwiperBtn";
@@ -11,6 +11,7 @@ import "swiper/css/pagination";
 import "swiper/css/controller";
 import "swiper/css/scrollbar";
 import "swiper/css";
+import useMovieQuery from "../../store/movieStore";
 
 type Props = {
   movies: Movie[] | undefined;

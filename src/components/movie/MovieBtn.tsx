@@ -1,6 +1,7 @@
 import { IoInformationCircleOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { useMovieQuery } from "../../store/Store";
+import useMovieQuery from "../../store/movieStore";
+// import useMovieQuery from "../../store/modalStore";
 
 type Props = {
   id: number | undefined;

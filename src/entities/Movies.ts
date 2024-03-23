@@ -1,3 +1,5 @@
+type ProductionCompany = {id:number, logo_path:string, name:string, origin_country:string}
+
 export interface Movie {
   id: number;
   title: string;
@@ -17,6 +19,9 @@ export interface Movie {
   poster_path?: string;
   vote_average?: number;
   vote_count?: number;
+  original_title?: string;
+  is_liked?: boolean
+  production_companies?: ProductionCompany[]
 }
 
 export type SingleMovie = {

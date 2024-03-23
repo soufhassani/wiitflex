@@ -1,6 +1,6 @@
 const Logo = () => {
   return (
-    <div className="flex items-end pb-1 gap-1">
+    <div className="flex items-end pb-1 gap-1 w-f">
       <h3 className="text-slate-50 mb-[-4px] text-2xl uppercase font-main font-bold">
         wiitflix
       </h3>

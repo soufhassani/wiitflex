@@ -1,9 +1,13 @@
 import { useParams } from "react-router-dom";
 import useMovie from "../hooks/useMovie";
 import Spinner from "../components/global/Spinner";
+import useMovieQuery from "../store/movieStore";
+import Hero from "../components/movie/moviePage/Hero";
+import Overview from "../components/movie/moviePage/Overview";
 
 const MoviePage = () => {
   const { type, id } = useParams();
+  const setMovie = useMovieQuery((s) => s.setSelectedMovie);
   const theID = Number(id);
 
   const { data, isLoading, error } = useMovie({ id: theID, mediaType: type });
@@ -11,8 +15,15 @@ const MoviePage = () => {
   if (error) throw error;
 
   if (isLoading) return <Spinner />;
+  console.log(data);
+  if (data) setMovie(data);
 
-  return <div className="text-sky-50">{data?.name}</div>;
+  return (
+    <div className="text-sky-50">
+      <Hero />
+      <Overview />
+    </div>
+  );
 };
 
 export default MoviePage;
