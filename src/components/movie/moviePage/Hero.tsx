@@ -1,27 +1,25 @@
 import useMovieQuery from "../../../store/movieStore";
-import { imagePath } from "../../../utils/imagePath";
-import MovieDetails from "./MovieDetails";
+import BackgroundVideo from "./BackgroundVideo";
+import HeroDetails from "./HeroDetails";
 
 const Hero = () => {
   const selectedMovie = useMovieQuery((s) => s.selectedMovie);
-  console.log("selectedMovie: ", selectedMovie);
-  const image =
-    imagePath + (selectedMovie?.backdrop_path || selectedMovie?.poster_path);
+  const screenWidth = window.innerWidth;
+  const screenHeight = window.innerHeight;
+
   return (
-    <div className="relative">
-      <div>
-        <div className="bg-gradient-to-t from-[#0f0f0f] to-transparent absolute h-full w-full pointer-events-none select-none"></div>
-        <img
-          src={image}
-          className="h-[700px] w-full object-cover object-top pointer-events-none select-none"
-        />
+    <div className="relative h-screen">
+      <div
+        className={`pointer-events-none select-none h-[${screenHeight}] w-[${screenWidth}] relative`}
+      >
+        <BackgroundVideo />
       </div>
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        <h2 className="font-main text-slate-50 text-5xl font-semibold">
+      <div className="absolute right-10 top-5 z-50">
+        <h2 className="uppercase font-main font-bold text-slate-50 text-3xl ">
           {selectedMovie.name || selectedMovie.title}
         </h2>
       </div>
-      <MovieDetails />
+      <HeroDetails />
     </div>
   );
 };

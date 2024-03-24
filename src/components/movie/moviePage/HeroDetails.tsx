@@ -3,9 +3,11 @@ import useMovieQuery from "../../../store/movieStore";
 import { IoAdd } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
 
-const MovieDetails = () => {
+const HeroDetails = () => {
   const selectedMovie = useMovieQuery((s) => s.selectedMovie);
   const setSelectedMovie = useMovieQuery((s) => s.setSelectedMovie);
+
+  const rating = selectedMovie.vote_average?.toFixed(1);
 
   const handleAddToWatchlist = () => {
     setSelectedMovie({ ...selectedMovie, is_liked: true });
@@ -14,7 +16,7 @@ const MovieDetails = () => {
     setSelectedMovie({ ...selectedMovie, is_liked: false });
   };
   return (
-    <div className="absolute bottom-0 left-0 w-full px-10 flex justify-between">
+    <div className="absolute bottom-12 left-0 w-full px-10 flex justify-between z-20">
       <div className="flex flex-col justify-end">
         <h6>
           <span className="text-slate-50">Original title: </span>
@@ -37,7 +39,7 @@ const MovieDetails = () => {
           <div className="flex items-start gap-2">
             <FaStar className="text-yellow-500 text-3xl" />
             <h6 className="text-3xl font-bold leading-8 ">
-              {selectedMovie.vote_average}
+              {rating}
               <span className="text-xl align-baseline font-normal text-slate-300">
                 /10
               </span>
@@ -72,4 +74,4 @@ const MovieDetails = () => {
   );
 };
 
-export default MovieDetails;
+export default HeroDetails;

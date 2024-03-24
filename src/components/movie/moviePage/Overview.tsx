@@ -1,33 +1,50 @@
-import React from "react";
 import useMovieQuery from "../../../store/movieStore";
-import { imagePath } from "../../../utils/imagePath";
 
 const Overview = () => {
   const selectedMovie = useMovieQuery((s) => s.selectedMovie);
   return (
-    <section className="py-20 px-10">
-      <div className="">
-        <h3 className="font-main text-4xl font-semibold ">Overview</h3>
-        <p className="text-slate-50 text-xl">{selectedMovie.overview}</p>
-      </div>
-      <div className="">
-        <h3 className="font-main text-4xl font-semibold ">
-          Production Companies
-        </h3>
-        <p className="text-slate-50 text-xl"></p>
-        {selectedMovie.production_companies?.map((company) => (
-          <div key={company.id}>
-            <div className="bg-slate-50  flex ">
-              <img
-                src={imagePath + company.logo_path}
-                className="object-contains w-[300px] h-[300px]"
-              />
-            </div>
-            {company.name}
+    <section className="py-20 px-10 max-w-[920px] text-center mx-auto">
+      <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-2">
+          <h3 className="font-main text-4xl font-semibold ">Overview</h3>
+          <p className="text-slate-50 text-xl">{selectedMovie.overview}</p>
+        </div>
+        <div className="flex justify-between text-left gap-8">
+          <div className="flex flex-col gap-2">
+            <h3 className="font-main text-xl font-semibold text-slate-50">
+              Genres
+            </h3>
+            <p>
+              {selectedMovie.genres?.map((genre, i) => (
+                <span key={genre.id}>
+                  {genre.name}
+                  {selectedMovie.genres?.length !== i + 1 ? ", " : ""}
+                </span>
+              ))}
+            </p>
           </div>
-        ))}
+          <div className="flex flex-col gap-2">
+            <h3 className="font-main text-xl font-semibold text-slate-50">
+              Production Companies
+            </h3>
+            <ul>
+              {selectedMovie.production_companies?.map((company) => (
+                <li key={company.id}>{company.name}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="flex flex-col gap-2">
+            <h3 className="font-main text-xl font-semibold text-slate-50">
+              Production Countries
+            </h3>
+            <ul>
+              {selectedMovie.production_countries?.map((country, index) => (
+                <li key={index}>{country.name}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
-      <div></div>
     </section>
   );
 };

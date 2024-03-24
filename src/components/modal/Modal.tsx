@@ -29,7 +29,7 @@ const Modal = () => {
       onClick={handleCloseModal}
     >
       <div className="max-w-[70vw] w-full rounded-3xl max-h-[90vh] overflow-y-auto h-full fle bg-zinc-900 flex flex-col scrollbar-thumb-red-500 scrollbar-thin scrollbar-track-transparent scrollbar-corner-transparent">
-        <Video movie={data} />
+        <Video movie={data} type="trailer" />
         <MovieDetails movie={data} />
       </div>
     </div>

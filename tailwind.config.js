@@ -6,6 +6,9 @@ export default {
       fontFamily: {
         main: "GeneralSans",
       },
+      backgroundImage: {
+        'videoGradient': 'linear-gradient(0, #0f0f0f 18%, rgba(15,15,15,0) 50%, #0f0f0f 92%)'
+      },
       animation: {
         fadeOut: "fadeOut .5s ease-in-out forwards",
       },

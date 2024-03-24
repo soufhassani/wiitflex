@@ -7,9 +7,11 @@ import { OnProgressProps } from "react-player/base";
 
 type Props = {
   movie: Movie | undefined;
+  type?: "trailer" | null;
+  videoKey?: string;
 };
 
-const Video = ({ movie }: Props) => {
+const Video = ({ movie, type, videoKey }: Props) => {
   const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
   const mute = useVideoPlayerQuery((s) => s.videoPlayer.mute);
   const volume = useVideoPlayerQuery((s) => s.videoPlayer.volumeRange);
@@ -22,10 +24,14 @@ const Video = ({ movie }: Props) => {
   const setSeekTo = useVideoPlayerQuery((s) => s.setSeekTo);
   const setVideoProgress = useVideoPlayerQuery((s) => s.setVideoProgress);
 
-  const videoIdx =
-    movie?.videos?.results.findIndex((element) => element.type === "Trailer") ||
-    0;
-  const videoTrailer = movie?.videos?.results[videoIdx].key;
+  let videoIdx = null;
+  if (type === "trailer")
+    videoIdx = movie?.videos?.results.findIndex(
+      (element) => element.type === "Trailer"
+    );
+  const videoTrailer = videoIdx
+    ? movie?.videos?.results[videoIdx].key
+    : videoKey;
 
   const handleMouseLeave = () => {
     setControllersAreHidden(true);

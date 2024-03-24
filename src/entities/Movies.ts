@@ -1,4 +1,5 @@
 type ProductionCompany = {id:number, logo_path:string, name:string, origin_country:string}
+type ProductionCountry = {idiso_3166_1:string, name:string}
 
 export interface Movie {
   id: number;
@@ -22,6 +23,7 @@ export interface Movie {
   original_title?: string;
   is_liked?: boolean
   production_companies?: ProductionCompany[]
+  production_countries?: ProductionCountry[]
 }
 
 export type SingleMovie = {
