@@ -1,4 +1,4 @@
-import useVideoPlayerQuery from "../../store/videoPlayerStore";
+import useVideoPlayerQuery from "../../../store/videoPlayerStore";
 import { AiOutlineFullscreen } from "react-icons/ai";
 import { FaPause, FaPlay } from "react-icons/fa";
 import Volume from "./Volume";

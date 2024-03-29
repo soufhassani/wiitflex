@@ -1,4 +1,3 @@
-import React from "react";
 import useMovieQuery from "../../../store/movieStore";
 import { imagePath } from "../../../utils/imagePath";
 
@@ -11,7 +10,7 @@ const BackgroundImage = () => {
       <div className="bg-gradient-to-t from-[#0f0f0f] to-transparent absolute h-full w-full pointer-events-none select-none"></div>
       <img
         src={image}
-        className="h-[700px] w-full object-cover object-top pointer-events-none select-none"
+        className="h-full w-full object-cover object-top pointer-events-none select-none"
       />
     </>
   );

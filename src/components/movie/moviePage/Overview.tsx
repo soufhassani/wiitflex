@@ -3,7 +3,7 @@ import useMovieQuery from "../../../store/movieStore";
 const Overview = () => {
   const selectedMovie = useMovieQuery((s) => s.selectedMovie);
   return (
-    <section className="py-20 px-10 max-w-[920px] text-center mx-auto">
+    <section className="pt-20 pb-5 px-10 max-w-[920px] text-center mx-auto z-20">
       <div className="flex flex-col gap-5">
         <div className="flex flex-col gap-2">
           <h3 className="font-main text-4xl font-semibold ">Overview</h3>

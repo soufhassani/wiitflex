@@ -15,7 +15,7 @@ const ErrorPage = () => {
     errorMessage = "Unknown error has been occurred";
   }
 
-  console.clear();
+  // console.clear();
   return <div className="text-slate-50">{errorMessage}</div>;
 };
 

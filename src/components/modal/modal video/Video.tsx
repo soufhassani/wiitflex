@@ -1,17 +1,18 @@
 import ReactPlayer from "react-player";
-import { imagePath } from "../../utils/imagePath";
-import { Movie } from "../../entities/Movies";
-import useVideoPlayerQuery from "../../store/videoPlayerStore";
+import { imagePath } from "../../../utils/imagePath";
+import { Movie } from "../../../entities/Movies";
+import useVideoPlayerQuery from "../../../store/videoPlayerStore";
 import VideoControllers from "./VideoControllers";
 import { OnProgressProps } from "react-player/base";
 
 type Props = {
   movie: Movie | undefined;
-  type?: "trailer" | null;
+  type: "trailer" | null;
+  isPaused?: boolean;
   videoKey?: string;
 };
 
-const Video = ({ movie, type, videoKey }: Props) => {
+const Video = ({ movie, type, videoKey, isPaused }: Props) => {
   const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
   const mute = useVideoPlayerQuery((s) => s.videoPlayer.mute);
   const volume = useVideoPlayerQuery((s) => s.videoPlayer.volumeRange);
@@ -68,7 +69,7 @@ const Video = ({ movie, type, videoKey }: Props) => {
         }
         width="100%"
         height="100%"
-        playing={play}
+        playing={isPaused ? false : play}
         muted={mute}
         volume={volume / 100}
         onReady={handleOnReady}

@@ -1,7 +1,7 @@
 import { FaVolumeOff } from "react-icons/fa6";
 import { FaVolumeMute } from "react-icons/fa";
 import VolumeRange from "./VolumeRange";
-import useVideoPlayerQuery from "../../store/videoPlayerStore";
+import useVideoPlayerQuery from "../../../store/videoPlayerStore";
 
 const Volume = () => {
   const mute = useVideoPlayerQuery((s) => s.videoPlayer.mute);

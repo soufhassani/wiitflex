@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import useVideoPlayerQuery from "../../store/videoPlayerStore";
+import useVideoPlayerQuery from "../../../store/videoPlayerStore";
 
 const VideoTimeline = () => {
   const timeline = useRef<HTMLDivElement>(null);

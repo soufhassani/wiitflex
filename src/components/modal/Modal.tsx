@@ -4,7 +4,7 @@ import useMovieQuery from "../../store/movieStore";
 import MovieDetails from "../movie/MovieDetails";
 import useMovie from "../../hooks/useMovie";
 import Spinner from "../global/Spinner";
-import Video from "./Video";
+import Video from "./modal video/Video";
 
 const Modal = () => {
   const movie = useMovieQuery((m) => m.movieQuery);

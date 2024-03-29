@@ -1,5 +1,5 @@
 import { useRef, useState, useCallback, useEffect, RefObject } from "react";
-import useVideoPlayerQuery from "../../store/videoPlayerStore";
+import useVideoPlayerQuery from "../../../store/videoPlayerStore";
 
 export const VolumeRange = () => {
   const containerRef = useRef() as RefObject<HTMLDivElement>;

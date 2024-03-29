@@ -1,5 +1,5 @@
 import { FaPause, FaPlay } from "react-icons/fa6";
-import useVideoPlayerQuery from "../../store/videoPlayerStore";
+import useVideoPlayerQuery from "../../../store/videoPlayerStore";
 import React, { useCallback, useEffect, useRef } from "react";
 import Controllers from "./Controllers";
 
