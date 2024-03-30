@@ -77,7 +77,7 @@ const Video = ({ movie, type, videoKey, isPaused }: Props) => {
         onEnded={handleVideoEnd}
         onDuration={handleOnDuration}
       />
-      <VideoControllers />
+      {/* <VideoControllers /> */}
     </div>
   );
 };

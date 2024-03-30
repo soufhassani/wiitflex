@@ -1,20 +1,39 @@
 import React, { useEffect, useRef } from "react";
 import useVideoPlayerQuery from "../../../store/videoPlayerStore";
+import { PlayerConfig } from "../../../entities/Player";
+import ReactPlayer from "react-player";
 
-const VideoTimeline = () => {
+interface Props {
+  playerConfig: PlayerConfig;
+  playerMethods: ReactPlayer | undefined;
+  setPlayerConfig: React.Dispatch<React.SetStateAction<PlayerConfig>>;
+  scrubbingConfig: {
+    isScrubbing: boolean | undefined;
+    setIsScrubbing: React.Dispatch<React.SetStateAction<boolean | undefined>>;
+  };
+}
+
+const VideoTimeline = ({
+  playerConfig,
+  playerMethods,
+  setPlayerConfig,
+  scrubbingConfig,
+}: Props) => {
+  const { isScrubbing, setIsScrubbing } = scrubbingConfig;
   const timeline = useRef<HTMLDivElement>(null);
   const knobIndicator = useRef<HTMLDivElement>(null);
   const loadedIndicator = useRef<HTMLDivElement>(null);
   const knobTracker = useRef<HTMLDivElement>(null);
-  const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
-  const controllersAreHidden = useVideoPlayerQuery(
-    (s) => s.videoPlayer.controllersAreHidden
-  );
-  const videoDuration = useVideoPlayerQuery((s) => s.videoPlayer.videoDuration);
-  const isScrubbing = useVideoPlayerQuery((s) => s.videoPlayer.isScrubbing);
-  const setPlay = useVideoPlayerQuery((s) => s.setPlay);
-  const seekTo = useVideoPlayerQuery((s) => s.videoPlayer.seekTo);
-  const setIsScrubbing = useVideoPlayerQuery((s) => s.setIsScrubbing);
+  // const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
+
+  // const controllersAreHidden = useVideoPlayerQuery(
+  //   (s) => s.videoPlayer.controllersAreHidden
+  // );
+  // const videoDuration = useVideoPlayerQuery((s) => s.videoPlayer.videoDuration);
+  // const isScrubbing = useVideoPlayerQuery((s) => s.videoPlayer.isScrubbing);
+  // const setPlay = useVideoPlayerQuery((s) => s.setPlay);
+  const seekTo = playerMethods?.seekTo;
+  // const setIsScrubbing = useVideoPlayerQuery((s) => s.setIsScrubbing);
   const { loadedSeconds, playedSeconds } = useVideoPlayerQuery(
     (s) => s.videoPlayer.videoProgress
   );
@@ -40,7 +59,7 @@ const VideoTimeline = () => {
       Math.min(Math.max(0, cursorX - timelineX), timelineWidth) / timelineWidth;
 
     if (isScrubbing) {
-      const videoTime = videoDuration * delta;
+      const videoTime = playerConfig.videoDuration * delta;
       if (seekTo) seekTo(videoTime, "seconds");
       if (knobIndicator.current) {
         const knobPosition = `${delta * 100}%`;
@@ -49,7 +68,8 @@ const VideoTimeline = () => {
     }
   };
   const handleTimelineClick = (e: React.MouseEvent) => {
-    setPlay(false);
+    // setPlay(false);
+    setPlayerConfig((s) => ({ ...s, play: false }));
     const rect = timeline.current?.getBoundingClientRect();
     const timelineX = rect?.x || 0;
     const timelineWidth = rect?.width || 0;
@@ -59,7 +79,7 @@ const VideoTimeline = () => {
     // setIsScrubbing(true);
 
     console.log("onclick Delta: ", delta);
-    const videoTime = videoDuration * delta;
+    const videoTime = playerConfig.videoDuration * delta;
     if (knobIndicator.current) {
       const knobPosition = `${delta * 100}%`;
       knobIndicator.current.style.left = knobPosition;
@@ -69,8 +89,8 @@ const VideoTimeline = () => {
   };
 
   useEffect(() => {
-    const _playedSeconds = (playedSeconds / videoDuration) * 100;
-    const _loadedSeconds = (loadedSeconds / videoDuration) * 100;
+    const _playedSeconds = (playedSeconds / playerConfig.videoDuration) * 100;
+    const _loadedSeconds = (loadedSeconds / playerConfig.videoDuration) * 100;
     if (knobIndicator.current) {
       knobIndicator.current.style.left = `${setToFull(_playedSeconds)}%`;
     }
@@ -78,11 +98,11 @@ const VideoTimeline = () => {
       knobTracker.current.style.width = `${setToFull(_playedSeconds)}%`;
     if (loadedIndicator.current)
       loadedIndicator.current.style.width = `${setToFull(_loadedSeconds)}%`;
-  }, [playedSeconds, loadedSeconds, videoDuration]);
+  }, [playedSeconds, loadedSeconds, playerConfig.videoDuration]);
   return (
     <div
       className={` group  w-full h-3 transition-all  ${
-        controllersAreHidden ? "my-5" : "my-0"
+        playerConfig.controllerAreHidden ? "my-5" : "my-0"
       }`}
       onMouseMove={handleMouseMove}
       onClick={handleTimelineClick}
@@ -100,13 +120,13 @@ const VideoTimeline = () => {
         <div
           ref={knobTracker}
           className={`absolute left-0 top-0 h-full ${
-            play && "transition-all ease-linear duration-1000"
+            playerConfig.play && "transition-all ease-linear duration-1000"
           } w-0  bg-red-500 z-10 `}
         ></div>
         <div
           ref={knobIndicator}
           className={`absolute -top-1/2 h-[200%] left-0 -translate-x-1/2 select-none  bg-red-500 rounded-full scale-0 w-4 origin-center ${
-            play && "[transition:transform,left_1s_linear]"
+            playerConfig.play && "[transition:transform,left_1s_linear]"
           } ${isScrubbing && "scale-100"} group-hover:scale-100 z-20 `}
           onMouseDown={handleMouseDown}
         ></div>

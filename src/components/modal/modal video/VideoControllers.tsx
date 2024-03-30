@@ -1,21 +1,35 @@
 import { FaPause, FaPlay } from "react-icons/fa6";
+import ReactPlayer from "react-player";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import useVideoPlayerQuery from "../../../store/videoPlayerStore";
-import React, { useCallback, useEffect, useRef } from "react";
 import Controllers from "./Controllers";
+import { PlayerConfig } from "../../../entities/Player";
 
-const VideoControllers = () => {
+interface Props {
+  playerConfig: PlayerConfig;
+  playerMethods: ReactPlayer | undefined;
+  setPlayerConfig: React.Dispatch<React.SetStateAction<PlayerConfig>>;
+}
+
+const VideoControllers = ({
+  playerConfig,
+  playerMethods,
+  setPlayerConfig,
+}: Props) => {
+  const { play } = playerConfig;
+  const [isScrubbing, setIsScrubbing] = useState<boolean>();
   const playerControls = useRef<HTMLDivElement>(null);
   const playMain = useRef<HTMLDivElement>(null);
-  const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
-  const setPlay = useVideoPlayerQuery((s) => s.setPlay);
-  const isScrubbing = useVideoPlayerQuery((s) => s.videoPlayer.isScrubbing);
+  // const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
+  // const setPlay = useVideoPlayerQuery((s) => s.setPlay);
+  // const isScrubbing = useVideoPlayerQuery((s) => s.videoPlayer.isScrubbing);
 
   const setControllersAreHidden = useVideoPlayerQuery(
     (s) => s.setControllersAreHidden
   );
   const handleVideoPlay = (e: React.MouseEvent) => {
     fullScreenHidingControllers(e);
-    setPlay(!play);
+    setPlayerConfig((s) => ({ ...s, play: !play }));
 
     playMain.current?.classList.add("animate-fadeOut");
     setTimeout(
@@ -34,17 +48,18 @@ const VideoControllers = () => {
   const timeoutId = useRef(0);
   const fullScreenHidingControllers = useCallback(
     (e: React.MouseEvent) => {
-      setControllersAreHidden(false);
+      // setControllersAreHidden(false);
+      setPlayerConfig((s) => ({ ...s, controllerAreHidden: false }));
       clearTimeout(timeoutId.current);
       if (isScrubbing) return;
       if (e.target === playerControls.current) {
         timeoutId.current = setTimeout(
-          () => setControllersAreHidden(true),
+          () => setPlayerConfig((s) => ({ ...s, controllerAreHidden: true })),
           4000
         );
       }
     },
-    [setControllersAreHidden, isScrubbing]
+    [setPlayerConfig, isScrubbing]
   );
 
   useEffect(() => {
@@ -63,18 +78,20 @@ const VideoControllers = () => {
 
     const handleControllersShow = (e: MouseEvent) => {
       if (e.target === playerControls.current) {
-        setControllersAreHidden(false);
+        setPlayerConfig((s) => ({ ...s, controllerAreHidden: false }));
       } else {
         const isDescendent = descendent(e);
-        if (isDescendent) setControllersAreHidden(false);
-        else if (isScrubbing) setControllersAreHidden(false);
-        else setControllersAreHidden(true);
+        if (isDescendent)
+          setPlayerConfig((s) => ({ ...s, controllerAreHidden: false }));
+        else if (isScrubbing)
+          setPlayerConfig((s) => ({ ...s, controllerAreHidden: false }));
+        else setPlayerConfig((s) => ({ ...s, controllerAreHidden: true }));
       }
     };
     window.addEventListener("mousemove", handleControllersShow);
 
     return () => window.removeEventListener("mousemove", handleControllersShow);
-  }, [setControllersAreHidden, isScrubbing]);
+  }, [setPlayerConfig, isScrubbing]);
 
   return (
     <div
@@ -95,7 +112,13 @@ const VideoControllers = () => {
           )}
         </div>
       </div>
-      <Controllers handleVideoPlay={handleVideoPlay} />
+      <Controllers
+        playerConfig={playerConfig}
+        playerMethods={playerMethods}
+        setPlayerConfig={setPlayerConfig}
+        handleVideoPlay={handleVideoPlay}
+        scrubbingConfig={{ isScrubbing, setIsScrubbing }}
+      />
     </div>
   );
 };

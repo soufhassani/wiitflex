@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import ReactPlayer from "react-player";
 import { OnProgressProps } from "react-player/base";
 import VideoControllers from "../modal/modal video/VideoControllers";
-import useVideoPlayerQuery from "../../store/videoPlayerStore";
+// import useVideoPlayerQuery from "../../store/videoPlayerStore";
 import useMovieQuery from "../../store/movieStore";
 import { imagePath } from "../../utils/imagePath";
+import { PlayerConfig } from "../../entities/Player";
 
 interface Props {
-  video: string;
+  video: string | undefined;
   play?: boolean;
   mute?: boolean;
   volume?: number;
@@ -26,7 +27,7 @@ const VideoPlayer = (props: Props) => {
     showVolumeRange,
     controllerAreHidden,
   } = props;
-  const [config, setConfig] = useState({
+  const [config, setConfig] = useState<PlayerConfig>({
     play: play || false,
     mute: mute || false,
     volume: volume || 0,
@@ -37,7 +38,6 @@ const VideoPlayer = (props: Props) => {
       loadedSeconds: videoProgress?.loadedSeconds || 0,
       playedSeconds: videoProgress?.playedSeconds || 0,
     },
-    otherMethods: null,
   });
   const [playerMethods, setPlayerMethods] = useState<ReactPlayer>();
   const movie = useMovieQuery((s) => s.selectedMovie);
@@ -101,7 +101,11 @@ const VideoPlayer = (props: Props) => {
         onEnded={handleVideoEnd}
         onDuration={handleOnDuration}
       />
-      <VideoControllers />
+      <VideoControllers
+        playerConfig={config}
+        playerMethods={playerMethods}
+        setPlayerConfig={setConfig}
+      />
     </div>
   );
 };

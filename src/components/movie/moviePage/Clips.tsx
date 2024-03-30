@@ -1,6 +1,7 @@
 import React from "react";
 import useMovieQuery from "../../../store/movieStore";
 import Video from "../../modal/modal video/Video";
+import VideoPlayer from "../../global/VideoPlayer";
 
 const Clips = () => {
   const movie = useMovieQuery((s) => s.selectedMovie);
@@ -10,12 +11,10 @@ const Clips = () => {
     0;
   const trailer = movie?.videos?.results[videoIdx];
   const clips = movie?.videos?.results.filter(
-    (element, i) =>
+    (element) =>
       element.type === "Clip" ||
       element.type === "Teaser" ||
       element.type === "Featurette"
-    // element.type === "Behind the Scenes" ||
-    // (element.type === "Trailer" && videoIdx !== i)
   );
   const behindScenes = movie?.videos?.results.filter(
     (element) => element.type === "Behind the Scenes"
@@ -25,7 +24,8 @@ const Clips = () => {
     <section className="px-10 pt-5 pb-20 ">
       <div className="flex flex-col gap-20 ">
         <div className="w-full">
-          <Video movie={movie} type="trailer" isPaused={true} />
+          <VideoPlayer video={trailer?.key} play={false} mute={false} />
+          {/* <Video movie={movie} type="trailer" isPaused={true} /> */}
         </div>
         <div>
           <h2 className="font-main text-3xl font-semibold ">
@@ -34,12 +34,30 @@ const Clips = () => {
           <div className="flex">
             {clips?.map((c, indx) =>
               indx < 4 ? (
-                <Video
+                <VideoPlayer
                   key={c.key}
-                  type={null}
-                  movie={movie}
-                  isPaused
-                  videoKey={c.key}
+                  video={c.key}
+                  play={false}
+                  controllerAreHidden={true}
+                />
+              ) : (
+                ""
+              )
+            )}
+          </div>
+        </div>
+        <div>
+          <h2 className="font-main text-3xl font-semibold ">
+            Behind The scene
+          </h2>
+          <div className="flex">
+            {behindScenes?.map((b, indx) =>
+              indx < 4 ? (
+                <VideoPlayer
+                  key={b.key}
+                  video={b.key}
+                  play={false}
+                  controllerAreHidden={true}
                 />
               ) : (
                 ""
