@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import ReactPlayer from "react-player";
 import { OnProgressProps } from "react-player/base";
-import VideoControllers from "../modal/modal video/VideoControllers";
+import VideoControllers from "./VideoControllers";
 // import useVideoPlayerQuery from "../../store/videoPlayerStore";
-import useMovieQuery from "../../store/movieStore";
-import { imagePath } from "../../utils/imagePath";
-import { PlayerConfig } from "../../entities/Player";
+import useMovieQuery from "../../../store/movieStore";
+import { imagePath } from "../../../utils/imagePath";
+import { PlayerConfig } from "../../../entities/Player";
 
 interface Props {
   video: string | undefined;
@@ -41,17 +41,6 @@ const VideoPlayer = (props: Props) => {
   });
   const [playerMethods, setPlayerMethods] = useState<ReactPlayer>();
   const movie = useMovieQuery((s) => s.selectedMovie);
-  //   const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
-  //   const mute = useVideoPlayerQuery((s) => s.videoPlayer.mute);
-  //   const volume = useVideoPlayerQuery((s) => s.videoPlayer.volumeRange);
-  //   const setPlay = useVideoPlayerQuery((s) => s.setPlay);
-  //   const setShowVolumeRange = useVideoPlayerQuery((s) => s.setShowVolumeRange);
-  //   const setControllersAreHidden = useVideoPlayerQuery(
-  //     (s) => s.setControllersAreHidden
-  //   );
-  //   const setVideoDuration = useVideoPlayerQuery((s) => s.setVideoDuration);
-  //   const setSeekTo = useVideoPlayerQuery((s) => s.setSeekTo);
-  //   const setVideoProgress = useVideoPlayerQuery((s) => s.setVideoProgress);
 
   const handleMouseLeave = () => {
     setConfig((s) => ({

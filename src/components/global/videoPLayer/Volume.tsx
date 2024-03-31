@@ -1,20 +1,22 @@
 import { FaVolumeOff } from "react-icons/fa6";
 import { FaVolumeMute } from "react-icons/fa";
 import VolumeRange from "./VolumeRange";
-import useVideoPlayerQuery from "../../../store/videoPlayerStore";
+import { PlayerConfig } from "../../../entities/Player";
 
-const Volume = () => {
-  const mute = useVideoPlayerQuery((s) => s.videoPlayer.mute);
-  const setMute = useVideoPlayerQuery((s) => s.setMute);
+type Props = {
+  playerConfig: PlayerConfig;
+  setPlayerConfig: React.Dispatch<React.SetStateAction<PlayerConfig>>;
+};
 
-  const setShowVolumeRange = useVideoPlayerQuery((s) => s.setShowVolumeRange);
+const Volume = ({ playerConfig, setPlayerConfig }: Props) => {
+  const mute = playerConfig.mute;
 
   const handleVolumeMouseOver = () => {
-    setShowVolumeRange(true);
+    setPlayerConfig((s) => ({ ...s, showVolumeRange: true }));
   };
   return (
     <div className="flex gap-2" onMouseOver={handleVolumeMouseOver}>
-      <button onClick={() => setMute(!mute)}>
+      <button onClick={() => setPlayerConfig((s) => ({ ...s, mute: !mute }))}>
         {mute ? (
           <FaVolumeMute className="text-slate-50" />
         ) : (
@@ -28,7 +30,10 @@ const Volume = () => {
             : "invisible pointer-events-none"
         }`}
       >
-        <VolumeRange />
+        <VolumeRange
+          playerConfig={playerConfig}
+          setPlayerConfig={setPlayerConfig}
+        />
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import useVideoPlayerQuery from "../../../store/videoPlayerStore";
 import { PlayerConfig } from "../../../entities/Player";
 import ReactPlayer from "react-player";
 
@@ -34,9 +33,7 @@ const VideoTimeline = ({
   // const setPlay = useVideoPlayerQuery((s) => s.setPlay);
   const seekTo = playerMethods?.seekTo;
   // const setIsScrubbing = useVideoPlayerQuery((s) => s.setIsScrubbing);
-  const { loadedSeconds, playedSeconds } = useVideoPlayerQuery(
-    (s) => s.videoPlayer.videoProgress
-  );
+  const { loadedSeconds, playedSeconds } = playerConfig.videoProgress;
 
   // const [isScrubbing, setIsScrubbing] = useState(false);
 

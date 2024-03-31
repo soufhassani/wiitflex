@@ -14,7 +14,11 @@ const router = createBrowserRouter([
     children: [
       { index: true, Component: lazy(() => import("./pages/Home")) },
       {
-        path: "movie/:type/:id",
+        path: "movie/:id",
+        Component: lazy(() => import("./pages/MoviePage")),
+      },
+      {
+        path: "tv-show/:id",
         Component: lazy(() => import("./pages/MoviePage")),
       },
     ],

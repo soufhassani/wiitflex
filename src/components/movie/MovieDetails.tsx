@@ -16,7 +16,7 @@ const MovieDetails = ({ movie }: Props) => {
           <MovieMeta
             genres={movie?.genres}
             original_language={movie?.original_language}
-            vote_count={movie?.vote_count}
+            release_date={movie?.release_date}
           />
         </div>
         <div className="flex flex-col gap-4 ">

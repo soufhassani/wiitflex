@@ -1,15 +1,19 @@
 import { useRef, useState, useCallback, useEffect, RefObject } from "react";
-import useVideoPlayerQuery from "../../../store/videoPlayerStore";
+import { PlayerConfig } from "../../../entities/Player";
 
-export const VolumeRange = () => {
+type Props = {
+  playerConfig: PlayerConfig;
+  setPlayerConfig: React.Dispatch<React.SetStateAction<PlayerConfig>>;
+};
+
+export const VolumeRange = ({ playerConfig, setPlayerConfig }: Props) => {
   const containerRef = useRef() as RefObject<HTMLDivElement>;
   const firstHalfRef = useRef() as RefObject<HTMLDivElement>;
   const secondHalfRef = useRef() as RefObject<HTMLDivElement>;
   const knobRef = useRef() as RefObject<HTMLDivElement>;
 
-  const mute = useVideoPlayerQuery((s) => s.videoPlayer.mute);
-  const volumeRange = useVideoPlayerQuery((s) => s.videoPlayer.volumeRange);
-  const setVolumeRange = useVideoPlayerQuery((s) => s.setVolumeRange);
+  const mute = playerConfig.mute;
+  const volumeRange = playerConfig.volume;
 
   const [{ dx, dy }, setOffset] = useState({
     dx: volumeRange,
@@ -64,7 +68,6 @@ export const VolumeRange = () => {
 
       document.addEventListener("touchmove", handleTouchMove);
       document.addEventListener("touchend", handleTouchEnd);
-      console.log("asdasdasdsd");
     },
     [dx, dy]
   );
@@ -88,8 +91,8 @@ export const VolumeRange = () => {
     const position = isNaN(_position) ? 0 : _position;
     const volumePower = mute ? 0 : position;
     firstHalfEle.style.width = `${volumePower}%`;
-    setVolumeRange(position);
-  }, [dx, volumeRange, setVolumeRange, mute]);
+    setPlayerConfig((s) => ({ ...s, volume: position }));
+  }, [dx, volumeRange, setPlayerConfig, mute]);
 
   return (
     <div

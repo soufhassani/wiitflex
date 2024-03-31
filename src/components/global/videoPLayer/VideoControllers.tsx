@@ -1,7 +1,6 @@
 import { FaPause, FaPlay } from "react-icons/fa6";
 import ReactPlayer from "react-player";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import useVideoPlayerQuery from "../../../store/videoPlayerStore";
 import Controllers from "./Controllers";
 import { PlayerConfig } from "../../../entities/Player";
 
@@ -20,13 +19,7 @@ const VideoControllers = ({
   const [isScrubbing, setIsScrubbing] = useState<boolean>();
   const playerControls = useRef<HTMLDivElement>(null);
   const playMain = useRef<HTMLDivElement>(null);
-  // const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
-  // const setPlay = useVideoPlayerQuery((s) => s.setPlay);
-  // const isScrubbing = useVideoPlayerQuery((s) => s.videoPlayer.isScrubbing);
 
-  const setControllersAreHidden = useVideoPlayerQuery(
-    (s) => s.setControllersAreHidden
-  );
   const handleVideoPlay = (e: React.MouseEvent) => {
     fullScreenHidingControllers(e);
     setPlayerConfig((s) => ({ ...s, play: !play }));
@@ -48,7 +41,6 @@ const VideoControllers = ({
   const timeoutId = useRef(0);
   const fullScreenHidingControllers = useCallback(
     (e: React.MouseEvent) => {
-      // setControllersAreHidden(false);
       setPlayerConfig((s) => ({ ...s, controllerAreHidden: false }));
       clearTimeout(timeoutId.current);
       if (isScrubbing) return;

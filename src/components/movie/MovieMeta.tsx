@@ -1,10 +1,10 @@
 type Props = {
   genres?: { id: number; name: string }[];
   original_language?: string;
-  vote_count?: number;
+  release_date?: string;
 };
 
-const MovieMeta = ({ genres, original_language, vote_count }: Props) => {
+const MovieMeta = ({ genres, original_language, release_date }: Props) => {
   const dataLength = genres?.length || 0;
   return (
     <ul className="flex-1 flex flex-col  gap-2">
@@ -21,13 +21,14 @@ const MovieMeta = ({ genres, original_language, vote_count }: Props) => {
       </li>
       <li className="text-gray-400">
         <h6>
-          Original language:{" "}
-          <span className="text-gray-400">{original_language}</span>
+          <span className="text-slate-50">Released date: </span>
+          <span className="text-slate-400">{release_date}</span>
         </h6>
       </li>
       <li className="text-gray-400">
         <h6>
-          Original language: <span className="text-gray-400">{vote_count}</span>
+          Original language:{" "}
+          <span className="text-gray-400">{original_language}</span>
         </h6>
       </li>
     </ul>

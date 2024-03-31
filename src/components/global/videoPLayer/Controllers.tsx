@@ -1,11 +1,10 @@
-import useVideoPlayerQuery from "../../../store/videoPlayerStore";
+import { useState } from "react";
 import { AiOutlineFullscreen } from "react-icons/ai";
 import { FaPause, FaPlay } from "react-icons/fa";
-import Volume from "./Volume";
-import { useState } from "react";
-import VideoTimeline from "./VideoTimeline";
 import ReactPlayer from "react-player";
 import { PlayerConfig } from "../../../entities/Player";
+import VideoTimeline from "./VideoTimeline";
+import Volume from "./Volume";
 
 type Props = {
   playerConfig: PlayerConfig;
@@ -66,7 +65,10 @@ const Controllers = (props: Props) => {
               <FaPlay className="text-slate-50" />
             )}
           </button>
-          <Volume />
+          <Volume
+            playerConfig={playerConfig}
+            setPlayerConfig={setPlayerConfig}
+          />
         </div>
 
         <div>

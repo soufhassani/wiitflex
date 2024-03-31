@@ -13,7 +13,7 @@ const MovieBtn = ({ id }: Props) => {
     <div className="px-5">
       <Link
         className="flex items-center justify-center gap-2 bg-red-600 px-10 py-4 rounded-full"
-        to={`/movie/${movie.media_type}/${id}`}
+        to={movie.media_type === "movie" ? `/movie/${id}` : `/tv-show/${id}`}
       >
         <span className="text-xl font-main">More info</span>
         <IoInformationCircleOutline size="20" className="text-slate-50" />
