@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ReactPlayer from "react-player";
 import { OnProgressProps } from "react-player/base";
 import VideoControllers from "./VideoControllers";
-// import useVideoPlayerQuery from "../../store/videoPlayerStore";
 import useMovieQuery from "../../../store/movieStore";
 import { imagePath } from "../../../utils/imagePath";
 import { PlayerConfig } from "../../../entities/Player";

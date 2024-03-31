@@ -21,7 +21,8 @@ export interface Movie {
   vote_average?: number;
   vote_count?: number;
   original_title?: string;
-  is_liked?: boolean
+  is_liked?: boolean,
+  is_watchlist?: boolean,
   production_companies?: ProductionCompany[]
   production_countries?: ProductionCountry[]
 }

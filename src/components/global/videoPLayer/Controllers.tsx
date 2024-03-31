@@ -26,10 +26,6 @@ const Controllers = (props: Props) => {
     scrubbingConfig,
   } = props;
   const [isFullScreen, setIsFullScreen] = useState(false);
-  // const play = useVideoPlayerQuery((s) => s.videoPlayer.play);
-  // const controllersAreHidden = useVideoPlayerQuery(
-  //   (s) => s.videoPlayer.controllersAreHidden
-  // );
 
   const handleClickFullscreen = (e: React.MouseEvent) => {
     const container = e.currentTarget.closest(".video-container");

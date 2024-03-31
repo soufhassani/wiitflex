@@ -1,7 +1,7 @@
 import { FaStar } from "react-icons/fa6";
-import useMovieQuery from "../../../store/movieStore";
 import { IoAdd } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
+import useMovieQuery from "../../../store/movieStore";
 
 const HeroDetails = () => {
   const selectedMovie = useMovieQuery((s) => s.selectedMovie);
@@ -10,10 +10,14 @@ const HeroDetails = () => {
   const rating = selectedMovie.vote_average?.toFixed(1);
 
   const handleAddToWatchlist = () => {
-    setSelectedMovie({ ...selectedMovie, is_liked: true });
+    const data = { ...selectedMovie, is_watchlist: true };
+    localStorage.setItem("WMovie", JSON.stringify(data));
+    setSelectedMovie(data);
   };
   const handleRemoveFromWatchlist = () => {
-    setSelectedMovie({ ...selectedMovie, is_liked: false });
+    const data = { ...selectedMovie, is_watchlist: false };
+    localStorage.setItem("WMovie", JSON.stringify(data));
+    setSelectedMovie(data);
   };
   return (
     <div className="absolute bottom-12 left-0 w-full px-10 flex justify-between z-20">
@@ -47,7 +51,7 @@ const HeroDetails = () => {
           </div>
         </div>
         <div className="">
-          {selectedMovie.is_liked ? (
+          {selectedMovie.is_watchlist ? (
             <button
               onClick={handleRemoveFromWatchlist}
               className="flex items-center gap-1 border-2 rounded-full py-3 px-6 border-red-500 bg-red-500 transition-all "
