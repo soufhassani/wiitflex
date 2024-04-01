@@ -1,9 +1,8 @@
-import { RouterProvider } from "react-router-dom";
-import router from "./routes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Suspense } from "react";
 import { AuthProvider } from "./context/AuthProvider.context";
+import Routers from "./pages/Routers";
 
 const queryClient = new QueryClient();
 function App() {
@@ -18,7 +17,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <Suspense fallback={null} />
-        <RouterProvider router={router} />
+        <Routers />
       </AuthProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

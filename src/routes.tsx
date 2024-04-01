@@ -6,7 +6,7 @@ import Layout from "./pages/Layout";
 // const Home = lazy(() => import("./pages/Home"));
 // const MoviePage = lazy(() => import("./pages/MoviePage"));
 
-const router = createBrowserRouter([
+export const signingInRouter = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
@@ -24,5 +24,17 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-
-export default router;
+export const signingOutRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, Component: lazy(() => import("./pages/Login")) },
+      {
+        path: "sign-up",
+        Component: lazy(() => import("./pages/Signup")),
+      },
+    ],
+  },
+]);

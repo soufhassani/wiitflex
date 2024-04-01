@@ -1,8 +1,8 @@
 type User = {
     name: string | "";
-    email:string | "";
-    gender: "male" | 'female' | 'rather not to say' | "";
-    age: string | "";
-    token: string | '';
+    username: string | "";
+    email: string | "";
+    gender: string | "male" | "female" | "rather not to say" | "";
+    token: string | "";
 }
 export default User
