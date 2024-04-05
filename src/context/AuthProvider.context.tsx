@@ -2,6 +2,7 @@ import React, { ReactNode, createContext, useState } from "react";
 import User from "../entities/User";
 import { getCookie, setCookie } from "../utils/cookies";
 import { redirect } from "react-router-dom";
+import tokenProvider from "../utils/tokenProvider";
 
 type Props = {
   children: ReactNode;
@@ -113,19 +114,6 @@ const setLogin = () => {
   const token = tokenProvider();
   setCookie({ name: "token", value: token, days: 20 });
   localStorage.setItem("token", JSON.stringify(token));
-};
-
-const tokenProvider = () => {
-  const charset =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let randomText = "";
-
-  for (let i = 0; i < 150; i++) {
-    const randomIndex = Math.floor(Math.random() * charset.length);
-    randomText += charset[randomIndex];
-  }
-
-  return randomText;
 };
 
 const storeUser = ({ name, username, email, password, gender, token }) => {

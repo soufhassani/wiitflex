@@ -15,10 +15,10 @@ function App() {
   // }, []);
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Suspense fallback={null} />
-        <Routers />
-      </AuthProvider>
+      {/* <AuthProvider> */}
+      <Suspense fallback={null} />
+      <Routers />
+      {/* </AuthProvider> */}
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

@@ -1,8 +1,9 @@
 type User = {
-    name: string | "";
+    id: string;
+    fullName: string | "";
     username: string | "";
     email: string | "";
-    gender: string | "male" | "female" | "rather not to say" | "";
-    token: string | "";
+    password: string | "";
 }
+// token: string | "";
 export default User
