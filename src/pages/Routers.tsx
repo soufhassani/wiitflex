@@ -1,16 +1,15 @@
-import React, { useContext } from "react";
 import { RouterProvider } from "react-router-dom";
 import { signingInRouter, signingOutRouter } from "../routes";
-import { AuthContext } from "../context/AuthProvider.context";
+import useAuthQuery from "../store/authStore";
+import useAuth from "../hooks/useAuth";
 
 const Routers = () => {
-  // const auth = useContext(AuthContext);
-  // console.log("authContext", auth);
+  const { isLoggedin } = useAuth();
+  isLoggedin();
+  const isLogged = useAuthQuery((s) => s.isLoggedin);
+
   return (
-    <RouterProvider
-      router={signingOutRouter}
-      // router={auth?.auth.token ? signingInRouter : signingOutRouter}
-    />
+    <RouterProvider router={isLogged ? signingInRouter : signingOutRouter} />
   );
 };
 

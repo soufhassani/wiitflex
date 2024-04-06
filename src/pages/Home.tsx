@@ -7,7 +7,7 @@ const Home = () => {
   const { data, isLoading, error } = useMovies();
 
   if (error) throw error;
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Spinner text="Loading..." />;
 
   let randomMovie;
   if (data) {

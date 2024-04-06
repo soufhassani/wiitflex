@@ -8,7 +8,7 @@ const TrendingMovies = () => {
   const isModalActive = useModalActive((isActive) => isActive.modalActive);
   const { data, isLoading, error } = useTrendingMovies();
   if (error) throw error;
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Spinner text="Loading..." />;
 
   return (
     <section className="px-10 pb-8">

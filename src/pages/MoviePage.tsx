@@ -15,7 +15,7 @@ const MoviePage = () => {
 
   if (error) throw error;
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Spinner text="Loading..." />;
   console.log(data);
   if (data) setMovie(data);
 

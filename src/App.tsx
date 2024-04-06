@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Suspense } from "react";
-import { AuthProvider } from "./context/AuthProvider.context";
 import Routers from "./pages/Routers";
 
 const queryClient = new QueryClient();
@@ -15,10 +14,8 @@ function App() {
   // }, []);
   return (
     <QueryClientProvider client={queryClient}>
-      {/* <AuthProvider> */}
       <Suspense fallback={null} />
       <Routers />
-      {/* </AuthProvider> */}
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

@@ -122,6 +122,28 @@
   font-style: italic;
 }
 
+@layer components {
+  .field-error{
+    @apply text-red-500 font-normal text-sm;
+  }
+  .input {
+    @apply py-3 rounded-full indent-3 font-main;
+  }
+  
+}
+
+@layer utilities {
+
+  .menu.active-menu {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  .menu{
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    transition: all .3s ease;
+  }
+
+}
+
 html,
 body,
 #root {

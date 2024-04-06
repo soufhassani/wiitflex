@@ -8,7 +8,7 @@ const Layout = () => {
     <>
       <Navbar />
       <main className="overflow-hidden">
-        <Suspense fallback={<Spinner />}>
+        <Suspense fallback={<Spinner text="Loading..." />}>
           <Outlet />
         </Suspense>
       </main>

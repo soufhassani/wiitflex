@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Link } from "react-router-dom";
-import { FormData, schema } from "../schama/signupSchema";
-import useUser, { ResError } from "../hooks/useUser";
+import { FormData, schema } from "../schema/signupSchema";
+import useAuth from "../hooks/useAuth";
+import Spinner from "../components/global/Spinner";
 
 const Signup = () => {
   const {
@@ -19,11 +19,12 @@ const Signup = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { addUser } = useUser();
+  const { signup } = useAuth();
 
   const onSubmit = async (data: FormData) => {
     setIsDisabled(true);
     setIsLoading(true);
+
     const formData = {
       fullName: data.fullName,
       username: data.username,
@@ -31,7 +32,7 @@ const Signup = () => {
       password: data.password,
     };
     try {
-      const res = await addUser(formData);
+      const res = await signup(formData);
       console.log(res);
       setIsError({ email: false, username: false });
       setIsDisabled(false);
@@ -70,7 +71,7 @@ const Signup = () => {
             </label>
             <input
               {...register("username")}
-              className={`py-3 rounded-full indent-3 ${
+              className={`input ${
                 errors.username
                   ? "border-red-500 border-2"
                   : isError.username
@@ -85,13 +86,13 @@ const Signup = () => {
             )}
             {isError.username && <p className="field-error">{errorMsg}</p>}
           </div>
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 font-main">
             <label className="text-slate-50 font-main" htmlFor="fullname">
               Full name
             </label>
             <input
               {...register("fullName")}
-              className={`py-3 rounded-full indent-3
+              className={`input
                 ${errors.fullName && "border-red-500 border-2"}`}
               id="fullname"
               type="text"
@@ -100,13 +101,13 @@ const Signup = () => {
               <p className="field-error">{errors.fullName.message}</p>
             )}
           </div>
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 font-main">
             <label className="text-slate-50 font-main" htmlFor="email">
               E-mail
             </label>
             <input
               {...register("email")}
-              className={`py-3 rounded-full indent-3
+              className={`input
                 ${
                   errors.email
                     ? "border-red-500 border-2"
@@ -128,8 +129,9 @@ const Signup = () => {
             </label>
             <input
               {...register("password")}
-              className={`py-3 rounded-full indent-3
-                ${errors.password && "border-red-500 border-2"}`}
+              className={`input ${
+                errors.password && "border-red-500 border-2"
+              }`}
               id="password"
               type="password"
             />
@@ -137,37 +139,20 @@ const Signup = () => {
               <p className="field-error">{errors.password.message}</p>
             )}
           </div>
-          <div className="flex flex-col gap-3">
-            <label
-              className="text-slate-50 font-main"
-              htmlFor="confirmationPass"
-            >
-              Confirme your password
-            </label>
-            <input
-              {...register("confirmPassword")}
-              className={`py-3 rounded-full indent-3
-                ${errors.confirmPassword && "border-red-500 border-2"}`}
-              id="confirmationPass"
-              type="password"
-            />
-            {errors.confirmPassword && (
-              <p className="field-error">{errors.confirmPassword.message}</p>
-            )}
-          </div>
+
           <div className="mt-5 pr-2 flex items-center justify-between ">
             <button
               disabled={isDisabled}
-              className=" py-3 px-12 bg-red-500 rounded-full text-slate-50 font-main font-semibold hover:bg-red-600"
+              className="flex items-center justify-center gap-2 py-3 px-10 bg-red-500 rounded-full text-slate-50 font-main font-semibold hover:bg-red-600"
               type="submit"
             >
-              Sign-in
+              {isLoading ? <Spinner text="Processing..." /> : "Sign-in"}
             </button>
             <h4>
               Already have an account ?{" "}
               <Link
                 className="text-red-300 hover:text-red-400 transition-colors"
-                to="/sign-up"
+                to="/"
               >
                 Log-in
               </Link>

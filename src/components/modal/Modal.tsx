@@ -16,7 +16,7 @@ const Modal = () => {
 
   if (error) throw error;
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Spinner text="Loading..." />;
 
   const handleCloseModal = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
