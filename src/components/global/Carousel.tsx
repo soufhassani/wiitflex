@@ -15,10 +15,11 @@ import useMovieQuery from "../../store/movieStore";
 
 type Props = {
   movies: Movie[] | undefined;
+  setIsActive: (a: boolean) => void;
 };
-export const Carousel = ({ movies }: Props) => {
+export const Carousel = ({ movies, setIsActive }: Props) => {
   const setMovieQuery = useMovieQuery((s) => s.setMovieQuery);
-  const setModalActive = useModalActive((isActive) => isActive.setModalActive);
+  const setShowMovieDetails = useModalActive((m) => m.setShowMovieDetails);
   const [isFirstSlide, setIsFirstSlide] = useState(true);
   const [isLastSlide, setIsLastSlide] = useState(true);
   const handleOnSwiper = (s: SwiperType) => {
@@ -41,7 +42,8 @@ export const Carousel = ({ movies }: Props) => {
 
   const handleImageClick = (movie: Movie) => {
     setMovieQuery(movie);
-    setModalActive();
+    setShowMovieDetails(true);
+    setIsActive(true);
   };
 
   return (

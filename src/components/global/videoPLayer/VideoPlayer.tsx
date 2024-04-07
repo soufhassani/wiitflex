@@ -57,7 +57,7 @@ const VideoPlayer = (props: Props) => {
       ...s,
       videoProgress: {
         loadedSeconds: progress.loadedSeconds,
-        playedSeconds: progress.loadedSeconds,
+        playedSeconds: progress.playedSeconds,
       },
     }));
   };

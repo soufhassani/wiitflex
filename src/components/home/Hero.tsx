@@ -1,13 +1,29 @@
 import { IoInformationCircleOutline, IoPlayOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 import { Movie } from "../../entities/Movies";
 import { imagePath } from "../../utils/imagePath";
+import useModalActive from "../../store/modalStore";
+import useMovieQuery from "../../store/movieStore";
+import Modal from "../modal/Modal";
+import { useState } from "react";
 
 type Props = {
   movie: Movie | undefined;
 };
 
 const Hero = ({ movie }: Props) => {
+  const [isModalActive, setIsModalActive] = useState(false);
+  const setShowMovieDetails = useModalActive((m) => m.setShowMovieDetails);
+  const showMovieDetails = useModalActive((m) => m.showMovieDetails);
+  const setMovieQuery = useMovieQuery((m) => m.setMovieQuery);
+  if (movie) setMovieQuery(movie);
   const image = imagePath + (movie?.backdrop_path || movie?.poster_path);
+  const id = movie?.id;
+
+  const handleWatchTrailer = () => {
+    setShowMovieDetails(false);
+    setIsModalActive(true);
+  };
   return (
     <section className="min-h-svh w-full">
       <div className="w-full ">
@@ -21,16 +37,30 @@ const Hero = ({ movie }: Props) => {
           </p>
         </div>
         <div className="flex gap-5">
-          <button className="flex items-center justify-center gap-2 bg-red-600 px-10 py-4 rounded-full">
+          <button
+            onClick={handleWatchTrailer}
+            className="flex items-center justify-center gap-2 bg-red-600 px-10 py-4 rounded-full"
+          >
             <IoPlayOutline className="text-slate-50" size="20" />
-            <span className="text-xl font-main">Play</span>
+            <span className="text-xl font-main">Watch Trailer</span>
           </button>
-          <button className="flex items-center justify-center gap-2 border-2 px-10 py-4 rounded-full">
+          <Link
+            className="flex items-center justify-center gap-2 border-2 px-10 py-4 rounded-full"
+            to={
+              movie?.media_type === "movie" ? `/movie/${id}` : `/tv-show/${id}`
+            }
+          >
             <span className="text-xl font-main">More info</span>
             <IoInformationCircleOutline size="20" className="text-slate-50" />
-          </button>
+          </Link>
         </div>
       </div>
+      {isModalActive && (
+        <Modal
+          setActive={setIsModalActive}
+          showMovieDetails={showMovieDetails}
+        />
+      )}
     </section>
   );
 };

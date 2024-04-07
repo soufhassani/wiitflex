@@ -10,7 +10,7 @@ type Props = {
 const MovieBtn = ({ id }: Props) => {
   const movie = useMovieQuery((m) => m.movieQuery);
   return (
-    <div className="px-5">
+    <div className="">
       <Link
         className="flex items-center justify-center gap-2 bg-red-600 px-10 py-4 rounded-full"
         to={movie.media_type === "movie" ? `/movie/${id}` : `/tv-show/${id}`}

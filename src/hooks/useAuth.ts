@@ -40,7 +40,7 @@ const _setIsLoggedin = (setIsLogged: (isLogged:boolean) => void) => {
         setIsLogged(false)
         return false
     }
-    // const _lastUser = JSON.parse(lastUser)
+    
 
     setIsLogged(true)
     return true
@@ -49,6 +49,26 @@ const _setIsLoggedin = (setIsLogged: (isLogged:boolean) => void) => {
 const setLogout = (setIsLogged: (isLogged:boolean) => void) => {
     eraseCookie("lg-u");
     setIsLogged(false)
+}
+const getUser = () => {
+    const lastUser = getCookie("lg-u");
+    if(!lastUser) return;
+    const users = getCookie("users");
+    if(!users) return
+    const _users:SignupUser[] = JSON.parse(users)
+    const _lastUser:LoginUser = JSON.parse(lastUser)
+
+    const user: SignupUser | undefined = _users.find(u => u.email === _lastUser.email)
+    if (!user) return
+
+    return user
+}
+
+const getUsers = () => {
+    const users = getCookie("users");
+    if(!users) return
+    const _users:SignupUser[] = JSON.parse(users)
+    return _users
 }
 
 
@@ -60,7 +80,7 @@ const useAuth = () => {
     const isLoggedin = () => {
         _setIsLoggedin(setIsLoggedin)
     }
-    return {signup, login, logout, isLoggedin}
+    return {signup, login, logout, isLoggedin, getUser, getUsers}
 }
 export default useAuth
 

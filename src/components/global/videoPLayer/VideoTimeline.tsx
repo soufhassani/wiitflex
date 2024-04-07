@@ -55,6 +55,7 @@ const VideoTimeline = ({
     const delta =
       Math.min(Math.max(0, cursorX - timelineX), timelineWidth) / timelineWidth;
 
+    console.log("playerConfig.videoDuration: ", playerConfig.videoDuration);
     if (isScrubbing) {
       const videoTime = playerConfig.videoDuration * delta;
       if (seekTo) seekTo(videoTime, "seconds");
@@ -88,6 +89,8 @@ const VideoTimeline = ({
   useEffect(() => {
     const _playedSeconds = (playedSeconds / playerConfig.videoDuration) * 100;
     const _loadedSeconds = (loadedSeconds / playerConfig.videoDuration) * 100;
+    console.log("_playedSeconds: ", _playedSeconds);
+    console.log("_loadedSeconds: ", _loadedSeconds);
     if (knobIndicator.current) {
       knobIndicator.current.style.left = `${setToFull(_playedSeconds)}%`;
     }

@@ -3,20 +3,36 @@ import Modal from "../modal/Modal";
 import Spinner from "../global/Spinner";
 import { Carousel } from "../global/Carousel";
 import useModalActive from "../../store/modalStore";
+import { useState } from "react";
 
 const TrendingMovies = () => {
-  const isModalActive = useModalActive((isActive) => isActive.modalActive);
   const { data, isLoading, error } = useTrendingMovies();
+
+  const [isModalActive, setIsModalActive] = useState(false);
+  const showMovieDetails = useModalActive((m) => m.showMovieDetails);
+
   if (error) throw error;
-  if (isLoading) return <Spinner text="Loading..." />;
 
   return (
     <section className="px-10 pb-8">
-      <div className="py-3">
-        <h2 className="font-main text-xl font-medium">Trending now</h2>
-      </div>
-      <Carousel movies={data?.results} />
-      {isModalActive && <Modal />}
+      {isLoading ? (
+        <Spinner text="Loading..." />
+      ) : (
+        <>
+          <div className="py-3">
+            <h2 className="font-main text-xl font-medium">Trending now</h2>
+          </div>
+          <Carousel movies={data?.results} setIsActive={setIsModalActive} />
+          {isModalActive ? (
+            <Modal
+              setActive={setIsModalActive}
+              showMovieDetails={showMovieDetails}
+            />
+          ) : (
+            ""
+          )}
+        </>
+      )}
     </section>
   );
 };
