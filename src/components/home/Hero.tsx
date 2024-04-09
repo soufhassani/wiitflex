@@ -4,7 +4,7 @@ import { Movie } from "../../entities/Movies";
 import { imagePath } from "../../utils/imagePath";
 import useModalActive from "../../store/modalStore";
 import useMovieQuery from "../../store/movieStore";
-import Modal from "../modal/Modal";
+import Modal from "../modal/VideoModal";
 import { useState } from "react";
 
 type Props = {

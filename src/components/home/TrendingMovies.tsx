@@ -1,5 +1,5 @@
 import useTrendingMovies from "../../hooks/useTrendingMovies";
-import Modal from "../modal/Modal";
+import Modal from "../modal/VideoModal";
 import Spinner from "../global/Spinner";
 import { Carousel } from "../global/Carousel";
 import useModalActive from "../../store/modalStore";

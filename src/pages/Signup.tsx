@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FormData, schema } from "../schema/signupSchema";
 import useAuth from "../hooks/useAuth";
 import Spinner from "../components/global/Spinner";
+import NotificationModal from "../components/modal/NotificationModal";
 
 const Signup = () => {
   const {
@@ -19,6 +20,12 @@ const Signup = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isModalActive, setIsModalActive] = useState(false);
+  const [modalState, setModalState] = useState<"success" | "error">("success");
+  const [modalMsg, setModalMsg] = useState("");
+  const timer = 5;
+  const navigate = useNavigate();
+
   const { signup } = useAuth();
 
   const onSubmit = async (data: FormData) => {
@@ -32,11 +39,15 @@ const Signup = () => {
       password: data.password,
     };
     try {
-      const res = await signup(formData);
-      console.log(res);
+      await signup(formData);
       setIsError({ email: false, username: false });
-      setIsDisabled(false);
       setIsLoading(false);
+      setIsModalActive(true);
+      setModalState("success");
+      setModalMsg(
+        "Your account successfully created, you will be redirected to login in a moment."
+      );
+      setTimeout(() => navigate("/"), timer * 1000);
     } catch (error) {
       const err = error as Error;
       if (err.name === "username") setIsError({ ...isError, username: true });
@@ -70,7 +81,6 @@ const Signup = () => {
               Username
             </label>
             <input
-              {...register("username")}
               className={`input ${
                 errors.username
                   ? "border-red-500 border-2"
@@ -80,6 +90,7 @@ const Signup = () => {
               }`}
               id="username"
               type="text"
+              {...register("username")}
             />
             {errors.username && (
               <p className="field-error">{errors.username.message}</p>
@@ -91,11 +102,11 @@ const Signup = () => {
               Full name
             </label>
             <input
-              {...register("fullName")}
               className={`input
-                ${errors.fullName && "border-red-500 border-2"}`}
+              ${errors.fullName && "border-red-500 border-2"}`}
               id="fullname"
               type="text"
+              {...register("fullName")}
             />
             {errors.fullName && (
               <p className="field-error">{errors.fullName.message}</p>
@@ -106,17 +117,17 @@ const Signup = () => {
               E-mail
             </label>
             <input
-              {...register("email")}
               className={`input
-                ${
-                  errors.email
-                    ? "border-red-500 border-2"
-                    : isError.email
-                    ? "border-red-500 border-2"
-                    : ""
-                }`}
+              ${
+                errors.email
+                  ? "border-red-500 border-2"
+                  : isError.email
+                  ? "border-red-500 border-2"
+                  : ""
+              }`}
               id="email"
               type="text"
+              {...register("email")}
             />
             {errors.email && (
               <p className="field-error">{errors.email.message}</p>
@@ -128,12 +139,12 @@ const Signup = () => {
               Password
             </label>
             <input
-              {...register("password")}
               className={`input ${
                 errors.password && "border-red-500 border-2"
               }`}
               id="password"
               type="password"
+              {...register("password")}
             />
             {errors.password && (
               <p className="field-error">{errors.password.message}</p>
@@ -165,6 +176,15 @@ const Signup = () => {
           </div>
         </form>
       </div>
+      {isModalActive && (
+        <NotificationModal
+          msg={modalMsg}
+          time={timer}
+          redirect={true}
+          setActive={setIsModalActive}
+          state={modalState}
+        />
+      )}
     </section>
   );
 };

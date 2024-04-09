@@ -2,26 +2,74 @@ import { FaStar } from "react-icons/fa6";
 import { IoAdd } from "react-icons/io5";
 import { TiDelete } from "react-icons/ti";
 import useMovieQuery from "../../../store/movieStore";
+import useAuth from "../../../hooks/useAuth";
+import { useEffect, useState } from "react";
+import { setCookie } from "../../../utils/cookies";
 
 const HeroDetails = () => {
   const selectedMovie = useMovieQuery((s) => s.selectedMovie);
-  const setSelectedMovie = useMovieQuery((s) => s.setSelectedMovie);
+  const [is_watchlist, setIs_watchlist] = useState(false);
+  const { getUser, getUsers } = useAuth();
 
   const rating = selectedMovie.vote_average?.toFixed(1);
 
   const handleAddToWatchlist = () => {
-    const data = { ...selectedMovie, is_watchlist: true };
-    localStorage.setItem("WMovie", JSON.stringify(data));
-    setSelectedMovie(data);
+    const user = getUser()!;
+    const allUser = getUsers()!;
+    const idx = allUser.findIndex((u) => u.email === user.email);
+    const data = selectedMovie;
+    if (idx === undefined || idx === null) return;
+    console.log(allUser[idx]);
+    allUser[idx].watchList.push(data);
+    setIs_watchlist(true);
+    const newUsers = JSON.stringify(allUser);
+    setCookie({ name: "users", value: newUsers, days: 30 });
   };
   const handleRemoveFromWatchlist = () => {
-    const data = { ...selectedMovie, is_watchlist: false };
-    localStorage.setItem("WMovie", JSON.stringify(data));
-    setSelectedMovie(data);
+    const user = getUser();
+    const allUser = getUsers()!;
+    const idx = allUser?.findIndex((u) => u.email === user?.email);
+    const data = selectedMovie;
+    if (idx === undefined || idx === null) return;
+
+    const indx = allUser[idx].watchList.findIndex((w) => w.id === data.id);
+    if (indx === undefined || indx === null) return;
+    allUser[idx].watchList.splice(indx, 1);
+
+    setIs_watchlist(false);
+    const newUsers = JSON.stringify(allUser);
+    setCookie({ name: "users", value: newUsers, days: 30 });
   };
+
+  useEffect(() => {
+    const chckerIsWatchlist = () => {
+      const user = getUser()!;
+      const allUser = getUsers()!;
+      const idx = allUser?.findIndex((u) => u.email === user.email);
+      const data = selectedMovie;
+      if (idx === undefined || idx === null) {
+        setIs_watchlist(false);
+        return;
+      }
+
+      const indx = allUser[idx].watchList.findIndex((w) => w.id === data.id);
+      if (indx === undefined || indx === null) {
+        setIs_watchlist(false);
+        return;
+      }
+
+      setIs_watchlist(true);
+    };
+
+    chckerIsWatchlist();
+  }, []);
+
   return (
     <div className="absolute bottom-12 left-0 w-full px-10 flex justify-between z-20">
       <div className="flex flex-col justify-end">
+        <h2 className="uppercase font-main font-bold text-slate-50 text-3xl mb-9 ">
+          {selectedMovie.name || selectedMovie.title}
+        </h2>
         <h6>
           <span className="text-slate-50">Original title: </span>
           <span className="text-slate-300">{selectedMovie.original_title}</span>
@@ -51,7 +99,7 @@ const HeroDetails = () => {
           </div>
         </div>
         <div className="">
-          {selectedMovie.is_watchlist ? (
+          {is_watchlist ? (
             <button
               onClick={handleRemoveFromWatchlist}
               className="flex items-center gap-1 border-2 rounded-full py-3 px-6 border-red-500 bg-red-500 transition-all "

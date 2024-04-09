@@ -55,10 +55,10 @@ const getUser = () => {
     if(!lastUser) return;
     const users = getCookie("users");
     if(!users) return
-    const _users:SignupUser[] = JSON.parse(users)
-    const _lastUser:LoginUser = JSON.parse(lastUser)
+    const _users:User[] = JSON.parse(users)
+    const _lastUser:User = JSON.parse(lastUser)
 
-    const user: SignupUser | undefined = _users.find(u => u.email === _lastUser.email)
+    const user: User | undefined = _users.find(u => u.email === _lastUser.email)
     if (!user) return
 
     return user
@@ -67,7 +67,7 @@ const getUser = () => {
 const getUsers = () => {
     const users = getCookie("users");
     if(!users) return
-    const _users:SignupUser[] = JSON.parse(users)
+    const _users:User[] = JSON.parse(users)
     return _users
 }
 
@@ -94,6 +94,7 @@ async function addUser({ fullName, username, email, password }:SignupUser){
         username,
         email,
         password,
+        watchList: []
     };
 
     if (!prev) {

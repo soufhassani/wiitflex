@@ -61,7 +61,7 @@ const Login = () => {
         >
           <div>
             <h2 className="text-slate-50 font-main text-4xl font-semibold">
-              Sign-up
+              Login
             </h2>
           </div>
 
@@ -111,7 +111,7 @@ const Login = () => {
               className="flex items-center justify-center gap-2 py-3 px-10 bg-red-500 rounded-full text-slate-50 font-main font-semibold hover:bg-red-600"
               type="submit"
             >
-              {isLoading ? <Spinner text="Processing..." /> : "Sign-in"}
+              {isLoading ? <Spinner text="Processing..." /> : "Login"}
             </button>
             <h4>
               Don't have an account ?{" "}

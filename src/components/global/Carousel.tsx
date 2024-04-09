@@ -61,6 +61,7 @@ export const Carousel = ({ movies, setIsActive }: Props) => {
           className="!transition-[transform,opacity] !duration[250ms]"
         >
           <img
+            className="cursor-pointer"
             src={imagePath + (m?.backdrop_path || m?.poster_path)}
             onClick={() => handleImageClick(m)}
           />

@@ -8,9 +8,9 @@ const Routers = () => {
   isLoggedin();
   const isLogged = useAuthQuery((s) => s.isLoggedin);
 
-  return (
-    <RouterProvider router={isLogged ? signingInRouter : signingOutRouter} />
-  );
+  const router = isLogged ? signingInRouter : signingOutRouter;
+
+  return <RouterProvider router={router} />;
 };
 
 export default Routers;

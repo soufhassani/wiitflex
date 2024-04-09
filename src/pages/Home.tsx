@@ -14,11 +14,13 @@ const Home = () => {
     const randomNumber = Math.floor(Math.random() * data.results.length);
     randomMovie = data.results[randomNumber];
   }
+  const is_watchList = () => {};
 
   return (
     <>
       <Hero movie={randomMovie} />
       <TrendingMovies />
+      <Watchlist />
     </>
   );
 };
