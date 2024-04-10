@@ -132,7 +132,6 @@ async function addUser({ fullName, username, email, password }:SignupUser){
 
 async function checkToLogin(user:LoginUser){
     const prev = getCookie("users");
-    console.log('prev: ', prev)
     if(!prev) {
         const error:Error = {message: "Email doesn't exist",name:"email"}
             const res = await fakeCreation(error, true)
@@ -153,7 +152,7 @@ async function checkToLogin(user:LoginUser){
         
         const userArr = [user]
         const res = await fakeLogin(userArr)
-        console.log(userFound)
+        
         return res
 
 }

@@ -17,7 +17,7 @@ const Clips = () => {
   const behindScenes = movie!.videos!.results.filter(
     (element) => element.type === "Behind the Scenes"
   );
-  console.log("clips: ", clips);
+
   return (
     <section className="px-10 pt-5 pb-20 ">
       <div className="flex flex-col gap-20 ">

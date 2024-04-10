@@ -9,9 +9,7 @@ const Video = ({ movie }: Props) => {
   const videoIdx = movie?.videos?.results.findIndex(
     (element) => element.type === "Trailer"
   );
-  console.log("video IDX : ", videoIdx);
   const videoTrailer = movie?.videos?.results[videoIdx!].key;
-  console.log(videoTrailer);
 
   return (
     <>

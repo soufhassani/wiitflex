@@ -32,8 +32,7 @@ const Login = () => {
       password: data.password,
     };
     try {
-      const res = await login(formData);
-      console.log(res);
+      await login(formData);
       setIsError({ email: false, password: false });
       setIsLogged(true);
     } catch (error) {

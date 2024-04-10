@@ -5,7 +5,7 @@ import useAuth from "../../hooks/useAuth";
 const User = () => {
   const { logout, getUser } = useAuth();
   const user = getUser();
-  console.log(user);
+
   const [activeMenu, setActiveMenu] = useState(false);
   const navMenu = useRef(null);
   const handleUserClick = () => {

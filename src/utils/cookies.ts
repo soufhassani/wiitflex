@@ -3,14 +3,21 @@ type SetCookie={
     value:string,
     days:number
 }
+type SetLocalStorage = {
+    key:string,
+    value:string,
+}
 export function setCookie({name,value,days}: SetCookie) {
+    console.log("name: ", name)
+    console.log("value: ", value)
     let expires = "";
     if (days) {
         const date = new Date();
         date.setTime(date.getTime() + (days*24*60*60*1000));
         expires = "; expires=" + date.toUTCString();
     }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    console.log(name + "=" + value ? value : ""  + expires + "; path=/")
+    document.cookie = name + "=" + value ? value : ""  + expires + "; path=/";
 }
 export function getCookie(name:string) {
     const nameEQ = name + "=";
@@ -26,3 +33,19 @@ export function eraseCookie(name:string) {
     document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
+
+export function setStorage({key, value}:SetLocalStorage ){
+    localStorage.setItem(key, JSON.stringify(value));
+}
+
+export function getStorage(name: string) {
+    const item = localStorage.getItem(name);
+    if (item) {
+        const value = JSON.parse(item);
+        return value;
+    }
+    return null;
+}
+export function eraseStorage(name: string) {
+    localStorage.removeItem(name);
+}

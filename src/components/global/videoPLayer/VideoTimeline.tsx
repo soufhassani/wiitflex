@@ -55,7 +55,6 @@ const VideoTimeline = ({
     const delta =
       Math.min(Math.max(0, cursorX - timelineX), timelineWidth) / timelineWidth;
 
-    console.log("playerConfig.videoDuration: ", playerConfig.videoDuration);
     if (isScrubbing) {
       const videoTime = playerConfig.videoDuration * delta;
       if (seekTo) seekTo(videoTime, "seconds");
@@ -76,7 +75,6 @@ const VideoTimeline = ({
       Math.min(Math.max(0, cursorX - timelineX), timelineWidth) / timelineWidth;
     // setIsScrubbing(true);
 
-    console.log("onclick Delta: ", delta);
     const videoTime = playerConfig.videoDuration * delta;
     if (knobIndicator.current) {
       const knobPosition = `${delta * 100}%`;
@@ -89,8 +87,7 @@ const VideoTimeline = ({
   useEffect(() => {
     const _playedSeconds = (playedSeconds / playerConfig.videoDuration) * 100;
     const _loadedSeconds = (loadedSeconds / playerConfig.videoDuration) * 100;
-    console.log("_playedSeconds: ", _playedSeconds);
-    console.log("_loadedSeconds: ", _loadedSeconds);
+
     if (knobIndicator.current) {
       knobIndicator.current.style.left = `${setToFull(_playedSeconds)}%`;
     }

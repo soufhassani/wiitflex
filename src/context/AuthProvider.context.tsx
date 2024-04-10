@@ -101,7 +101,6 @@ const checkIfLoggedIn = (
   userSetter: React.Dispatch<React.SetStateAction<null>>
 ) => {
   const getToken = getCookie("token");
-  console.log("getToken", getToken);
   if (!getToken) return false;
   const getUserInLocal = getCookie("user");
   if (!getUserInLocal) return false;

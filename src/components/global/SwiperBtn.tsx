@@ -9,17 +9,15 @@ type Props = {
 
 const SwiperBtn = ({ dataLength, isFirstSlide, isLastSlide }: Props) => {
   const swiper = useSwiper();
+
   const handleNextSlide = () => {
     swiper.slideNext();
-    console.log("active idx: ", swiper.activeIndex);
-    console.log("lastSlideIdx: ", lastSlideIdx);
   };
   const handlePrevSlide = () => {
     swiper.slidePrev();
-    console.log(swiper);
   };
 
-  const lastSlideIdx = dataLength ? dataLength - 1 : 0;
+  // const lastSlideIdx = dataLength ? dataLength - 1 : 0;
 
   return (
     <>
@@ -28,7 +26,13 @@ const SwiperBtn = ({ dataLength, isFirstSlide, isLastSlide }: Props) => {
         onClick={handleNextSlide}
         className={
           "absolute top-[50%] right-[-40px] translate-y-[-50%] h-full w-[30px] bg-[rgba(0,0,0,0.7)] transition-all duration-200 ease-in z-10" +
-          `${isLastSlide ? " pointer-events-none opacity-0" : ""}`
+          `${
+            isLastSlide
+              ? " pointer-events-none opacity-0"
+              : dataLength! - 1 === 0
+              ? " pointer-events-none opacity-0"
+              : ""
+          }`
         }
       >
         <FaChevronRight
