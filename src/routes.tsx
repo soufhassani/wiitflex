@@ -14,11 +14,7 @@ export const signingInRouter = createBrowserRouter([
     children: [
       { index: true, Component: lazy(() => import("./pages/Home")) },
       {
-        path: "movie/:id",
-        Component: lazy(() => import("./pages/MoviePage")),
-      },
-      {
-        path: "tv-show/:id",
+        path: ":type/:id",
         Component: lazy(() => import("./pages/MoviePage")),
       },
     ],

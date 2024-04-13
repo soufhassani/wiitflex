@@ -41,6 +41,7 @@ export const Carousel = ({ movies, setIsActive }: Props) => {
   };
 
   const handleImageClick = (movie: Movie) => {
+    console.log("movie: ", movie);
     setMovieQuery(movie);
     setShowMovieDetails(true);
     setIsActive(true);

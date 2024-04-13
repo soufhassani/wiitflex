@@ -12,11 +12,16 @@ type Props = {
 
 const Modal = ({ showMovieDetails, setActive }: Props) => {
   const movie = useMovieQuery((m) => m.movieQuery);
+  const heroMovie = useMovieQuery((m) => m.heroMovie);
+  const isMovie = showMovieDetails ? movie : heroMovie;
+
   const { data, isLoading, error } = useMovie({
-    id: movie.id,
-    mediaType: movie.media_type,
+    id: isMovie.id,
+    mediaType: isMovie.media_type,
   });
 
+  console.log("movie Modal: ", movie);
+  console.log("movie data: ", data);
   const height = showMovieDetails ? "h-full" : "h-auto";
   if (error) throw error;
 

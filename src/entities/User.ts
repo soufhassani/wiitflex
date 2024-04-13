@@ -1,12 +1,10 @@
-import { Movie } from "./Movies";
-
 type User = {
-    id: string;
-    fullName: string | "";
-    username: string | "";
-    email: string | "";
-    password: string | "";
-    watchList: Movie[];
-}
+  id: string;
+  fullName: string | "";
+  username: string | "";
+  email: string | "";
+  password: string | "";
+  watchList: number[];
+};
 // token: string | "";
-export default User
+export default User;

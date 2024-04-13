@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Movie } from "../../entities/Movies";
 import { imagePath } from "../../utils/imagePath";
 import useModalActive from "../../store/modalStore";
-import useMovieQuery from "../../store/movieStore";
 import Modal from "../modal/VideoModal";
 import { useState } from "react";
 
@@ -15,8 +14,7 @@ const Hero = ({ movie }: Props) => {
   const [isModalActive, setIsModalActive] = useState(false);
   const setShowMovieDetails = useModalActive((m) => m.setShowMovieDetails);
   const showMovieDetails = useModalActive((m) => m.showMovieDetails);
-  const setMovieQuery = useMovieQuery((m) => m.setMovieQuery);
-  if (movie) setMovieQuery(movie);
+
   const image = imagePath + (movie?.backdrop_path || movie?.poster_path);
   const id = movie?.id;
 
@@ -46,9 +44,7 @@ const Hero = ({ movie }: Props) => {
           </button>
           <Link
             className="flex items-center justify-center gap-2 border-2 px-10 py-4 rounded-full"
-            to={
-              movie?.media_type === "movie" ? `/movie/${id}` : `/tv-show/${id}`
-            }
+            to={`/movie/${id}`}
           >
             <span className="text-xl font-main">More info</span>
             <IoInformationCircleOutline size="20" className="text-slate-50" />

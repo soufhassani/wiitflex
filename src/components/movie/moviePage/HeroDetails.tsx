@@ -4,43 +4,67 @@ import { TiDelete } from "react-icons/ti";
 import useMovieQuery from "../../../store/movieStore";
 import useAuth from "../../../hooks/useAuth";
 import { useEffect, useState } from "react";
-import { getStorage, setCookie } from "../../../utils/cookies";
+import { getStorage, setCookie, setStorage } from "../../../utils/cookies";
+import { Movie } from "../../../entities/Movies";
 
 const HeroDetails = () => {
   const selectedMovie = useMovieQuery((s) => s.selectedMovie);
   const [is_watchlist, setIs_watchlist] = useState(false);
   const { getUser, getUsers } = useAuth();
 
+  console.log("selectedMovie: ", selectedMovie);
   const rating = selectedMovie.vote_average?.toFixed(1);
 
   const handleAddToWatchlist = () => {
     const user = getUser()!;
-    const data = selectedMovie;
+    const allUser = getUsers()!;
+    const idx = allUser?.findIndex((u) => u.email === user?.email);
+    if (idx === undefined || idx === null) return;
 
-    const watchlist = getStorage("wt_li");
-    // if (idx === undefined || idx === null) return;
-    // console.log(allUser[idx]);
-    // allUser[idx].watchList.push(data);
-    // console.log("allUSers after: ", allUser[idx]);
-    // const newUsers = JSON.stringify(allUser);
-    // setCookie({ name: "users", value: newUsers, days: 30 });
+    allUser[idx].watchList.push(selectedMovie.id);
+    const newUsers = JSON.stringify(allUser);
+
+    setCookie({ name: "users", value: newUsers, days: 30 });
+
+    const watchlist: Movie[] = getStorage("wt_li");
+
+    if (!watchlist) {
+      const movie: Movie[] = [selectedMovie];
+      console.log(JSON.stringify(movie));
+      setStorage({ key: "wt_li", value: JSON.stringify(movie) });
+    } else {
+      watchlist.push(selectedMovie);
+      setStorage({ key: "wt_li", value: JSON.stringify(watchlist) });
+    }
+
     setIs_watchlist(true);
-    // eraseCookie("users");
   };
   const handleRemoveFromWatchlist = () => {
     const user = getUser();
     const allUser = getUsers()!;
     const idx = allUser?.findIndex((u) => u.email === user?.email);
-    const data = selectedMovie;
     if (idx === undefined || idx === null) return;
 
-    const indx = allUser[idx].watchList.findIndex((w) => w.id === data.id);
+    const indx = allUser[idx].watchList.findIndex(
+      (id) => id === selectedMovie.id
+    );
+
     if (indx === undefined || indx === null) return;
+
     allUser[idx].watchList.splice(indx, 1);
+    const newUsers = JSON.stringify(allUser);
+    const watchlist: Movie[] = getStorage("wt_li");
+    if (!watchlist)
+      return setCookie({ name: "users", value: newUsers, days: 30 });
+
+    const getWatchlistIndx = watchlist.findIndex(
+      (m) => m.id === selectedMovie.id
+    );
+    watchlist.splice(getWatchlistIndx, 1);
+    const newWatchlist = JSON.stringify(watchlist);
+    setStorage({ key: "wt_li", value: newWatchlist });
 
     setIs_watchlist(false);
-    const newUsers = JSON.stringify(allUser);
-    setCookie({ name: "users", value: newUsers, days: 30 });
   };
 
   useEffect(() => {
@@ -53,9 +77,7 @@ const HeroDetails = () => {
         setIs_watchlist(false);
         return;
       }
-
-      const indx = allUser[idx].watchList.findIndex((w) => w.id === data.id);
-      console.log("indx of movie", indx);
+      const indx = allUser[idx].watchList.findIndex((id) => id === data.id);
       if (indx === undefined || indx === null || indx < 0) {
         setIs_watchlist(false);
         return;

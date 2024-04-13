@@ -3,6 +3,9 @@ import { imagePath } from "../../../utils/imagePath";
 
 const BackgroundImage = () => {
   const selectedMovie = useMovieQuery((s) => s.selectedMovie);
+  console.log("selectedMovie: ", selectedMovie);
+  console.log("selectedMovie?.backdrop_path: ", selectedMovie?.backdrop_path);
+  console.log("selectedMovie?.poster_path: ", selectedMovie?.poster_path);
   const image =
     imagePath + (selectedMovie?.backdrop_path || selectedMovie?.poster_path);
   return (

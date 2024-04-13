@@ -29,7 +29,7 @@ const SwiperBtn = ({ dataLength, isFirstSlide, isLastSlide }: Props) => {
           `${
             isLastSlide
               ? " pointer-events-none opacity-0"
-              : dataLength! - 1 === 0
+              : dataLength! - 1 < 5
               ? " pointer-events-none opacity-0"
               : ""
           }`
