@@ -18,6 +18,19 @@ const Clips = () => {
     (element) => element.type === "Behind the Scenes"
   );
 
+  if (!trailer && clips.length < 1 && behindScenes.length < 1)
+    return (
+      <div className="min-h-[50svh] flex items-center justify-center">
+        <h2 className="text-3xl font-main text-center">
+          There is clips available for this movie... .
+        </h2>
+      </div>
+    );
+
+  console.log("trailer :", trailer);
+  console.log("clips :", clips);
+  console.log("behindScenes :", behindScenes);
+
   return (
     <section className="px-10 pt-5 pb-20 ">
       <div className="flex flex-col gap-20 ">

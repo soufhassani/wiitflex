@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import { Movie } from "../../entities/Movies";
 import { imagePath } from "../../utils/imagePath";
 import useModalActive from "../../store/modalStore";
-import Modal from "../modal/VideoModal";
+import VideoModal from "../modal/VideoModal";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 type Props = {
   movie: Movie | undefined;
@@ -29,7 +30,12 @@ const Hero = ({ movie }: Props) => {
       </div>
       <div className="absolute top-0 left-0 flex flex-col gap-14 justify-center items-start px-10 bg-gradient-to-t from-[#0f0f0f] to-transparent  w-full h-full z-20">
         <div className="max-w-[60%] flex flex-col gap-5">
-          <h2 className="text-7xl font-main font-bold">{movie?.title}</h2>
+          <motion.h2
+            layoutId="movieTitle"
+            className="text-7xl font-main font-bold"
+          >
+            {movie?.title}
+          </motion.h2>
           <p className="max-w-[80%] font-main text-lg text-justify">
             {movie?.overview}
           </p>
@@ -52,7 +58,7 @@ const Hero = ({ movie }: Props) => {
         </div>
       </div>
       {isModalActive && (
-        <Modal
+        <VideoModal
           setActive={setIsModalActive}
           showMovieDetails={showMovieDetails}
         />

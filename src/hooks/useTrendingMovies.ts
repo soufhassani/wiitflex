@@ -7,6 +7,7 @@ const useTrendingMovies = () =>
   useQuery({
     queryKey: ["Trending", "/trending"],
     queryFn: () => apiClient.get("week"),
+    gcTime: 0,
   });
 
 export default useTrendingMovies;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Carousel } from "../global/Carousel";
-import Modal from "../modal/VideoModal";
+import VideoModal from "../modal/VideoModal";
 import useModalActive from "../../store/modalStore";
 import { Movie } from "../../entities/Movies";
 
@@ -25,7 +25,7 @@ const Watchlist = ({ watchlist }: Props) => {
       </div>
       <Carousel movies={watchlist} setIsActive={setIsModalActive} />
       {isModalActive && (
-        <Modal
+        <VideoModal
           setActive={setIsModalActive}
           showMovieDetails={showMovieDetails}
         />

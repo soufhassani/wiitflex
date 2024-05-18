@@ -3,13 +3,29 @@ import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
 const User = () => {
+  const navMenu = useRef<HTMLDivElement>(null);
   const { logout, getUser } = useAuth();
   const user = getUser();
 
   const [activeMenu, setActiveMenu] = useState(false);
-  const navMenu = useRef(null);
+  const closeMenu = (e: MouseEvent) => {
+    if (
+      navMenu.current &&
+      e.target instanceof Node &&
+      !navMenu.current.contains(e.target)
+    ) {
+      if (
+        e.target !== navMenu.current ||
+        !navMenu.current?.contains(e.target)
+      ) {
+        setActiveMenu(false);
+        window.removeEventListener("click", closeMenu);
+      }
+    }
+  };
   const handleUserClick = () => {
     setActiveMenu(!activeMenu);
+    window.addEventListener("click", closeMenu);
   };
 
   const handleLogout = () => {
@@ -17,7 +33,7 @@ const User = () => {
   };
 
   return (
-    <div className="flex items-center gap-3">
+    <div ref={navMenu} className="flex items-center gap-3">
       {user?.username ? (
         <span className="select-none">Hello, {user.username}</span>
       ) : (
@@ -49,14 +65,3 @@ const User = () => {
 };
 
 export default User;
-
-// function isDescendant(child: HTMLElement, parent: HTMLElement): boolean {
-//   let currentElement: HTMLElement | null = child.parentElement;
-//   while (currentElement !== null) {
-//     if (currentElement === parent) {
-//       return true;
-//     }
-//     currentElement = currentElement.parentElement;
-//   }
-//   return false;
-// }

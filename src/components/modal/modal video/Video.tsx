@@ -12,7 +12,12 @@ const Video = ({ movie }: Props) => {
   );
   if (videoIdx < 0)
     return (
-      <img src={imagePath + (movie?.backdrop_path || movie?.poster_path)} />
+      <div className="relative">
+        <img src={imagePath + (movie?.backdrop_path || movie?.poster_path)} />
+        <h2 className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 font-main text-3xl text-center ">
+          There is no trailer available for this movie... .
+        </h2>
+      </div>
     );
 
   console.log("videoIdx: ", videoIdx);

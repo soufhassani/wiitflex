@@ -6,6 +6,7 @@ import useAuth from "../../../hooks/useAuth";
 import { useEffect, useState } from "react";
 import { getStorage, setCookie, setStorage } from "../../../utils/cookies";
 import { Movie } from "../../../entities/Movies";
+import { motion } from "framer-motion";
 
 const HeroDetails = () => {
   const selectedMovie = useMovieQuery((s) => s.selectedMovie);
@@ -92,9 +93,12 @@ const HeroDetails = () => {
   return (
     <div className="absolute bottom-12 left-0 w-full px-10 flex justify-between z-20">
       <div className="flex flex-col justify-end">
-        <h2 className="uppercase font-main font-bold text-slate-50 text-3xl mb-9 ">
+        <motion.h2
+          layoutId="movieTitle"
+          className="uppercase font-main font-bold text-slate-50 text-3xl mb-9 "
+        >
           {selectedMovie.name || selectedMovie.title}
-        </h2>
+        </motion.h2>
         <h6>
           <span className="text-slate-50">Original title: </span>
           <span className="text-slate-300">{selectedMovie.original_title}</span>

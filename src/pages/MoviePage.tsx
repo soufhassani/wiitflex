@@ -8,7 +8,6 @@ import Clips from "../components/movie/moviePage/Clips";
 
 const MoviePage = () => {
   const { type, id } = useParams();
-  console.log("type: ", type);
   const setMovie = useMovieQuery((s) => s.setSelectedMovie);
   const theID = Number(id);
 

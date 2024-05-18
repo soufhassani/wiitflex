@@ -9,7 +9,7 @@ type Props = {
 
 const MovieDetails = ({ movie }: Props) => {
   return (
-    <div className="flex flex-col justify-between w-full h-1/3 py-5 px-10">
+    <div className="flex flex-col gap-5 justify-between w-full h-1/3 py-5 px-10 relative pb-12">
       <div className="flex gap-10">
         <div className="flex flex-col gap-4 w-full">
           <MovieTitle title={movie?.title} name={movie?.name} />

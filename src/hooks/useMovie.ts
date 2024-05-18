@@ -20,6 +20,7 @@ const useMovie = ({ mediaType, id }: Props) => {
       apiClient.getMovie({
         params: { append_to_response: "videos" },
       }),
+    gcTime: 0,
   });
 };
 
