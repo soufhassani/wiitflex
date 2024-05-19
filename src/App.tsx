@@ -5,13 +5,6 @@ import Routers from "./pages/Routers";
 
 const queryClient = new QueryClient();
 function App() {
-  // const setMovie = useMovieQuery((m) => m.setSelectedMovie);
-  // useEffect(() => {
-  //   const movie = localStorage.getItem("WMovie");
-  //   if (movie) {
-  //     setMovie(JSON.parse(movie));
-  //   }
-  // }, []);
   return (
     <QueryClientProvider client={queryClient}>
       <Suspense fallback={null} />

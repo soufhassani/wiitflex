@@ -1,5 +1,5 @@
 import { IoInformationCircleOutline, IoPlayOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Movie } from "../../entities/Movies";
 import { imagePath } from "../../utils/imagePath";
 import useModalActive from "../../store/modalStore";
@@ -15,6 +15,27 @@ const Hero = ({ movie }: Props) => {
   const [isModalActive, setIsModalActive] = useState(false);
   const setShowMovieDetails = useModalActive((m) => m.setShowMovieDetails);
   const showMovieDetails = useModalActive((m) => m.showMovieDetails);
+  const navigate = useNavigate();
+  const animation = {
+    hidden: {
+      y: "100%",
+      opacity: "0",
+      // transitionTimingFunction: "cubic-bezier(.22,.68,0,1.71)",
+      transitionTimingFunction: "cubic-bezier(.22,.68,0,1.71)",
+      transitionDuration: "0.3s",
+    },
+    show: {
+      y: 0,
+      opacity: "1",
+      transitionTimingFunction: "cubic-bezier(.22,.68,0,1.71)",
+      transitionDuration: "0.3s",
+    },
+  };
+
+  // const item = {
+  //   hidden: { opacity: 0 },
+  //   show: { opacity: 1 }
+  // }
 
   const image = imagePath + (movie?.backdrop_path || movie?.poster_path);
   const id = movie?.id;
@@ -22,6 +43,11 @@ const Hero = ({ movie }: Props) => {
   const handleWatchTrailer = () => {
     setShowMovieDetails(false);
     setIsModalActive(true);
+  };
+
+  const handleNavigateTo = () => {
+    window.scrollTo({ top: 0 });
+    navigate(`/movie/${id}`, { state: movie });
   };
   return (
     <section className="min-h-svh w-full">
@@ -40,21 +66,27 @@ const Hero = ({ movie }: Props) => {
             {movie?.overview}
           </p>
         </div>
-        <div className="flex gap-5">
-          <button
+        <div className="flex gap-5 overflow-hidden">
+          <motion.button
+            variants={animation}
+            initial="hidden"
+            // initial={{transitionDuration}}
+            animate="show"
+            exit="hidden"
+            transition={{ type: "spring", stiffness: 100 }}
             onClick={handleWatchTrailer}
             className="flex items-center justify-center gap-2 bg-red-600 px-10 py-4 rounded-full"
           >
             <IoPlayOutline className="text-slate-50" size="20" />
             <span className="text-xl font-main">Watch Trailer</span>
-          </button>
-          <Link
+          </motion.button>
+          <motion.button
             className="flex items-center justify-center gap-2 border-2 px-10 py-4 rounded-full"
-            to={`/movie/${id}`}
+            onClick={handleNavigateTo}
           >
             <span className="text-xl font-main">More info</span>
             <IoInformationCircleOutline size="20" className="text-slate-50" />
-          </Link>
+          </motion.button>
         </div>
       </div>
       {isModalActive && (

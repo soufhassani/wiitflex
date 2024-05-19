@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 type Props = {
   title: string | undefined;
   name: string | undefined;
@@ -6,9 +7,12 @@ type Props = {
 const MovieTitle = ({ title, name }: Props) => {
   return (
     <div className="flex-1">
-      <h2 className="text-slate-50 text-4xl font-main font-semibold">
+      <motion.h2
+        layoutId="movieTitle"
+        className="text-slate-50 text-4xl font-main font-semibold"
+      >
         {title || name}
-      </h2>
+      </motion.h2>
     </div>
   );
 };

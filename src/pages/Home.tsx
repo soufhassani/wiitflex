@@ -52,7 +52,7 @@ const Home = () => {
     checkWatchlist();
   }, []);
   if (error) throw error;
-  if (isLoading) return <Spinner text="Loading..." />;
+  if (isLoading) return <Spinner text="Loading" />;
 
   let randomMovie;
   if (data) {
