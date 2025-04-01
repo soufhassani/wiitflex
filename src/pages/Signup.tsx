@@ -159,7 +159,11 @@ const Signup = () => {
                 className="flex items-center justify-center gap-2 py-3 px-10 bg-blue-500 rounded-full text-slate-50 font-main font-semibold transition-colors hover:bg-blue-600"
                 type="submit"
               >
-                {isLoading ? <Spinner text="Processing..." /> : "Sign-in"}
+                {isLoading ? (
+                  <Spinner text="Processing..." isButton />
+                ) : (
+                  "Sign-in"
+                )}
               </button>
               <h4>
                 Already have an account ?{" "}
