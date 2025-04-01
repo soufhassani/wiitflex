@@ -5,8 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { FormData, schema } from "../schema/signupSchema";
 import useAuth from "../hooks/useAuth";
 import Spinner from "../components/global/Spinner";
-import NotificationModal from "../components/modal/NotificationModal";
 import NormalRoutes from "../components/global/NormalRoutes";
+import useAuthQuery from "../store/authStore";
 
 const Signup = () => {
   const {
@@ -21,13 +21,10 @@ const Signup = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isModalActive, setIsModalActive] = useState(false);
-  const [modalState, setModalState] = useState<"success" | "error">("success");
-  const [modalMsg, setModalMsg] = useState("");
-  const timer = 5;
+  const setIsLogged = useAuthQuery((s) => s.setIsLoggedin);
   const navigate = useNavigate();
 
-  const { signup } = useAuth();
+  const { signup, login } = useAuth();
 
   const onSubmit = async (data: FormData) => {
     setIsDisabled(true);
@@ -41,14 +38,11 @@ const Signup = () => {
     };
     try {
       await signup(formData);
+      await login(formData);
       setIsError({ email: false, username: false });
+      setIsLogged(true);
       setIsLoading(false);
-      setIsModalActive(true);
-      setModalState("success");
-      setModalMsg(
-        "Your account successfully created, you will be redirected to login in a moment."
-      );
-      setTimeout(() => navigate("/"), timer * 1000);
+      navigate("/", { replace: true });
     } catch (error) {
       const err = error as Error;
       if (err.name === "username") setIsError({ ...isError, username: true });
@@ -156,7 +150,7 @@ const Signup = () => {
             <div className="mt-5 pr-2 flex items-center justify-between ">
               <button
                 disabled={isDisabled}
-                className="flex items-center justify-center gap-2 py-3 px-10 bg-blue-500 rounded-full text-slate-50 font-main font-semibold transition-colors hover:bg-blue-600"
+                className="flex items-center justify-center gap-2 p-3 min-w-44 bg-blue-500 rounded-full text-slate-50 font-main font-semibold transition-colors hover:bg-blue-600"
                 type="submit"
               >
                 {isLoading ? (
@@ -169,7 +163,7 @@ const Signup = () => {
                 Already have an account ?{" "}
                 <Link
                   className="text-blue-300 hover:text-blue-400 transition-colors"
-                  to="/"
+                  to="/login"
                 >
                   Log-in
                 </Link>
@@ -182,15 +176,6 @@ const Signup = () => {
             </div>
           </form>
         </div>
-        {isModalActive && (
-          <NotificationModal
-            msg={modalMsg}
-            time={timer}
-            redirect={true}
-            setActive={setIsModalActive}
-            state={modalState}
-          />
-        )}
       </section>
     </NormalRoutes>
   );
