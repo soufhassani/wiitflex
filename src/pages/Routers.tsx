@@ -1,16 +1,14 @@
 import { RouterProvider } from "react-router-dom";
-import { signingInRouter, signingOutRouter } from "../routes";
-import useAuthQuery from "../store/authStore";
-import useAuth from "../hooks/useAuth";
+import { routes } from "../routes";
 
 const Routers = () => {
-  const { isLoggedin } = useAuth();
-  isLoggedin();
-  const isLogged = useAuthQuery((s) => s.isLoggedin);
+  // const { isLoggedin } = useAuth();
+  // isLoggedin();
+  // const isLogged = useAuthQuery((s) => s.isLoggedin);
 
-  const router = isLogged ? signingInRouter : signingOutRouter;
+  // const router = isLogged ? signingInRouter : signingOutRouter;
 
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={routes} />;
 };
 
 export default Routers;

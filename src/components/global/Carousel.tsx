@@ -41,7 +41,6 @@ export const Carousel = ({ movies, setIsActive }: Props) => {
   };
 
   const handleImageClick = (movie: Movie) => {
-    console.log("movie: ", movie);
     setMovieQuery(movie);
     setShowMovieDetails(true);
     setIsActive(true);
@@ -59,8 +58,9 @@ export const Carousel = ({ movies, setIsActive }: Props) => {
       {movies?.map((m) => (
         <SwiperSlide
           key={m.id}
-          className="!transition-[transform,opacity] !duration[250ms]"
+          className="!transition-[transform,opacity] !duration[250ms] cursor-pointer relative group"
         >
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black opacity-0 transition-opacity pointer-events-none group-hover:opacity-100"></div>
           <img
             className="cursor-pointer"
             src={imagePath + (m?.backdrop_path || m?.poster_path)}

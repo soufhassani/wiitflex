@@ -19,7 +19,7 @@ const MovieBtn = ({ id }: Props) => {
   return (
     <div className="flex">
       <button
-        className="flex-1 flex items-center justify-center gap-2 bg-red-600 px-10 py-4 rounded-full"
+        className="flex-1 flex items-center justify-center gap-2 bg-blue-600 px-10 py-4 rounded-full"
         onClick={handleNavigateTo}
       >
         <span className="text-xl font-main">More info</span>

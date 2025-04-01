@@ -27,10 +27,6 @@ const Clips = () => {
       </div>
     );
 
-  console.log("trailer :", trailer);
-  console.log("clips :", clips);
-  console.log("behindScenes :", behindScenes);
-
   return (
     <section className="px-10 pt-5 pb-20 ">
       <div className="flex flex-col gap-20 ">

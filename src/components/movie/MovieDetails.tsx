@@ -2,9 +2,10 @@ import MovieTitle from "./MovieTitle";
 import MovieMeta from "./MovieMeta";
 import { Movie } from "../../entities/Movies";
 import MovieBtn from "./MovieBtn";
+import textReducer from "../../utils/textReducer";
 
 type Props = {
-  movie: Movie | undefined;
+  movie: Movie;
 };
 
 const MovieDetails = ({ movie }: Props) => {
@@ -21,8 +22,8 @@ const MovieDetails = ({ movie }: Props) => {
               Overview
             </h3>
           </div>
-          <div className="flex-1">
-            <p>{movie?.overview}</p>
+          <div className="basis-9/12">
+            <p>{textReducer({ text: movie.overview, limit: 220 })}</p>
           </div>
         </div>
       </div>

@@ -99,12 +99,9 @@ export const VolumeRange = ({ playerConfig, setPlayerConfig }: Props) => {
       className="h-[1rem] w-full flex items-center relative"
       ref={containerRef}
     >
+      <div className="bg-blue-500 h-[0.125rem] w-[50%]" ref={firstHalfRef} />
       <div
-        className="bg-[rgb(99,102,241)] h-[0.125rem] w-[50%]"
-        ref={firstHalfRef}
-      />
-      <div
-        className="size-[1rem] rounded-full bg-[rgb(99,102,241)] cursor-move	select-none	touch-none absolute top-0 left-0 "
+        className="size-[1rem] rounded-full bg-blue-500 cursor-move	select-none	touch-none absolute top-0 left-0 "
         ref={knobRef}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}

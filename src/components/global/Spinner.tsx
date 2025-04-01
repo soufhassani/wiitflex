@@ -1,13 +1,17 @@
 type Props = {
   text: string;
+  isButton?: boolean;
 };
-const Spinner = ({ text }: Props) => {
+
+const IconWithText = ({ text, isButton }: Props) => {
   return (
-    <div className="h-svh flex items-center justify-center gap-3 ">
+    <>
       <div className="flex">
         <svg
           aria-hidden="true"
-          className="w-11 h-w-11 text-gray-200 animate-spin fill-gray-50"
+          className={`${
+            isButton ? "w-3 h-3" : "w-11 h-w-11"
+          } text-gray-200 animate-spin fill-gray-50`}
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -22,12 +26,21 @@ const Spinner = ({ text }: Props) => {
           />
         </svg>
       </div>
-      <div>
-        <span className="animate-pulse font-main text-3xl ">{text}</span>
-        <span className="animate-pulse font-main text-3xl">.</span>
-        <span className="animate-pulse font-main text-3xl">.</span>
-        <span className="animate-pulse font-main text-3xl">.</span>
+      <div className={`${isButton ? "text-sm" : "text-3xl"} font-main`}>
+        <span className="animate-pulse">{text}</span>
       </div>
+    </>
+  );
+};
+
+const Spinner = ({ text, isButton = false }: Props) => {
+  return (
+    <div
+      className={`${
+        !isButton ? "h-svh" : ""
+      } flex items-center justify-center gap-3`}
+    >
+      <IconWithText text={text} isButton />
     </div>
   );
 };

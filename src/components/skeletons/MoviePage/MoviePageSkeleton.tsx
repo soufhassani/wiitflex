@@ -7,7 +7,6 @@ type Props = {
 };
 
 const MoviePageSkeleton = ({ movie }: Props) => {
-  console.log(movie);
   return (
     <div className="relative h-screen overflow-hidden">
       <div className="pointer-events-none select-none h-full w-full">

@@ -9,7 +9,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Suspense fallback={null} />
       <Routers />
-      <ReactQueryDevtools initialIsOpen={false} />
+      {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
     </QueryClientProvider>
   );
 }

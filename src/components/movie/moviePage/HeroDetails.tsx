@@ -1,6 +1,6 @@
 import { FaStar } from "react-icons/fa6";
+import { IoIosCheckmark } from "react-icons/io";
 import { IoAdd } from "react-icons/io5";
-import { TiDelete } from "react-icons/ti";
 import useMovieQuery from "../../../store/movieStore";
 import useAuth from "../../../hooks/useAuth";
 import { useEffect, useState } from "react";
@@ -13,10 +13,9 @@ const HeroDetails = () => {
   const [is_watchlist, setIs_watchlist] = useState(false);
   const { getUser, getUsers } = useAuth();
 
-  console.log("selectedMovie: ", selectedMovie);
   const rating = selectedMovie.vote_average?.toFixed(1);
 
-  const handleAddToWatchlist = () => {
+  const handleAddToWatchList = () => {
     const user = getUser()!;
     const allUser = getUsers()!;
     const idx = allUser?.findIndex((u) => u.email === user?.email);
@@ -31,7 +30,6 @@ const HeroDetails = () => {
 
     if (!watchlist) {
       const movie: Movie[] = [selectedMovie];
-      console.log(JSON.stringify(movie));
       setStorage({ key: "wt_li", value: JSON.stringify(movie) });
     } else {
       watchlist.push(selectedMovie);
@@ -40,7 +38,7 @@ const HeroDetails = () => {
 
     setIs_watchlist(true);
   };
-  const handleRemoveFromWatchlist = () => {
+  const handleRemoveFromWatchList = () => {
     const user = getUser();
     const allUser = getUsers()!;
     const idx = allUser?.findIndex((u) => u.email === user?.email);
@@ -130,23 +128,19 @@ const HeroDetails = () => {
         <div className="">
           {is_watchlist ? (
             <button
-              onClick={handleRemoveFromWatchlist}
-              className="flex items-center gap-1 border-2 rounded-full py-3 px-6 border-red-500 bg-red-500 transition-all "
+              onClick={handleRemoveFromWatchList}
+              className="flex items-center gap-1 border-[1px] rounded-full py-3 px-6 border-blue-500 bg-blue-500 transition-all "
             >
-              <TiDelete className="text-2xl" />
-              <span className="text-xl font-main text-slate-50">
-                Remove From Watchlist
-              </span>
+              <IoIosCheckmark className="text-2xl" />
+              <span className="text-xl font-main text-slate-50">Watchlist</span>
             </button>
           ) : (
             <button
-              onClick={handleAddToWatchlist}
-              className="flex items-center gap-1 border-2 rounded-full py-3 px-6 bg-transparent transition-all hover:bg-red-500 hover:border-red-500"
+              onClick={handleAddToWatchList}
+              className="flex items-center gap-1 border-[1px] rounded-full py-3 px-6 bg-transparent transition-all hover:bg-blue-500 hover:border-blue-500"
             >
               <IoAdd className="text-2xl" />
-              <span className="text-xl font-main text-slate-50">
-                Add To Watchlist
-              </span>
+              <span className="text-xl font-main text-slate-50">Watchlist</span>
             </button>
           )}
         </div>

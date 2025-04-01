@@ -7,7 +7,6 @@ type Props = {
   id: number;
 };
 const useMovie = ({ mediaType, id }: Props) => {
-  console.log("mediaType: ", mediaType);
   const apiClient = new APIClient<SingleMovie>(
     `/${
       mediaType === "tv-show" ? "tv" : mediaType === "tv" ? "tv" : "movie"

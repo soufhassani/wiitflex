@@ -23,7 +23,6 @@ const VideoModal = ({ showMovieDetails, setActive }: Props) => {
   const height = showMovieDetails ? "h-full" : "h-auto";
   if (error) throw error;
 
-  console.log("data: ", data);
   useEffect(() => {
     document.body.style.overflow = "hidden";
 
@@ -58,7 +57,7 @@ const VideoModal = ({ showMovieDetails, setActive }: Props) => {
             }
           >
             <Video movie={data} />
-            {showMovieDetails ? <MovieDetails movie={data} /> : ""}
+            {showMovieDetails ? <MovieDetails movie={data!} /> : ""}
           </div>
         )}
       </motion.div>

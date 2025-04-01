@@ -8,6 +8,7 @@ import { Movie } from "../entities/Movies";
 import useAuth from "../hooks/useAuth";
 import { getStorage } from "../utils/cookies";
 import useMovieQuery from "../store/movieStore";
+import ProtectedRoutes from "../components/global/ProtectedRoutes";
 
 const Home = () => {
   const { data, isLoading, error } = useMovies();
@@ -20,11 +21,10 @@ const Home = () => {
   useEffect(() => {
     const checkWatchlist = () => {
       const user = getUser()!;
+      if (!user) return;
       const allUsers = getUsers()!;
       const idx = allUsers.findIndex((u) => u.email === user.email);
-      if (idx === undefined || idx === null) return <></>;
-      console.log(allUsers[idx]);
-      const _watchlist = allUsers[idx].watchList;
+      if (idx === undefined || idx === null) return null;
       const whatchlistMovies: Movie[] = getStorage("wt_li");
 
       if (!whatchlistMovies)
@@ -38,12 +38,8 @@ const Home = () => {
         const getIdx = allUsers[idx].watchList.findIndex(
           (id) => id === whatchlistMovies[i].id
         );
-        if (getIdx >= 0) {
-          relatedWatchlistMovies.push(whatchlistMovies[i]);
-        }
+        if (getIdx >= 0) relatedWatchlistMovies.push(whatchlistMovies[i]);
       }
-      console.log("relatedWatchlistMovies:", relatedWatchlistMovies);
-      console.log("_watchlist: ", _watchlist);
       if (relatedWatchlistMovies.length > 0) {
         setIs_watchlist(true);
         setWatchlist(relatedWatchlistMovies);
@@ -51,6 +47,7 @@ const Home = () => {
     };
     checkWatchlist();
   }, []);
+
   if (error) throw error;
   if (isLoading) return <Spinner text="Loading" />;
 
@@ -61,14 +58,12 @@ const Home = () => {
     setHeroMovie(randomMovie);
   }
 
-  console.log("randomMovie: ", randomMovie);
-
   return (
-    <>
+    <ProtectedRoutes>
       <Hero movie={randomMovie} />
       <TrendingMovies />
       {is_watchlist && <Watchlist watchlist={watchlist} />}
-    </>
+    </ProtectedRoutes>
   );
 };
 

@@ -20,7 +20,6 @@ const Hero = ({ movie }: Props) => {
     hidden: {
       y: "100%",
       opacity: "0",
-      // transitionTimingFunction: "cubic-bezier(.22,.68,0,1.71)",
       transitionTimingFunction: "cubic-bezier(.22,.68,0,1.71)",
       transitionDuration: "0.3s",
     },
@@ -31,11 +30,6 @@ const Hero = ({ movie }: Props) => {
       transitionDuration: "0.3s",
     },
   };
-
-  // const item = {
-  //   hidden: { opacity: 0 },
-  //   show: { opacity: 1 }
-  // }
 
   const image = imagePath + (movie?.backdrop_path || movie?.poster_path);
   const id = movie?.id;
@@ -70,12 +64,11 @@ const Hero = ({ movie }: Props) => {
           <motion.button
             variants={animation}
             initial="hidden"
-            // initial={{transitionDuration}}
             animate="show"
             exit="hidden"
             transition={{ type: "spring", stiffness: 100 }}
             onClick={handleWatchTrailer}
-            className="flex items-center justify-center gap-2 bg-red-600 px-10 py-4 rounded-full"
+            className="flex items-center justify-center gap-2 bg-blue-600 px-10 py-4 rounded-full"
           >
             <IoPlayOutline className="text-slate-50" size="20" />
             <span className="text-xl font-main">Watch Trailer</span>

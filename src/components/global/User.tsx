@@ -1,10 +1,11 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
 const User = () => {
   const navMenu = useRef<HTMLDivElement>(null);
   const { logout, getUser } = useAuth();
+  const navigate = useNavigate();
   const user = getUser();
 
   const [activeMenu, setActiveMenu] = useState(false);
@@ -30,6 +31,8 @@ const User = () => {
 
   const handleLogout = () => {
     logout();
+    navigate("/", { replace: true });
+    // Navigate({ to: "/" });
   };
 
   return (

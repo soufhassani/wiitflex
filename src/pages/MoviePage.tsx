@@ -5,6 +5,7 @@ import Hero from "../components/movie/moviePage/Hero";
 import Overview from "../components/movie/moviePage/Overview";
 import Clips from "../components/movie/moviePage/Clips";
 import MoviePageSkeleton from "../components/skeletons/MoviePage/MoviePageSkeleton";
+import ProtectedRoutes from "../components/global/ProtectedRoutes";
 
 const MoviePage = () => {
   const { type, id } = useParams();
@@ -18,20 +19,19 @@ const MoviePage = () => {
 
   if (error) throw error;
 
-  console.log("selectedMovie Moviepage: ", selectedMovie);
   if (isLoading)
     return selectedMovie && <MoviePageSkeleton movie={selectedMovie} />;
 
-  // console.log("selectedMovie: ", selectedMovie);
   if (data) setMovie({ ...data, media_type: type });
 
-  // return <MoviePageSkeleton movie={selectedMovie} />;
   return (
-    <div className="text-sky-50">
-      <Hero />
-      <Overview />
-      <Clips />
-    </div>
+    <ProtectedRoutes>
+      <section className="text-sky-50">
+        <Hero />
+        <Overview />
+        <Clips />
+      </section>
+    </ProtectedRoutes>
   );
 };
 

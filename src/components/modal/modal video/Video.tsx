@@ -1,6 +1,6 @@
-import { Movie } from "../../../entities/Movies";
-import { imagePath } from "../../../utils/imagePath";
 import VideoPlayer from "../../global/videoPLayer/VideoPlayer";
+import { imagePath } from "../../../utils/imagePath";
+import { Movie } from "../../../entities/Movies";
 
 type Props = {
   movie: Movie | undefined;
@@ -20,8 +20,6 @@ const Video = ({ movie }: Props) => {
       </div>
     );
 
-  console.log("videoIdx: ", videoIdx);
-  console.log("video: ", movie?.videos?.results[videoIdx]);
   const videoTrailer = movie?.videos?.results[videoIdx].key;
 
   return (

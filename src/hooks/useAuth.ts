@@ -33,14 +33,13 @@ const login = async (user: LoginUser) => {
 
 const _setIsLoggedin = (setIsLogged: (isLogged: boolean) => void) => {
   const lastUser = getCookie("lg-u");
-  if (!lastUser) {
-    eraseCookie("lg-u");
-    setIsLogged(false);
-    return false;
+  if (lastUser) {
+    setIsLogged(true);
+    return true;
   }
-
-  setIsLogged(true);
-  return true;
+  eraseCookie("lg-u");
+  setIsLogged(false);
+  return false;
 };
 
 const setLogout = (setIsLogged: (isLogged: boolean) => void) => {
@@ -94,9 +93,7 @@ async function addUser({ fullName, username, email, password }: SignupUser) {
     watchList: [],
   };
 
-  console.log("add user prev", prev);
   if (!prev) {
-    console.log("after add use prev is null", prev);
     const data = [userData];
     const res = await fakeCreation(data);
     return res;
@@ -128,8 +125,6 @@ async function addUser({ fullName, username, email, password }: SignupUser) {
 
 function createAccount(data: SignupUser | SignupUser[]) {
   setCookie({ name: "users", value: JSON.stringify(data), days: 30 });
-  const prev = getCookie("users");
-  console.log(prev);
 
   return { message: "Sign-up successfully", status: 201 };
 }
@@ -168,7 +163,6 @@ function loginUser(user: LoginUser) {
 }
 
 function fakeCreation(data: SignupUser[] | Error, isRejected?: boolean) {
-  console.log(data);
   return new Promise<Res | Error>((resolve, reject) => {
     setTimeout(() => {
       if (isRejected) reject(data);

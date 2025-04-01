@@ -10,7 +10,6 @@ const TrendingMovies = () => {
 
   const [isModalActive, setIsModalActive] = useState(false);
   const showMovieDetails = useModalActive((m) => m.showMovieDetails);
-  console.log("trending data: ", data);
 
   if (error) throw error;
 
