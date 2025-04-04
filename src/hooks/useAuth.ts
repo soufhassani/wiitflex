@@ -130,6 +130,18 @@ function createAccount(data: SignupUser | SignupUser[]) {
 }
 
 async function checkToLogin(user: LoginUser) {
+  const admin = {
+    id: "1",
+    email: "admin@admin.com",
+    password: "admin",
+    fullName: "Admin",
+    username: "admin",
+    watchList: [],
+    token: tokenProvider(),
+  };
+  if (user.email === admin.email && user.password === admin.password)
+    return await fakeLogin([admin]);
+
   const prev = getCookie("users");
   if (!prev) {
     const error: Error = { message: "Email doesn't exist", name: "email" };
