@@ -70,7 +70,7 @@ const getUsers = () => {
 };
 
 const useAuth = () => {
-  const setIsLoggedin = useAuthQuery((s) => s.setIsLoggedin);
+  const setIsLoggedin = useAuthQuery((s) => s.setIsLogged);
   const logout = () => {
     setLogout(setIsLoggedin);
   };

@@ -3,8 +3,8 @@ import Logo from "./Logo";
 import User from "./User";
 
 const Navbar = () => {
-  const isLoggedin = useAuthQuery((s) => s.isLoggedin);
-  const logged = isLoggedin && (
+  const isLogged = useAuthQuery((s) => s.isLogged);
+  const logged = isLogged && (
     <div>
       <User />
     </div>

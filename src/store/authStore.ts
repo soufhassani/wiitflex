@@ -1,13 +1,13 @@
 import { create } from "zustand";
 
 interface AuthQuery {
-    isLoggedin: boolean
-    setIsLoggedin: (isLogged: boolean) => void
-  }
-  
+  isLogged: boolean;
+  setIsLogged: (isLogged: boolean) => void;
+}
+
 const useAuthQuery = create<AuthQuery>((set) => ({
-    isLoggedin: false,
-    setIsLoggedin: (isLogged) => set(() => ({ isLoggedin: isLogged })),
+  isLogged: false,
+  setIsLogged: (isLogged) => set(() => ({ isLogged: isLogged })),
 }));
 
-export default useAuthQuery
+export default useAuthQuery;

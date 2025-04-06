@@ -9,7 +9,7 @@ const ProtectedRoutes = ({ children }: Props) => {
   const { isLoggedin } = useAuth();
   isLoggedin();
   const navigate = useNavigate();
-  const isLogged = useAuthQuery((s) => s.isLoggedin);
+  const isLogged = useAuthQuery((s) => s.isLogged);
   useLayoutEffect(() => {
     if (!isLogged) navigate("/login", { replace: true });
   }, [isLogged]);
