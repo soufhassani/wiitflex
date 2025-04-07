@@ -15,13 +15,20 @@ const SignupForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({ mode: "onSubmit", resolver: zodResolver(schema) });
+
   const [isError, setIsError] = useState({
     username: false,
     email: false,
     password: false,
     fullName: false,
   });
-  const [errorMsg, setErrorMsg] = useState("");
+  // const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState({
+    username: "",
+    email: "",
+    password: "",
+    fullName: "",
+  });
   const [isDisabled, setIsDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const setIsLogged = useAuthQuery((s) => s.setIsLogged);
@@ -36,25 +43,43 @@ const SignupForm = () => {
       username: false,
       fullName: false,
     });
-    setErrorMsg("");
+    setErrorMsg({ username: "", email: "", password: "", fullName: "" });
   };
 
   useEffect(() => {
     console.log(errors);
     console.log(isError);
-    console.log(errorMsg);
-    if (errors.email) {
-      setIsError((state) => ({ ...state, email: true }));
-      setErrorMsg(errors.email.message!);
-    } else if (errors.password) {
-      setIsError((state) => ({ ...state, password: true }));
-      setErrorMsg(errors.password.message!);
-    } else if (errors.username) {
+    if (errors.username) {
+      console.log("username error: ", errors.username.message);
       setIsError((state) => ({ ...state, username: true }));
-      setErrorMsg(errors.username.message!);
-    } else if (errors.fullName) {
+      setErrorMsg((state) => ({
+        ...state,
+        username: errors.username ? errors.username!.message! : "",
+      }));
+    }
+    if (errors.email) {
+      console.log("email error: ", errors.email.message);
+      setIsError((state) => ({ ...state, email: true }));
+      setErrorMsg((state) => ({
+        ...state,
+        email: errors.email ? errors.email!.message! : "",
+      }));
+    }
+    if (errors.password) {
+      console.log("password error: ", errors.password.message);
+      setIsError((state) => ({ ...state, password: true }));
+      setErrorMsg((state) => ({
+        ...state,
+        password: errors.password ? errors.password!.message! : "",
+      }));
+    }
+    if (errors.fullName) {
+      console.log("fullName error: ", errors.fullName.message);
       setIsError((state) => ({ ...state, fullName: true }));
-      setErrorMsg(errors.fullName.message!);
+      setErrorMsg((state) => ({
+        ...state,
+        fullName: errors.fullName ? errors.fullName!.message! : "",
+      }));
     }
   }, [errors.email, errors.password, errors.username, errors.fullName]);
 
@@ -78,14 +103,21 @@ const SignupForm = () => {
     } catch (error) {
       const err = error as Error;
       console.log("error: ", err);
-      if (err.name === "username") setIsError({ ...isError, username: true });
-      else if (err.name === "fullname")
+      if (err.name === "username") {
+        setIsError({ ...isError, username: true });
+        setErrorMsg((state) => ({ ...state, username: err.message }));
+      } else if (err.name === "fullname") {
         setIsError({ ...isError, fullName: true });
-      else if (err.name === "email") setIsError({ ...isError, email: true });
-      else if (err.name === "password")
+        setErrorMsg((state) => ({ ...state, fullName: err.message }));
+      } else if (err.name === "email") {
+        setIsError({ ...isError, email: true });
+        setErrorMsg((state) => ({ ...state, email: err.message }));
+      } else if (err.name === "password") {
         setIsError({ ...isError, password: true });
+        setErrorMsg((state) => ({ ...state, password: err.message }));
+      }
 
-      setErrorMsg(err.message);
+      // setErrorMsg(err.message);
       setIsDisabled(false);
       setIsLoading(false);
     }
@@ -98,13 +130,13 @@ const SignupForm = () => {
     >
       <FormTitle title="Sign-up" />
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 font-main">
         <Input
           label="Username"
           id="username"
           type="text"
           isError={isError.username}
-          errorMsg={errorMsg}
+          errorMsg={errorMsg.username}
           {...register("username")}
         />
       </div>
@@ -114,7 +146,7 @@ const SignupForm = () => {
           id="fullname"
           type="text"
           isError={isError.fullName}
-          errorMsg={errorMsg}
+          errorMsg={errorMsg.fullName}
           {...register("fullName")}
         />
       </div>
@@ -124,7 +156,7 @@ const SignupForm = () => {
           id="email"
           type="text"
           isError={isError.email}
-          errorMsg={errorMsg}
+          errorMsg={errorMsg.email}
           {...register("email")}
         />
       </div>
@@ -134,7 +166,7 @@ const SignupForm = () => {
           id="password"
           type="password"
           isError={isError.password}
-          errorMsg={errorMsg}
+          errorMsg={errorMsg.password}
           {...register("password")}
         />
       </div>

@@ -20,7 +20,10 @@ const LoginForm = () => {
     password: false,
     email: false,
   });
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState({
+    email: "",
+    password: "",
+  });
   const [isDisabled, setIsDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -32,10 +35,13 @@ const LoginForm = () => {
   useEffect(() => {
     if (errors.email) {
       setIsError({ email: true, password: false });
-      setErrorMsg(errors.email.message!);
+      setErrorMsg((state) => ({ ...state, email: errors.email!.message! }));
     } else if (errors.password) {
       setIsError({ email: false, password: true });
-      setErrorMsg(errors.password.message!);
+      setErrorMsg((state) => ({
+        ...state,
+        password: errors.password!.message!,
+      }));
     }
   }, [errors.email, errors.password]);
 
@@ -54,9 +60,13 @@ const LoginForm = () => {
       navigate("/", { replace: true });
     } catch (error) {
       const err = error as Error;
-      if (err.name === "password") setIsError({ email: false, password: true });
-      else setIsError({ password: false, email: true });
-      setErrorMsg(err.message);
+      if (err.name === "password") {
+        setIsError({ email: false, password: true });
+        setErrorMsg((state) => ({ ...state, password: err.message }));
+      } else {
+        setIsError({ password: false, email: true });
+        setErrorMsg((state) => ({ ...state, email: err.message }));
+      }
       setIsDisabled(false);
       setIsLoading(false);
     }
@@ -74,7 +84,7 @@ const LoginForm = () => {
           label="E-mail"
           type="email"
           isError={isError.email}
-          errorMsg={isError.email ? errorMsg : ""}
+          errorMsg={errorMsg.email}
           {...register("email")}
         />
       </div>
@@ -84,7 +94,7 @@ const LoginForm = () => {
           label="Password"
           type="password"
           isError={isError.password}
-          errorMsg={isError.password ? errorMsg : ""}
+          errorMsg={errorMsg.password}
           {...register("password")}
         />
       </div>
