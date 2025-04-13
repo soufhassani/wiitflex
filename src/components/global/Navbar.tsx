@@ -1,10 +1,12 @@
-import useAuthQuery from "../../store/authStore";
+import { useLocation } from "react-router-dom";
 import Logo from "./Logo";
 import User from "./User";
 
 const Navbar = () => {
-  const isLogged = useAuthQuery((s) => s.isLogged);
-  const logged = isLogged && (
+  const { pathname } = useLocation();
+  const loginArea = pathname === "/login" || pathname === "/signup";
+
+  const logged = !loginArea && (
     <div>
       <User />
     </div>

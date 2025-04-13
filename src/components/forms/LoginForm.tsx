@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
-import useAuth from "../../hooks/useAuth";
-import useAuthQuery from "../../store/authStore";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FormData, schema } from "../../schema/loginSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast, ToastContainer } from "react-toastify";
+import { FormData, schema } from "../../schema/loginSchema";
+import useAuthQuery from "../../store/authStore";
+import useAuth from "../../hooks/useAuth";
 import FormButton from "./FormButton";
 import FormTitle from "./FormTitle";
 import Input from "./Input";
@@ -16,11 +17,6 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm<FormData>({ mode: "onSubmit", resolver: zodResolver(schema) });
 
-  const [isError, setIsError] = useState({
-    password: false,
-    email: false,
-  });
-  const [errorMsg, setErrorMsg] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -28,16 +24,6 @@ const LoginForm = () => {
   const setIsLogged = useAuthQuery((s) => s.setIsLogged);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (errors.email) {
-      setIsError({ email: true, password: false });
-      setErrorMsg(errors.email.message!);
-    } else if (errors.password) {
-      setIsError({ email: false, password: true });
-      setErrorMsg(errors.password.message!);
-    }
-  }, [errors.email, errors.password]);
 
   const onSubmit = async (data: FormData) => {
     setIsDisabled(true);
@@ -49,14 +35,21 @@ const LoginForm = () => {
     };
     try {
       await login(formData);
-      setIsError({ email: false, password: false });
       setIsLogged(true);
+
       navigate("/", { replace: true });
     } catch (error) {
       const err = error as Error;
-      if (err.name === "password") setIsError({ email: false, password: true });
-      else setIsError({ password: false, email: true });
-      setErrorMsg(err.message);
+      toast.error(err.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       setIsDisabled(false);
       setIsLoading(false);
     }
@@ -73,8 +66,7 @@ const LoginForm = () => {
           id="email"
           label="E-mail"
           type="email"
-          isError={isError.email}
-          errorMsg={isError.email ? errorMsg : ""}
+          errors={errors}
           {...register("email")}
         />
       </div>
@@ -83,8 +75,7 @@ const LoginForm = () => {
           id="password"
           label="Password"
           type="password"
-          isError={isError.password}
-          errorMsg={isError.password ? errorMsg : ""}
+          errors={errors}
           {...register("password")}
         />
       </div>
@@ -105,6 +96,7 @@ const LoginForm = () => {
           isLoading={isLoading}
         />
       </div>
+      <ToastContainer />
     </form>
   );
 };

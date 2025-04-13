@@ -1,11 +1,9 @@
-import useAuth from "../../hooks/useAuth";
-import useAuthQuery from "../../store/authStore";
+import { useLocation } from "react-router-dom";
 
 const Footer = () => {
-  const { isLoggedin } = useAuth();
-  isLoggedin();
-  const isLogged = useAuthQuery((s) => s.isLogged);
-  const footerPosition = isLogged ? "" : "fixed bottom-0";
+  const { pathname } = useLocation();
+  const loginArea = pathname === "/login" || pathname === "/signup";
+  const footerPosition = loginArea ? "fixed bottom-0" : "";
 
   return (
     <footer

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const schema = z.object({
-  fullName: z.string().min(1, { message: "fullName is required" }),
+  fullname: z.string().min(1, { message: "fullName is required" }),
   username: z
     .string()
     .min(3, { message: "Username must be at least 3 characters." }),

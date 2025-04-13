@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { ToastContainer, toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormData, schema } from "../../schema/signupSchema";
@@ -15,13 +16,8 @@ const SignupForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({ mode: "onSubmit", resolver: zodResolver(schema) });
-  const [isError, setIsError] = useState({
-    username: false,
-    email: false,
-    password: false,
-    fullName: false,
-  });
-  const [errorMsg, setErrorMsg] = useState("");
+
+  // const [errorMsg, setErrorMsg] = useState("");
   const [isDisabled, setIsDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const setIsLogged = useAuthQuery((s) => s.setIsLogged);
@@ -29,41 +25,12 @@ const SignupForm = () => {
 
   const { signup, login } = useAuth();
 
-  const resetIsError = () => {
-    setIsError({
-      email: false,
-      password: false,
-      username: false,
-      fullName: false,
-    });
-    setErrorMsg("");
-  };
-
-  useEffect(() => {
-    console.log(errors);
-    console.log(isError);
-    console.log(errorMsg);
-    if (errors.email) {
-      setIsError((state) => ({ ...state, email: true }));
-      setErrorMsg(errors.email.message!);
-    } else if (errors.password) {
-      setIsError((state) => ({ ...state, password: true }));
-      setErrorMsg(errors.password.message!);
-    } else if (errors.username) {
-      setIsError((state) => ({ ...state, username: true }));
-      setErrorMsg(errors.username.message!);
-    } else if (errors.fullName) {
-      setIsError((state) => ({ ...state, fullName: true }));
-      setErrorMsg(errors.fullName.message!);
-    }
-  }, [errors.email, errors.password, errors.username, errors.fullName]);
-
   const onSubmit = async (data: FormData) => {
     setIsDisabled(true);
     setIsLoading(true);
 
     const formData = {
-      fullName: data.fullName,
+      fullName: data.fullname,
       username: data.username,
       email: data.email,
       password: data.password,
@@ -71,21 +38,34 @@ const SignupForm = () => {
     try {
       await signup(formData);
       await login(formData);
-      resetIsError();
+      toast.success("Successfully registered", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       setIsLogged(true);
       setIsLoading(false);
       navigate("/", { replace: true });
     } catch (error) {
-      const err = error as Error;
-      console.log("error: ", err);
-      if (err.name === "username") setIsError({ ...isError, username: true });
-      else if (err.name === "fullname")
-        setIsError({ ...isError, fullName: true });
-      else if (err.name === "email") setIsError({ ...isError, email: true });
-      else if (err.name === "password")
-        setIsError({ ...isError, password: true });
+      // const err = error as Error;
 
-      setErrorMsg(err.message);
+      toast.error("An error has been occurred, please try back later.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+
+      // setErrorMsg(err.message);
       setIsDisabled(false);
       setIsLoading(false);
     }
@@ -103,8 +83,7 @@ const SignupForm = () => {
           label="Username"
           id="username"
           type="text"
-          isError={isError.username}
-          errorMsg={errorMsg}
+          errors={errors}
           {...register("username")}
         />
       </div>
@@ -113,9 +92,8 @@ const SignupForm = () => {
           label="Full name"
           id="fullname"
           type="text"
-          isError={isError.fullName}
-          errorMsg={errorMsg}
-          {...register("fullName")}
+          errors={errors}
+          {...register("fullname")}
         />
       </div>
       <div className="flex flex-col gap-3 font-main">
@@ -123,8 +101,7 @@ const SignupForm = () => {
           label="E-mail"
           id="email"
           type="text"
-          isError={isError.email}
-          errorMsg={errorMsg}
+          errors={errors}
           {...register("email")}
         />
       </div>
@@ -133,8 +110,7 @@ const SignupForm = () => {
           label="Password"
           id="password"
           type="password"
-          isError={isError.password}
-          errorMsg={errorMsg}
+          errors={errors}
           {...register("password")}
         />
       </div>
@@ -155,6 +131,7 @@ const SignupForm = () => {
           isLoading={isLoading}
         />
       </div>
+      <ToastContainer />
     </form>
   );
 };

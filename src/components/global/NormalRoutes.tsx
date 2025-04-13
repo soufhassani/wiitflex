@@ -7,11 +7,11 @@ type Props = PropsWithChildren;
 
 const NormalRoutes = ({ children }: Props) => {
   const { isLoggedin } = useAuth();
-  isLoggedin();
   const navigate = useNavigate();
   const isLogged = useAuthQuery((s) => s.isLogged);
 
   useLayoutEffect(() => {
+    isLoggedin();
     if (isLogged) navigate("/", { replace: true });
   }, [isLogged]);
   return children;

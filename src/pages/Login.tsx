@@ -5,11 +5,11 @@ import NormalRoutes from "../components/global/NormalRoutes";
 import LoginForm from "../components/forms/LoginForm";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const isLogged = useAuthQuery((s) => s.isLogged);
-  useLayoutEffect(() => {
-    if (isLogged) navigate("/", { replace: true });
-  }, [isLogged]);
+  // const navigate = useNavigate();
+  // const isLogged = useAuthQuery((s) => s.isLogged);
+  // useLayoutEffect(() => {
+  //   if (isLogged) navigate("/", { replace: true });
+  // }, [isLogged]);
 
   return (
     <NormalRoutes>

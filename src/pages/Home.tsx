@@ -11,58 +11,60 @@ import useMovieQuery from "../store/movieStore";
 import ProtectedRoutes from "../components/global/ProtectedRoutes";
 
 const Home = () => {
-  const { data, isLoading, error } = useMovies();
-  const [watchlist, setWatchlist] = useState<Movie[]>([]);
-  const [is_watchlist, setIs_watchlist] = useState(false);
+  const { data, isPending, error } = useMovies();
+  const [watchList, setWatchList] = useState<Movie[]>([]);
+  const [is_watchList, setIs_watchList] = useState(false);
   const setHeroMovie = useMovieQuery((m) => m.setHeroMovie);
+  const heroMovie = useMovieQuery((m) => m.heroMovie);
 
   const { getUser, getUsers } = useAuth();
 
   useEffect(() => {
-    const checkWatchlist = () => {
+    if (!data) return;
+
+    const checkWatchList = () => {
       const user = getUser()!;
       if (!user) return;
+
       const allUsers = getUsers()!;
       const idx = allUsers.findIndex((u) => u.email === user.email);
-      if (idx === undefined || idx === null) return null;
-      const whatchlistMovies: Movie[] = getStorage("wt_li");
 
-      if (!whatchlistMovies)
+      if (idx === undefined || idx === null) return null;
+
+      const watchListMovies: Movie[] = getStorage("wt_li");
+      if (!watchListMovies)
         return allUsers[idx].watchList.splice(
           0,
           allUsers[idx].watchList.length
         );
 
-      const relatedWatchlistMovies: Movie[] = [];
-      for (let i = 0; i < whatchlistMovies.length; i++) {
+      const relatedWatchListMovies: Movie[] = [];
+      for (let i = 0; i < watchListMovies.length; i++) {
         const getIdx = allUsers[idx].watchList.findIndex(
-          (id) => id === whatchlistMovies[i].id
+          (id) => id === watchListMovies[i].id
         );
-        if (getIdx >= 0) relatedWatchlistMovies.push(whatchlistMovies[i]);
+        if (getIdx >= 0) relatedWatchListMovies.push(watchListMovies[i]);
       }
-      if (relatedWatchlistMovies.length > 0) {
-        setIs_watchlist(true);
-        setWatchlist(relatedWatchlistMovies);
-      } else setIs_watchlist(false);
+
+      if (relatedWatchListMovies.length > 0) {
+        setIs_watchList(true);
+        setWatchList(relatedWatchListMovies);
+      } else setIs_watchList(false);
     };
-    checkWatchlist();
+    const randomNumber = Math.floor(Math.random() * data.results.length);
+    const randomMovie = data?.results[randomNumber];
+    setHeroMovie(randomMovie);
+    checkWatchList();
   }, []);
 
   if (error) throw error;
-  if (isLoading) return <Spinner text="Loading" />;
-
-  let randomMovie;
-  if (data) {
-    const randomNumber = Math.floor(Math.random() * data.results.length);
-    randomMovie = data.results[randomNumber];
-    setHeroMovie(randomMovie);
-  }
+  if (isPending) return <Spinner text="Loading" />;
 
   return (
     <ProtectedRoutes>
-      <Hero movie={randomMovie} />
+      <Hero movie={heroMovie} />
       <TrendingMovies />
-      {is_watchlist && <Watchlist watchlist={watchlist} />}
+      {is_watchList && <Watchlist watchlist={watchList} />}
     </ProtectedRoutes>
   );
 };
