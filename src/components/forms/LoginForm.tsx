@@ -17,6 +17,17 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm<FormData>({ mode: "onSubmit", resolver: zodResolver(schema) });
 
+<<<<<<< HEAD
+=======
+  const [isError, setIsError] = useState({
+    password: false,
+    email: false,
+  });
+  const [errorMsg, setErrorMsg] = useState({
+    email: "",
+    password: "",
+  });
+>>>>>>> 67f2bc03bb8facaa35e3c129d732e58d6b67871d
   const [isDisabled, setIsDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -25,6 +36,22 @@ const LoginForm = () => {
 
   const navigate = useNavigate();
 
+<<<<<<< HEAD
+=======
+  useEffect(() => {
+    if (errors.email) {
+      setIsError({ email: true, password: false });
+      setErrorMsg((state) => ({ ...state, email: errors.email!.message! }));
+    } else if (errors.password) {
+      setIsError({ email: false, password: true });
+      setErrorMsg((state) => ({
+        ...state,
+        password: errors.password!.message!,
+      }));
+    }
+  }, [errors.email, errors.password]);
+
+>>>>>>> 67f2bc03bb8facaa35e3c129d732e58d6b67871d
   const onSubmit = async (data: FormData) => {
     setIsDisabled(true);
     setIsLoading(true);
@@ -40,6 +67,7 @@ const LoginForm = () => {
       navigate("/", { replace: true });
     } catch (error) {
       const err = error as Error;
+<<<<<<< HEAD
       toast.error(err.message, {
         position: "top-right",
         autoClose: 5000,
@@ -50,6 +78,15 @@ const LoginForm = () => {
         progress: undefined,
         theme: "dark",
       });
+=======
+      if (err.name === "password") {
+        setIsError({ email: false, password: true });
+        setErrorMsg((state) => ({ ...state, password: err.message }));
+      } else {
+        setIsError({ password: false, email: true });
+        setErrorMsg((state) => ({ ...state, email: err.message }));
+      }
+>>>>>>> 67f2bc03bb8facaa35e3c129d732e58d6b67871d
       setIsDisabled(false);
       setIsLoading(false);
     }
@@ -66,7 +103,12 @@ const LoginForm = () => {
           id="email"
           label="E-mail"
           type="email"
+<<<<<<< HEAD
           errors={errors}
+=======
+          isError={isError.email}
+          errorMsg={errorMsg.email}
+>>>>>>> 67f2bc03bb8facaa35e3c129d732e58d6b67871d
           {...register("email")}
         />
       </div>
@@ -75,7 +117,12 @@ const LoginForm = () => {
           id="password"
           label="Password"
           type="password"
+<<<<<<< HEAD
           errors={errors}
+=======
+          isError={isError.password}
+          errorMsg={errorMsg.password}
+>>>>>>> 67f2bc03bb8facaa35e3c129d732e58d6b67871d
           {...register("password")}
         />
       </div>

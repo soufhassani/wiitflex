@@ -78,7 +78,7 @@ const SignupForm = () => {
     >
       <FormTitle title="Sign-up" />
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 font-main">
         <Input
           label="Username"
           id="username"

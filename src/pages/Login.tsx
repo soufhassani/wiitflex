@@ -1,6 +1,3 @@
-import { useLayoutEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import useAuthQuery from "../store/authStore";
 import NormalRoutes from "../components/global/NormalRoutes";
 import LoginForm from "../components/forms/LoginForm";
 
