@@ -8,6 +8,7 @@ import { PlayerConfig } from "../../../entities/Player";
 
 interface Props {
   video: string | undefined;
+  showMovieDetails: boolean;
   play?: boolean;
   mute?: boolean;
   volume?: number;
@@ -18,6 +19,7 @@ interface Props {
 
 const VideoPlayer = (props: Props) => {
   const {
+    showMovieDetails,
     video,
     play,
     mute,
@@ -69,9 +71,12 @@ const VideoPlayer = (props: Props) => {
   const handleOnReady = (player: ReactPlayer) => {
     setPlayerMethods(player);
   };
+
   return (
     <div
-      className="aspect-video flex-1 relative overflow-hidden video-container"
+      className={`${
+        showMovieDetails ? "aspect-video" : "aspect-square"
+      } basis-1/2 relative overflow-hidden video-container md:aspect-video md:basis-full`}
       onMouseLeave={handleMouseLeave}
     >
       <ReactPlayer

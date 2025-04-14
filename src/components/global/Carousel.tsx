@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Swiper as SwiperType } from "swiper/types";
 import { A11y } from "swiper/modules";
@@ -22,6 +22,29 @@ export const Carousel = ({ movies, setIsActive }: Props) => {
   const setShowMovieDetails = useModalActive((m) => m.setShowMovieDetails);
   const [isFirstSlide, setIsFirstSlide] = useState(true);
   const [isLastSlide, setIsLastSlide] = useState(true);
+  const [isResponsive, setIsResponsive] = useState({
+    phone: false,
+    tablet: false,
+    desktop: true,
+  });
+
+  useLayoutEffect(() => {
+    const checkIfPhone = () => {
+      if (window.innerWidth < 768) {
+        setIsResponsive({ phone: true, tablet: false, desktop: false });
+      } else if (window.innerWidth < 1024) {
+        setIsResponsive({ phone: false, tablet: true, desktop: false });
+      } else {
+        setIsResponsive({ phone: false, tablet: false, desktop: true });
+      }
+    };
+    checkIfPhone();
+    window.addEventListener("resize", checkIfPhone);
+    return () => {
+      window.removeEventListener("resize", checkIfPhone);
+    };
+  }, []);
+
   const handleOnSwiper = (s: SwiperType) => {
     checkFirstSlide(s.activeIndex);
     checkLastSlide(s.activeIndex);
@@ -51,7 +74,7 @@ export const Carousel = ({ movies, setIsActive }: Props) => {
       className="!overflow-visible relative"
       modules={[A11y]}
       spaceBetween={10}
-      slidesPerView={5}
+      slidesPerView={isResponsive.phone ? 2 : isResponsive.tablet ? 3 : 5}
       onSlideChange={handleOnSlideChange}
       onSwiper={handleOnSwiper}
     >

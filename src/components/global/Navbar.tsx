@@ -12,7 +12,7 @@ const Navbar = () => {
     </div>
   );
   return (
-    <header className="flex items-center justify-between py-5 px-10 fixed z-[999] w-full">
+    <header className="flex items-center justify-between py-5 px-10 fixed z-40 w-full">
       <div>
         <Logo />
       </div>

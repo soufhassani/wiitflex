@@ -4,9 +4,10 @@ import { Movie } from "../../../entities/Movies";
 
 type Props = {
   movie: Movie | undefined;
+  showMovieDetails: boolean;
 };
 
-const Video = ({ movie }: Props) => {
+const Video = ({ movie, showMovieDetails }: Props) => {
   const videoIdx = movie!.videos!.results.findIndex(
     (element) => element.type === "Trailer"
   );
@@ -24,7 +25,13 @@ const Video = ({ movie }: Props) => {
 
   return (
     <>
-      <VideoPlayer video={videoTrailer} play={true} mute={false} volume={50} />
+      <VideoPlayer
+        showMovieDetails={showMovieDetails}
+        video={videoTrailer}
+        play={true}
+        mute={false}
+        volume={50}
+      />
     </>
   );
 };

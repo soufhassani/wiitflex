@@ -25,9 +25,15 @@ const VideoModal = ({ showMovieDetails, setActive }: Props) => {
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setActive(false);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
       document.body.style.overflow = "";
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
@@ -39,7 +45,7 @@ const VideoModal = ({ showMovieDetails, setActive }: Props) => {
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed top-0 left-0 w-full  h-full bg-transparent flex items-center justify-center backdrop-blur z-[999999]"
+        className="fixed top-0 left-0 w-full h-full bg-transparent flex items-center justify-center backdrop-blur z-50"
         onClick={handleCloseModal}
         key="modal"
         initial={{ opacity: 0 }}
@@ -50,13 +56,9 @@ const VideoModal = ({ showMovieDetails, setActive }: Props) => {
           <Spinner text="Loading..." />
         ) : (
           <div
-            className={
-              "max-w-[70vw] w-full rounded-3xl max-h-[90vh] overflow-y-auto bg-zinc-900 flex flex-col scrollbar-thumb-red-500 scrollbar-thin scrollbar-track-transparent scrollbar-corner-transparent" +
-              " " +
-              height
-            }
+            className={`max-w-[90vw] w-full rounded-3xl max-h-[90vh] overflow-y-auto bg-zinc-900 flex flex-col scrollbar-thumb-red-500 scrollbar-thin scrollbar-track-transparent scrollbar-corner-transparent p-3 ${height} lg:max-w-[70vw]`}
           >
-            <Video movie={data} />
+            <Video movie={data} showMovieDetails={showMovieDetails} />
             {showMovieDetails ? <MovieDetails movie={data!} /> : ""}
           </div>
         )}

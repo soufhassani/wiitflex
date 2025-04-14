@@ -17,12 +17,12 @@ const MovieBtn = ({ id }: Props) => {
     });
   };
   return (
-    <div className="flex">
+    <div className="flex mt-4">
       <button
         className="flex-1 flex items-center justify-center gap-2 bg-blue-600 px-10 py-4 rounded-full"
         onClick={handleNavigateTo}
       >
-        <span className="text-xl font-main">More info</span>
+        <span className="text-sm font-main md:text-xl">More info</span>
         <IoInformationCircleOutline size="20" className="text-slate-50" />
       </button>
     </div>

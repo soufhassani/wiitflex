@@ -45,22 +45,23 @@ const Hero = ({ movie }: Props) => {
   };
   return (
     <section className="min-h-svh w-full">
-      <div className="w-full ">
+      <div className="w-full relative">
         <img src={image} className="w-full h-svh object-cover" />
+        <div className="absolute w-full h-full top-0 left-0 z-10 bg-black opacity-55 lg:hidden"></div>
       </div>
       <div className="absolute top-0 left-0 flex flex-col gap-14 justify-center items-start px-10 bg-gradient-to-t from-[#0f0f0f] to-transparent  w-full h-full z-20">
-        <div className="max-w-[60%] flex flex-col gap-5">
+        <div className=" max-w-full flex flex-col gap-5 lg:max-w-[60%]">
           <motion.h2
             layoutId="movieTitle"
-            className="text-7xl font-main font-bold"
+            className=" font-main font-bold text-5xl lg:text-7xl"
           >
             {movie?.title}
           </motion.h2>
-          <p className="max-w-[80%] font-main text-lg text-justify">
+          <p className="max-w-full font-main text-lg text-justify md:max-w-[80%]">
             {movie?.overview}
           </p>
         </div>
-        <div className="flex gap-5 overflow-hidden">
+        <div className="flex gap-2 overflow-hidden md:gap-5">
           <motion.button
             variants={animation}
             initial="hidden"
@@ -68,17 +69,17 @@ const Hero = ({ movie }: Props) => {
             exit="hidden"
             transition={{ type: "spring", stiffness: 100 }}
             onClick={handleWatchTrailer}
-            className="flex items-center justify-center gap-2 bg-blue-600 px-10 py-4 rounded-full"
+            className="flex items-center justify-center gap-2 bg-blue-600 px-5 py-4 rounded-full md:px-10 md:py-4"
           >
-            <IoPlayOutline className="text-slate-50" size="20" />
-            <span className="text-xl font-main">Watch Trailer</span>
+            <IoPlayOutline className="text-slate-50 text-xl md:text-3xl" />
+            <span className="text-sm font-main md:text-xl">Watch Trailer</span>
           </motion.button>
           <motion.button
-            className="flex items-center justify-center gap-2 border-2 px-10 py-4 rounded-full"
+            className="flex items-center justify-center gap-2 border-2 px-5 py-4 rounded-full md:px-10 md:py-4"
             onClick={handleNavigateTo}
           >
-            <span className="text-xl font-main">More info</span>
-            <IoInformationCircleOutline size="20" className="text-slate-50" />
+            <IoInformationCircleOutline className="text-slate-50 text-xl md:text-3xl" />
+            <span className="text-sm font-main md:text-xl">More info</span>
           </motion.button>
         </div>
       </div>
