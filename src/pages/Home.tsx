@@ -60,6 +60,8 @@ const Home = () => {
   if (error) throw error;
   if (isPending) return <Spinner text="Loading" />;
 
+  console.log("heroMovie", heroMovie);
+
   return (
     <ProtectedRoutes>
       <Hero movie={heroMovie} />

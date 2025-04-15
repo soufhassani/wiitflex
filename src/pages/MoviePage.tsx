@@ -6,6 +6,7 @@ import Overview from "../components/movie/moviePage/Overview";
 import Clips from "../components/movie/moviePage/Clips";
 import MoviePageSkeleton from "../components/skeletons/MoviePage/MoviePageSkeleton";
 import ProtectedRoutes from "../components/global/ProtectedRoutes";
+import { useEffect } from "react";
 
 const MoviePage = () => {
   const { type, id } = useParams();
@@ -15,14 +16,19 @@ const MoviePage = () => {
   const setMovie = useMovieQuery((s) => s.setSelectedMovie);
   const theID = Number(id);
 
-  const { data, isLoading, error } = useMovie({ id: theID, mediaType: type });
+  const { data, isPending, error } = useMovie({ id: theID, mediaType: type });
 
-  if (error) throw error;
+  useEffect(() => {
+    if (data) setMovie({ ...data, media_type: type });
+  }, [data]);
 
-  if (isLoading)
+  if (error) {
+    console.log("error: ", error);
+    throw error;
+  }
+
+  if (isPending)
     return selectedMovie && <MoviePageSkeleton movie={selectedMovie} />;
-
-  if (data) setMovie({ ...data, media_type: type });
 
   return (
     <ProtectedRoutes>

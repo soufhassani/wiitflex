@@ -15,7 +15,7 @@ const VideoModal = ({ showMovieDetails, setActive }: Props) => {
   const heroMovie = useMovieQuery((m) => m.heroMovie);
   const isMovie = showMovieDetails ? movie : heroMovie;
 
-  const { data, isLoading, error } = useMovie({
+  const { data, isPending, error } = useMovie({
     id: isMovie.id,
     mediaType: isMovie.media_type,
   });
@@ -52,7 +52,7 @@ const VideoModal = ({ showMovieDetails, setActive }: Props) => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        {isLoading ? (
+        {isPending ? (
           <Spinner text="Loading..." />
         ) : (
           <div
