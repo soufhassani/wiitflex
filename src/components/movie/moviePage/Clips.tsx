@@ -31,7 +31,12 @@ const Clips = () => {
     <section className="px-10 pt-5 pb-20 ">
       <div className="flex flex-col gap-20 ">
         <div className="w-full">
-          <VideoPlayer video={trailer?.key} play={false} mute={false} />
+          <VideoPlayer
+            video={trailer?.key}
+            play={false}
+            mute={false}
+            showMovieDetails={false}
+          />
         </div>
         {clips.length > 0 && (
           <div className="flex flex-col gap-5">
@@ -46,6 +51,7 @@ const Clips = () => {
                     video={c.key}
                     play={false}
                     controllerAreHidden={true}
+                    showMovieDetails={false}
                   />
                 ) : (
                   ""
@@ -68,6 +74,7 @@ const Clips = () => {
                       video={b.key}
                       play={false}
                       controllerAreHidden={true}
+                      showMovieDetails={false}
                     />
                   )
               )}
